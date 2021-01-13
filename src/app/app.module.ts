@@ -7,9 +7,16 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { SignupComponent } from './components/signup/signup.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { ToolbarService } from './services/utility/toolbar.service';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignupComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -17,9 +24,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     NoopAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatFormFieldModule
   ],
-  providers: [],
+  providers: [ToolbarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
