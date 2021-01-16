@@ -7,8 +7,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupComponent } from './components/signup/signup.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ToolbarService } from './services/utility/toolbar.service';
+import { AuthService } from './services/api/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -23,9 +26,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularMaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatSnackBarModule
   ],
-  providers: [ToolbarService],
+  providers: [ToolbarService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,8 @@ import {FormGroup, FormBuilder, Validators, FormControl, AbstractControl, Valida
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AppComponent } from '../../app.component';
 import { passwordMismatch } from '../../utility/validators/passwordMismatch';
+import {AuthService} from '../../services/api/auth.service';
+import {ActivatedRoute} from '@angular/router';
 
 export interface Subject {
   name: string;
@@ -17,29 +19,34 @@ export interface Subject {
 })
 export class SignupComponent implements OnInit {
 
-  constructor(
-    private toolbarService: ToolbarService,
-    public fb: FormBuilder) {
-    console.log('selected state: ' + this.selected);
-  }
   public selectable = true;
-  public selected = '';
   public addOnBlur = true;
   public signupForm!: FormGroup;
   public role = 'USER';
-  @ViewChild('chipList', { static: true }) chipList: any;
-  GradeArray: any = ['8th Grade', '9th Grade', '10th Grade', '11th Grade', '12th Grade'];
-  SubjectsArray: Subject[] = [];
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  public isPending = false;
+  public isError = false;
+  public showForm = true;
+  public confirmationMsg = '';
+  public showConfirmationMsg = false;
+  private readonly token: string;
 
-
+  constructor(
+    private toolbarService: ToolbarService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    public fb: FormBuilder) {
+      this.token = this.route.snapshot.paramMap.get('token');
+  }
 
   ngOnInit(): void {
     this.reactiveForm();
     this.toolbarService.emitRouteChangeEvent('Signup');
-    console.log(`Spy #${this.signupForm.get('password')} onInit`);
-    console.log(this.signupForm);
+    if (this.token) {
+      this.showForm = false;
+      this.submitUserConfirmation();
+    }
   }
+
 
   /* Reactive form */
   reactiveForm(): void {
@@ -56,8 +63,40 @@ export class SignupComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.isPending = true;
     console.log(this.signupForm.errors);
     console.log(this.signupForm && this.signupForm.value);
+    this.authService.postUser(this.signupForm.value).subscribe((res: any) => {
+      console.log(res);
+      this.isPending = false;
+      this.showForm = false;
+      this.showConfirmationMsg = true;
+      this.confirmationMsg = 'Account created click on link in email sent to: ' + this.signupForm.value.email + ' to activate account.';
+    },
+    (err: Error) => {
+      this.isPending = false;
+    });
+  }
+
+
+  submitUserConfirmation(): void {
+    this.isPending = true;
+    this.showConfirmationMsg = true;
+    this.confirmationMsg = 'Confirming your account...';
+    console.log(this.token);
+    if (!this.token) {
+      throw new Error('Token must be set before confirming user');
+    }
+    this.authService.confirmUser(this.token).subscribe((res: any) => {
+      console.log(res);
+      this.confirmationMsg = 'Your account has been successfully confirmed!';
+      this.isPending = false;
+    },
+    (err: Error) => {
+      this.isPending = false;
+      this.confirmationMsg = 'User not confirmed invalid token';
+      console.error(err);
+    });
   }
 
 }
