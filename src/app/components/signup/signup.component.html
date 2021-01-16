@@ -1,5 +1,44 @@
+<mat-progress-bar *ngIf="isPending" mode="indeterminate"></mat-progress-bar>
+  <form *ngIf="showForm" class="signup-form" [formGroup]="signupForm" (ngSubmit)="submitForm()" novalidate>
+    <h1 class="mat-accent mat-typography" color="accent">Sign Up Form</h1>
+    <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
+      <!-- First Name -->
+      <mat-form-field class="signup-text-field" color="primary">
+        <input matInput placeholder="First Name" formControlName="firstName">
+        <mat-error *ngIf="signupForm.get('email').errors?.required">required field</mat-error>
+      </mat-form-field>
 
+      <!-- Last Name -->
+      <mat-form-field class="signup-text-field" color="primary">
+        <input matInput placeholder="Last Name" formControlName="lastName">
+        <mat-error *ngIf="signupForm.get('email').errors?.required">required field</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
+      <!-- Password -->
+      <mat-form-field class="signup-text-field">
+        <input matInput type="password" placeholder="Password" formControlName="password">
+        <mat-error *ngIf="signupForm.get('password').errors?.minlength">min 6 characters for password</mat-error>
+      </mat-form-field>
 
-<div>
+      <!-- Confirm Password -->
+      <mat-form-field class="signup-text-field">
+        <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+        <mat-error *ngIf="signupForm.get('confirmPassword').errors?.passwordMismatch">passwords does not match</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
+    <mat-form-field class="signup-text-field">
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="signupForm.get('email').errors?.required">required field</mat-error>
+      <mat-error *ngIf="signupForm.get('email').errors?.email">invalid email format</mat-error>
+    </mat-form-field>
+    </div>
 
-</div>
+    <!-- Submit -->
+    <div class="button-wrapper">
+      <button mat-raised-button  [disabled]="!signupForm.valid"  color="accent">Submit</button>
+    </div>
+  </form>
+<h2 *ngIf="this.showConfirmationMsg">{{this.confirmationMsg}}</h2>
+

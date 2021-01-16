@@ -6,11 +6,11 @@ import { EventEmitter } from '@angular/core';
 })
 export class ToolbarService {
   navChange: EventEmitter<string> = new EventEmitter();
-  toolbarTitle = '';
-  constructor() {}
+  toolbarTitle = 'Home';
+  constructor() {
+  }
 
   emitRouteChangeEvent(toolbarName: string): void {
-    console.log(toolbarName);
     this.navChange.emit(toolbarName);
   }
 
