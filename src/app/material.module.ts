@@ -17,33 +17,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatBadgeModule,
-    MatListModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatChipsModule,
-    MatTooltipModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatFormFieldModule
-  ],
   exports: [
     MatButtonModule,
     MatToolbarModule,
@@ -61,6 +38,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
+    MatProgressBarModule,
+    FlexLayoutModule
   ],
   providers: [
     MatDatepickerModule,

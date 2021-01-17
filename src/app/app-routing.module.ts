@@ -12,6 +12,12 @@ const routes: Routes = [
       {
         path: 'signup',
         component: SignupComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'signup/:token',
+        component: SignupComponent,
+        pathMatch: 'full'
       },
       {
         path: 'flightSearch',
