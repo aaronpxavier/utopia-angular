@@ -4,9 +4,9 @@ export enum Location {
 }
 
 export interface Airport {
-  iataIdent: string,
-  city: string,
-  name: string
+  iataIdent: string;
+  city: string;
+  name: string;
 }
 
 export enum TripType {

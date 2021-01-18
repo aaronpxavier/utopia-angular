@@ -8,29 +8,29 @@ import { FlightsService } from 'src/app/services/api/flights.service';
 })
 export class FlightResultsPageComponent implements OnInit {
 
-  directFlights: FlightModel[] | null = []
-  multihopFlights: FlightMultihopModel[] | null = []
+  directFlights: FlightModel[] | null = [];
+  multihopFlights: FlightMultihopModel[] | null = [];
 
-  directReturnFlights: FlightModel[] | null = []
-  multihopReturnFlights: FlightMultihopModel[] | null = []
+  directReturnFlights: FlightModel[] | null = [];
+  multihopReturnFlights: FlightMultihopModel[] | null = [];
 
   constructor(private flightService: FlightsService) {
-    
+
   }
 
   ngOnInit(): void {
     this.flightService.directFlights.subscribe(flights => {
-      this.directFlights = flights
-    })
+      this.directFlights = flights;
+    });
     this.flightService.multihopFlights.subscribe(flights => {
-      this.multihopFlights = flights
-    })
+      this.multihopFlights = flights;
+    });
     this.flightService.directReturnFlights.subscribe(flights => {
-      this.directReturnFlights = flights
-    })
+      this.directReturnFlights = flights;
+    });
     this.flightService.multihopReturnFlights.subscribe(flights => {
-      this.multihopReturnFlights = flights
-    })
+      this.multihopReturnFlights = flights;
+    });
   }
 
 }

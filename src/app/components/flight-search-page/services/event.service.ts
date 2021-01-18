@@ -1,17 +1,18 @@
 import { Airport, Location } from './../shared/types';
 import { Injectable, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-  airportSelected = new EventEmitter<{ airport: Airport, location: Location }>()
+  airportSelected = new EventEmitter<{ airport: Airport, location: Location }>();
 
-  emitAirportSelected(airport: Airport, location: Location) {
-    this.airportSelected.next({airport, location})
+  emitAirportSelected(airport: Airport, location: Location): void {
+    this.airportSelected.next({airport, location});
   }
 
-  airportSelectedListener() {
-    return this.airportSelected.asObservable()
+  airportSelectedListener(): Observable<{airport: Airport, location: Location}> {
+    return this.airportSelected.asObservable();
   }
 }

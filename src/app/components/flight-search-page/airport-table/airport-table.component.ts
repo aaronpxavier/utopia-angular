@@ -10,9 +10,9 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class AirportTableComponent implements OnInit {
 
-  columnHeaders = ['iataIdent', 'city', 'name']
+  columnHeaders = ['iataIdent', 'city', 'name'];
   @Input() airports: Airport[] = [];
-  @Input() location = Location.ORIGIN
+  @Input() location = Location.ORIGIN;
   @Output() airportSelected = new EventEmitter<Airport>();
 
   constructor(private eventService: EventService) { }
@@ -21,7 +21,7 @@ export class AirportTableComponent implements OnInit {
   }
 
   onRowClick(airport: Airport) {
-    this.eventService.emitAirportSelected(airport, this.location)
+    this.eventService.emitAirportSelected(airport, this.location);
   }
 
 }
