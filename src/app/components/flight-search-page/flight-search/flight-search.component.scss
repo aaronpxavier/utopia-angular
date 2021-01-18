@@ -1,0 +1,28 @@
+.container {
+  margin-left: 10%;
+  margin-right: 10%;
+  max-width: 100%;
+  height: calc(100vh - 64px);
+}
+
+.airport {
+  font-size: x-large;
+}
+
+.airport-description {
+  word-wrap: break-word;
+  white-space: initial;
+  line-height: normal;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.dropdown {
+  width: 93%;
+  font-size: large;
+}

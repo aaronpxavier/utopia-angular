@@ -1,0 +1,21 @@
+<div mat-dialog-container>
+  <div class="container">
+    <div class="flex">
+      <h1 mat-dialog-title>Search Airports</h1>
+    </div>
+    <div mat-dialog-content>
+      <mat-form-field>
+        <mat-label>{{location}}</mat-label>
+        <input matInput [(ngModel)]="airportQuery" (keyup.enter)="onEnterPress()" />
+      </mat-form-field>
+      <div class="content">
+        <airport-table
+          *ngIf="airports.length > 0"
+          [airports]="airports"
+          [location]="location"
+        >
+        </airport-table>
+      </div>
+    </div>
+  </div>
+</div>
