@@ -5,28 +5,28 @@ import { ToolbarService } from 'src/app/services/utility/toolbar.service';
 import { AirportSearchModalComponent } from '../airport-search-modal/airport-search-modal.component';
 import { EventService } from '../services/event.service';
 import { Airport, Location, TripType } from '../shared/types';
-import { FlightRequest } from '../../../services/api/flights.service'
+import { FlightRequest } from '../../../services/api/flights.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'flight-search',
+  selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss']
 })
 export class FlightSearchComponent implements OnInit {
 
-  @Input() location = Location.ORIGIN
+  @Input() location = Location.ORIGIN;
 
-  tripTypes = [TripType.ROUND_TRIP, TripType.ONE_WAY]
-  TripType = TripType // expose enum in template
-  today = new Date()
-  passengers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  tripTypes = [TripType.ROUND_TRIP, TripType.ONE_WAY];
+  TripType = TripType; // expose enum in template
+  today = new Date();
+  passengers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  originAirport: Airport = { iataIdent: 'LAX', city: 'Los Angeles, CA', name: 'Los Angeles International' }
-  destinationAirport: Airport = { iataIdent: 'JFK', city: 'New York, NY', name: 'John F. Kennedy International' }
-  selectedPassengers = 1
-  selectedTripType = TripType.ROUND_TRIP
-  dateForm: FormGroup
+  originAirport: Airport = { iataIdent: 'LAX', city: 'Los Angeles, CA', name: 'Los Angeles International' };
+  destinationAirport: Airport = { iataIdent: 'JFK', city: 'New York, NY', name: 'John F. Kennedy International' };
+  selectedPassengers = 1;
+  selectedTripType = TripType.ROUND_TRIP;
+  dateForm: FormGroup;
 
   constructor(
     private dialog: MatDialog,
@@ -38,43 +38,43 @@ export class FlightSearchComponent implements OnInit {
     this.dateForm = this.fb.group({
       departDate: [null, [Validators.required]],
       returnDate: [null, [this.requireReturnDateForRoundTripValidator]]
-    })
+    });
   }
 
   ngOnInit(): void {
     this.toolbarService.emitRouteChangeEvent('Flight Search');
     this.eventService.airportSelectedListener().subscribe(data => {
       if (data.location === 'Origin') {
-        this.originAirport = data.airport
+        this.originAirport = data.airport;
       } else if (data.location === 'Destination') {
-        this.destinationAirport = data.airport
+        this.destinationAirport = data.airport;
       }
-    })
+    });
   }
 
   // must be an arrow function to bind to `this`
   requireReturnDateForRoundTripValidator = (formControl: AbstractControl) => {
     if (this.selectedTripType === TripType.ROUND_TRIP) {
-      return Validators.required(formControl)
+      return Validators.required(formControl);
     } else {
-      return null
+      return null;
     }
   }
 
-  get departDate() {
-    return this.dateForm.get('departDate')
+  get departDate(): AbstractControl {
+    return this.dateForm.get('departDate');
   }
 
-  get returnDate() {
-    return this.dateForm.get('returnDate')
+  get returnDate(): AbstractControl {
+    return this.dateForm.get('returnDate');
   }
 
   openOriginModal(): void {
-    this.openModal(Location.ORIGIN)
+    this.openModal(Location.ORIGIN);
   }
 
   openDestinationModal(): void {
-    this.openModal(Location.DESTINATION)
+    this.openModal(Location.DESTINATION);
   }
 
   openModal(location: Location): void {
@@ -85,15 +85,15 @@ export class FlightSearchComponent implements OnInit {
         airport: location === Location.ORIGIN ? this.originAirport : this.destinationAirport,
         location
       }
-    })
+    });
   }
 
   onTripChange(): void {
-    this.returnDate?.updateValueAndValidity()
+    this.returnDate?.updateValueAndValidity();
   }
 
   onFlightSearch(): void {
-    const dates = this.dateForm.getRawValue()
+    const dates = this.dateForm.getRawValue();
 
     // TODO: check api error, call api service
     const flightRequest: FlightRequest = {
@@ -103,8 +103,8 @@ export class FlightSearchComponent implements OnInit {
       tripType: this.selectedTripType,
       departDate: dates.departDate,
       returnDate: dates.returnDate
-    }
+    };
 
-    this.flightService.getFlights(flightRequest)
+    this.flightService.getFlights(flightRequest);
   }
 }
