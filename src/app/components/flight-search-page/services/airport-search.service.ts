@@ -13,6 +13,6 @@ export class AirportSearchService {
   constructor(private http: HttpClient) { }
 
   searchAirports(query: string): Observable<Airport[]> {
-    return this.http.get<Airport[]>(this.apiUrl + query);
+    return this.http.get<Airport[]>(this.apiUrl + query.trim());
   }
 }
