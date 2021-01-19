@@ -3,7 +3,7 @@
 
   <form *ngIf="showForm" class="login-form" [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
     <h1 class="mat-accent mat-typography" color="accent">Login</h1>
-    
+
       <!--  email  -->
       <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
         <mat-form-field class="login-text-field">
@@ -12,7 +12,7 @@
           <mat-error *ngIf="loginForm.get('email').errors?.email">invalid email format</mat-error>
         </mat-form-field>
         </div>
-    
+
       <!-- Password -->
     <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
       <mat-form-field class="login-text-field">

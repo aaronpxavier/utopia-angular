@@ -10,7 +10,7 @@ import { ToolbarService } from 'src/app/services/utility/toolbar.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-  
+
 export class LoginComponent implements OnInit {
 
   public selectable = true;
@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit {
   private readonly token: string;
 
   constructor(private toolbarService: ToolbarService,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    public fb: FormBuilder) {
+              private authService: AuthService,
+              private route: ActivatedRoute,
+              public fb: FormBuilder) {
       this.token = this.route.snapshot.paramMap.get('token');
     }
 
@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
     this.toolbarService.emitRouteChangeEvent('Login');
     if (this.token) {
       this.showForm = false;
-      this.submitUserLogin;
     }
   }
 
@@ -54,34 +53,16 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm && this.loginForm.value);
     this.authService.loginUser(this.loginForm.value).subscribe((res: any) => {
       console.log(res);
+      localStorage.setItem('token', res.token);
       this.isPending = false;
       this.showForm = false;
       this.showLoginMsg = true;
-      this.loginMsg = 'Welcome: ' + this.loginForm.value.firstName + " " + this.loginForm.value.lastName;
+      this.loginMsg = 'Welcome: ' + this.loginForm.value.firstName + ' ' + this.loginForm.value.lastName;
     },
     (err: Error) => {
       this.isPending = false;
     });
   }
 
-  submitUserLogin(): void {
-    this.isPending = true;
-    this.showLoginMsg = true;
-    this.loginMsg = 'Confirming your account...';
-    console.log(this.token);
-    if (!this.token) {
-      throw new Error('Token must be set before confirming user');
-    }
-    this.authService.confirmUser(this.token).subscribe((res: any) => {
-      console.log(res);
-      localStorage.setItem('token', res.token); 
-      this.loginMsg = 'Your account has been successfully confirmed!';
-      this.isPending = false;
-    },
-    (err: Error) => {
-      this.isPending = false;
-      this.loginMsg = 'Invalid user or password!';
-      console.error(err);
-    });
-  }
+
 }

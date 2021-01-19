@@ -30,10 +30,10 @@ const routes: Routes = [
         component: FlightResultsPageComponent
       },
       {
-        path: "login",
+        path: 'login',
         component: LoginComponent
       }
-        
+
     ],
   },
 ];
