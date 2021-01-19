@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlightResultsPageComponent } from './components/flight-results-page/flight-results-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlightResultItemComponent } from './components/flight-results-page/flight-result-item/flight-result-item.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlightSearchPageComponent,
     AirportTableComponent,
     AirportSearchModalComponent,
-    FlightResultsPageComponent
+    FlightResultsPageComponent,
+    FlightResultItemComponent
   ],
   imports: [
     BrowserModule,
