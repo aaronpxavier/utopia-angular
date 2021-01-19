@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
     this.isPending = true;
     console.log(this.loginForm.errors);
     console.log(this.loginForm && this.loginForm.value);
-    this.authService.postUser(this.loginForm.value).subscribe((res: any) => {
+    this.authService.loginUser(this.loginForm.value).subscribe((res: any) => {
       console.log(res);
       this.isPending = false;
       this.showForm = false;
@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit {
     }
     this.authService.confirmUser(this.token).subscribe((res: any) => {
       console.log(res);
+      localStorage.setItem('token', res.token); 
       this.loginMsg = 'Your account has been successfully confirmed!';
       this.isPending = false;
     },

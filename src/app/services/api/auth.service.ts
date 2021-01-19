@@ -21,10 +21,10 @@ export class AuthService {
     return this.http.get(url);
   }
 
-  loginUser(token: string): any {
-    const url = this.URL + 'auth/login/';
+  loginUser(payload: any): any {
+    const url = this.URL + '/auth/login';
     console.log({ URL });
 
-    return this.http.get(url);
+    return this.http.post(url, payload);
   }
 }
