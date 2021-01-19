@@ -2,8 +2,9 @@ import { EventService } from './../services/event.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AirportSearchService } from '../services/airport-search.service';
-import {Airport, Location} from './../shared/types';
-
+import { Airport, Location } from './../shared/types';
+import { retry } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-airport-search-modal',
   templateUrl: './airport-search-modal.component.html',
@@ -11,17 +12,17 @@ import {Airport, Location} from './../shared/types';
 })
 export class AirportSearchModalComponent implements OnInit {
 
-  airportQuery = '';
-
   airports: Airport[] = [];
-
   location = Location.ORIGIN;
+
+  loading = false;
+
+  searchForm = new FormControl('');
 
   constructor(private dialogRef: MatDialogRef<AirportSearchModalComponent>,
               @Inject(MAT_DIALOG_DATA) private data: { airport: Airport, location: Location },
               private service: AirportSearchService, private eventService: EventService) {
-      this.airportQuery = data.airport.iataIdent;
-      this.location = data.location;
+      this.location = this.data.location;
     }
 
   ngOnInit(): void {
@@ -30,10 +31,26 @@ export class AirportSearchModalComponent implements OnInit {
     });
   }
 
+  setSearchError(message: string): void {
+    this.searchForm.setErrors({ message });
+    this.searchForm.markAsTouched();
+  }
+
   onEnterPress(): void {
-    this.service.searchAirports(this.airportQuery)
+    this.loading = true;
+    this.airports = [];
+    this.service.searchAirports(this.searchForm.value).pipe(retry(1))
       .subscribe(airports => {
-        this.airports = airports;
+          this.airports = airports;
+          if (airports.length === 0) {
+            this.setSearchError('No results found.');
+          } else {
+            this.searchForm.setErrors(null);
+          }
+          this.loading = false;
+      }, error => {
+        this.loading = false;
+        this.setSearchError('Cannot connect to server. Please try again later.');
       });
   }
 }

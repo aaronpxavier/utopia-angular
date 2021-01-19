@@ -17,6 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     MatDatepickerModule,

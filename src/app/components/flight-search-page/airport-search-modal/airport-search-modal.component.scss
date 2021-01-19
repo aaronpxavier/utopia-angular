@@ -1,8 +1,58 @@
 .container {
-  margin: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+}
+
+.row-center {
+  justify-content: center;
 }
 
 .flex {
   display: flex;
   justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.spinner-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+}
+
+.grow {
+  flex: 1;
+}
+
+.input {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  margin-bottom: 3rem;
+}
+
+.tab-content {
+  margin: 20px;
+}
+
+::ng-deep .mat-tab-body-wrapper {
+  height: 100%;
+}
+
+.padded {
+  margin: 3rem;
 }
