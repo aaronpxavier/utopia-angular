@@ -1,0 +1,29 @@
+<mat-progress-bar *ngIf="isPending" mode="indeterminate"></mat-progress-bar>
+<mat-form-field class="login-text-field" color="primary"></mat-form-field>
+
+  <form *ngIf="showForm" class="login-form" [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
+    <h1 class="mat-accent mat-typography" color="accent">Login</h1>
+    
+      <!--  email  -->
+      <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
+        <mat-form-field class="login-text-field">
+          <input matInput type="email" placeholder="Email" formControlName="email">
+          <mat-error *ngIf="loginForm.get('email').errors?.required">required field</mat-error>
+          <mat-error *ngIf="loginForm.get('email').errors?.email">invalid email format</mat-error>
+        </mat-form-field>
+        </div>
+    
+      <!-- Password -->
+    <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
+      <mat-form-field class="login-text-field">
+        <input matInput type="password" placeholder="Password" formControlName="password">
+        <!-- <mat-error *ngIf="loginForm.get('password').errors?.</mat-error> -->
+      </mat-form-field>
+    </div>
+
+      <!-- Submit -->
+      <div class="button-wrapper">
+        <button mat-raised-button  [disabled]="!loginForm.valid"  color="accent">Submit</button>
+      </div>
+      </form>
+<h2 *ngIf="this.showLoginMsg">{{this.loginMsg}}</h2>
