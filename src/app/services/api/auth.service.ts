@@ -20,4 +20,11 @@ export class AuthService {
     const url = this.URL + '/auth/confirm/' + token;
     return this.http.get(url);
   }
+
+  loginUser(payload: any): any {
+    const url = this.URL + '/auth/login';
+    console.log({ URL });
+
+    return this.http.post(url, payload);
+  }
 }
