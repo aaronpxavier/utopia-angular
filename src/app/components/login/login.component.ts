@@ -57,10 +57,12 @@ export class LoginComponent implements OnInit {
       this.isPending = false;
       this.showForm = false;
       this.showLoginMsg = true;
-      this.loginMsg = 'Welcome: ' + this.loginForm.value.firstName + ' ' + this.loginForm.value.lastName;
+      this.loginMsg = 'Welcome: ' + res.firstName + ' ' + res.lastName;
     },
     (err: Error) => {
       this.isPending = false;
+      this.showLoginMsg = true;
+      this.loginMsg = 'Invalid Email or Password';
     });
   }
 
