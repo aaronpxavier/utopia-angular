@@ -11,12 +11,15 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
     ToolbarComponent,
+    LoginComponent
+
   ],
   imports: [
     BrowserModule,
