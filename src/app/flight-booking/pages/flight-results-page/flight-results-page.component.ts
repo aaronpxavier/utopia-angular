@@ -1,6 +1,8 @@
-import { FlightModel, FlightMultihopModel } from '../../models/flight-types';
 import { Component, OnInit } from '@angular/core';
 import { FlightsService } from 'src/app/flight-booking/services/flights.service';
+import {Flight} from '../../models/flight';
+import {TripType} from '../../models/types';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   templateUrl: './flight-results-page.component.html',
@@ -8,27 +10,24 @@ import { FlightsService } from 'src/app/flight-booking/services/flights.service'
 })
 export class FlightResultsPageComponent implements OnInit {
 
-  directFlights: FlightModel[] | null = [];
-  multihopFlights: FlightMultihopModel[] | null = [];
-
-  directReturnFlights: FlightModel[] | null = [];
-  multihopReturnFlights: FlightMultihopModel[] | null = [];
-
-  constructor(private flightService: FlightsService) {
-  }
+  departureFlights = new Array<Flight>();
+  returnFlights = new Array<Flight>();
+  tripType: TripType;
+  constructor(private flightService: FlightsService) {}
 
   ngOnInit(): void {
-    this.flightService.directFlights.subscribe(flights => {
-      this.directFlights = flights;
+    this.tripType = this.flightService.flightRequest.tripType;
+    this.flightService.departureFlights.subscribe(flights => {
+      if (flights) {
+        flights.forEach(flt => this.departureFlights.push(flt));
+        console.log(this.departureFlights);
+      }
     });
-    this.flightService.multihopFlights.subscribe(flights => {
-      this.multihopFlights = flights;
-    });
-    this.flightService.directReturnFlights.subscribe(flights => {
-      this.directReturnFlights = flights;
-    });
-    this.flightService.multihopReturnFlights.subscribe(flights => {
-      this.multihopReturnFlights = flights;
+    this.flightService.returnFlights.subscribe(flights => {
+      if (flights) {
+        flights.forEach(flt => this.returnFlights.push(flt));
+        console.log(this.returnFlights);
+      }
     });
   }
 
