@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Flight} from '../../models/flight';
-import {min} from 'rxjs/operators';
 
 @Component({
   selector: 'app-flight-result-item',
@@ -23,10 +22,8 @@ export class FlightResultItemComponent implements OnInit {
     if (arrivalTime === undefined) {
       return 'und';
     }
-    console.log(typeof (departureTime));
     const hoursMins = Math.abs(((departureTime.getTime() - arrivalTime.getTime()) / 3600) % 24);
     const hours = Math.floor(hoursMins);
-    // tslint:disable-next-line:no-shadowed-variable
     const min = Math.floor(hoursMins % 1 * 60);
     return hours.toString() + 'h ' +  (min ? min + 'm' : '');
   }

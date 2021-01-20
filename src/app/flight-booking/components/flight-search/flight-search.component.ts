@@ -104,7 +104,6 @@ export class FlightSearchComponent implements OnInit {
     };
 
     this.flightService.getDepFlights(flightRequest);
-    console.log(flightRequest.tripType);
     if (flightRequest.tripType === TripType.ROUND_TRIP) {
       this.flightService.setIsRoundTrip(true);
       this.flightService.getReturnFlts();
