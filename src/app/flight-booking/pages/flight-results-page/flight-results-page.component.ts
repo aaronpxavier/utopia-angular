@@ -1,6 +1,6 @@
-import { FlightModel, FlightMultihopModel } from './../../shared/types';
+import { FlightModel, FlightMultihopModel } from '../../models/flight-types';
 import { Component, OnInit } from '@angular/core';
-import { FlightsService } from 'src/app/services/api/flights.service';
+import { FlightsService } from 'src/app/flight-booking/services/flights.service';
 
 @Component({
   templateUrl: './flight-results-page.component.html',
@@ -15,7 +15,6 @@ export class FlightResultsPageComponent implements OnInit {
   multihopReturnFlights: FlightMultihopModel[] | null = [];
 
   constructor(private flightService: FlightsService) {
-
   }
 
   ngOnInit(): void {

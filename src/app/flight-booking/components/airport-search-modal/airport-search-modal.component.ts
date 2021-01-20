@@ -1,8 +1,8 @@
-import { EventService } from './../services/event.service';
+import { EventService } from '../../services/event.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AirportSearchService } from '../services/airport-search.service';
-import { Airport, Location } from './../shared/types';
+import { AirportSearchService } from '../../services/airport-search.service';
+import { Airport, Location } from '../../models/types';
 import { retry } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 @Component({

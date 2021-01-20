@@ -1,9 +1,9 @@
-import { FlightMultihopModel } from './../../shared/types';
-import { Airport, TripType } from './../../components/flight-search-page/shared/types';
+import { FlightMultihopModel } from '../models/flight-types';
+import { Airport, TripType } from '../models/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { FlightModel } from 'src/app/shared/types';
+import { FlightModel } from 'src/app/flight-booking/models/flight-types';
 import { BehaviorSubject } from 'rxjs';
 
 export interface FlightRequest {

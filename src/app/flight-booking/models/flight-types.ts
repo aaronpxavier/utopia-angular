@@ -18,3 +18,7 @@ export interface FlightMultihopModel {
   leg1: FlightModel;
   leg2: FlightModel;
 }
+
+export interface FlightLegs {
+  legs: FlightModel[];
+}

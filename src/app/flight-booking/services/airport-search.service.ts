@@ -1,4 +1,4 @@
-import { Airport } from '../shared/types';
+import { Airport } from '../models/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

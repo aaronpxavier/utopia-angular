@@ -1,11 +1,11 @@
 import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ToolbarService} from '../../services/utility/toolbar.service';
+import {ToolbarService} from '../../shared/services/toolbar.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import {FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, ValidationErrors} from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AppComponent } from '../../app.component';
 import { passwordMismatch } from '../../utility/validators/passwordMismatch';
-import {AuthService} from '../../services/api/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {ActivatedRoute} from '@angular/router';
 
 export interface Subject {

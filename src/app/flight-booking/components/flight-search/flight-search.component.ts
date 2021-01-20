@@ -1,11 +1,11 @@
-import { FlightsService } from './../../../services/api/flights.service';
+import { FlightsService } from '../../services/flights.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog,  } from '@angular/material/dialog';
-import { ToolbarService } from 'src/app/services/utility/toolbar.service';
+import { ToolbarService } from 'src/app/shared/services/toolbar.service';
 import { AirportSearchModalComponent } from '../airport-search-modal/airport-search-modal.component';
-import { EventService } from '../services/event.service';
-import { Airport, Location, TripType } from '../shared/types';
-import { FlightRequest } from '../../../services/api/flights.service';
+import { EventService } from '../../services/event.service';
+import { Airport, Location, TripType } from '../../models/types';
+import { FlightRequest } from '../../services/flights.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({

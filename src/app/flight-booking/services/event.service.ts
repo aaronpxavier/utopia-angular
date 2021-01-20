@@ -1,4 +1,4 @@
-import { Airport, Location } from './../shared/types';
+import { Airport, Location } from '../models/types';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 
