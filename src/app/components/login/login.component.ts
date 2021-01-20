@@ -49,10 +49,7 @@ export class LoginComponent implements OnInit {
 
   submitForm(): void {
     this.isPending = true;
-    console.log(this.loginForm.errors);
-    console.log(this.loginForm && this.loginForm.value);
     this.authService.loginUser(this.loginForm.value).subscribe((res: any) => {
-      console.log(res);
       localStorage.setItem('token', res.token);
       this.isPending = false;
       this.showForm = false;

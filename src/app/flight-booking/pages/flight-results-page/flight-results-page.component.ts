@@ -20,13 +20,11 @@ export class FlightResultsPageComponent implements OnInit {
     this.flightService.departureFlights.subscribe(flights => {
       if (flights) {
         flights.forEach(flt => this.departureFlights.push(flt));
-        console.log(this.departureFlights);
       }
     });
     this.flightService.returnFlights.subscribe(flights => {
       if (flights) {
         flights.forEach(flt => this.returnFlights.push(flt));
-        console.log(this.returnFlights);
       }
     });
   }
