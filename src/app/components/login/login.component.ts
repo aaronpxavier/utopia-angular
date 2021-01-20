@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/services/api/auth.service';
-import { ToolbarService } from 'src/app/services/utility/toolbar.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToolbarService } from 'src/app/shared/services/toolbar.service';
 
 
 @Component({

@@ -1,5 +1,5 @@
 <mat-progress-bar *ngIf="isPending" mode="indeterminate"></mat-progress-bar>
-  <form *ngIf="showForm" class="signup-form" [formGroup]="signupForm" (ngSubmit)="submitForm()" novalidate>
+  <form *ngIf="showForm" class="container" [formGroup]="signupForm" (ngSubmit)="submitForm()" novalidate>
     <h1 class="mat-accent mat-typography" color="accent">Sign Up Form</h1>
     <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
       <!-- First Name -->

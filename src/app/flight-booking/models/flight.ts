@@ -1,3 +1,4 @@
+
 export interface FlightDetailsModel {
   flightNumber: string;
   departCityId: string;
@@ -17,4 +18,24 @@ export interface FlightModel {
 export interface FlightMultihopModel {
   leg1: FlightModel;
   leg2: FlightModel;
+}
+
+export class Flight {
+  legs: FlightModel[];
+
+  constructor() {
+    this.legs  = new Array<FlightModel>();
+  }
+
+  public addLeg(flightModel: FlightModel): void {
+    this.legs.push(flightModel);
+  }
+
+  public getLegs(): FlightModel[] {
+    return this.legs;
+  }
+
+  public getNumLegs(): number {
+    return this.legs.length;
+  }
 }

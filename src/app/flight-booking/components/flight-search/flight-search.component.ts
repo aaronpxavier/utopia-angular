@@ -1,12 +1,11 @@
-import { FlightsService } from './../../../services/api/flights.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog,  } from '@angular/material/dialog';
-import { ToolbarService } from 'src/app/services/utility/toolbar.service';
-import { AirportSearchModalComponent } from '../airport-search-modal/airport-search-modal.component';
-import { EventService } from '../services/event.service';
-import { Airport, Location, TripType } from '../shared/types';
-import { FlightRequest } from '../../../services/api/flights.service';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FlightRequest, FlightsService} from '../../services/flights.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {MatDialog,} from '@angular/material/dialog';
+import {ToolbarService} from 'src/app/shared/services/toolbar.service';
+import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
+import {EventService} from '../../services/event.service';
+import {Airport, Location, TripType} from '../../models/types';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-flight-search',
@@ -95,7 +94,6 @@ export class FlightSearchComponent implements OnInit {
   onFlightSearch(): void {
     const dates = this.dateForm.getRawValue();
 
-    // TODO: check api error, call api service
     const flightRequest: FlightRequest = {
       originAirport: this.originAirport,
       destinationAirport: this.destinationAirport,
@@ -105,6 +103,11 @@ export class FlightSearchComponent implements OnInit {
       returnDate: dates.returnDate
     };
 
-    this.flightService.getFlights(flightRequest);
+    this.flightService.getDepFlights(flightRequest);
+    console.log(flightRequest.tripType);
+    if (flightRequest.tripType === TripType.ROUND_TRIP) {
+      this.flightService.setIsRoundTrip(true);
+      this.flightService.getReturnFlts();
+    }
   }
 }

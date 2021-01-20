@@ -1,6 +1,6 @@
-import { Location } from './../shared/types';
-import { EventService } from './../services/event.service';
-import { Airport } from '../shared/types';
+import { Location } from '../../models/types';
+import { EventService } from '../../services/event.service';
+import { Airport } from '../../models/types';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
