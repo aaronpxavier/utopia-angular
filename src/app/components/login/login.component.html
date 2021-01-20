@@ -1,7 +1,7 @@
 <mat-progress-bar *ngIf="isPending" mode="indeterminate"></mat-progress-bar>
 
   <form *ngIf="showForm" class="login-form" [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
-    <h1 class="mat-accent mat-typography" color="accent">Login</h1>
+    <h1  color="accent">Login</h1>
 
       <!--  email  -->
       <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
@@ -16,12 +16,11 @@
     <div fxLayout="row" fxLayoutAlign="start" fxLayout.xs="column">
       <mat-form-field class="login-text-field">
         <input matInput type="password" placeholder="Password" formControlName="password">
-        <!-- <mat-error *ngIf="loginForm.get('password').errors?.</mat-error> -->
       </mat-form-field>
     </div>
 
       <!-- Submit -->
-      <div class="button-wrapper">
+      <div>
         <button mat-raised-button  [disabled]="!loginForm.valid"  color="accent">Submit</button>
       </div>
       </form>
