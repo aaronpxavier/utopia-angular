@@ -1,0 +1,26 @@
+<div mat-dialog-container class="container">
+  <mat-tab-group class="container" mat-align-tabs="center" color="accent">
+    <mat-tab label="Search">
+      <div class="container">
+        <div class="padded container">
+          <mat-form-field class="input" hintLabel="Enter 3 letter airport code, name, or city" color="accent">
+            <mat-label>{{location}}</mat-label>
+            <input matInput (keyup.enter)="onEnterPress()" [formControl]="searchForm" cdkFocusInitial />
+            <mat-error *ngIf="searchForm.invalid">{{ searchForm.getError('message') }}</mat-error>
+          </mat-form-field>
+          <div mat-dialog-content class="spinner-center" [ngClass]="{
+            'spinner-center': loading,
+            'table': !loading
+          }">
+            <mat-spinner mode="indeterminate" *ngIf="loading"></mat-spinner>
+            <airport-table *ngIf="airports.length > 0" [airports]="airports" [location]="location" class="grow">
+            </airport-table>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Recent Searches">
+
+    </mat-tab>
+  </mat-tab-group>
+</div>

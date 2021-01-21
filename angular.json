@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "utopia-angular"
+  "defaultProject": "utopia-angular",
+  "cli": {
+    "analytics": "03236990-6cde-440a-9e65-375ce275c061"
+  }
 }

@@ -1,0 +1,92 @@
+<form [formGroup]="dateForm">
+
+<mat-grid-list cols="13" rowHeight="1:2">
+
+  <!-- Origin Airport Button -->
+  <mat-grid-tile colspan="2">
+    <button mat-button class="button" (click)="openOriginModal()">
+      <div class="airport">{{ originAirport.iataIdent }}</div>
+      <div class="airport-description">{{originAirport.city}}</div>
+    </button>
+  </mat-grid-tile>
+
+  <!-- Destination Airport Button -->
+  <mat-grid-tile colspan="2">
+    <button mat-button class="button" (click)="openDestinationModal()">
+      <div class="airport">{{ destinationAirport.iataIdent }}</div>
+      <div class="airport-description">{{destinationAirport.city}}</div>
+    </button>
+  </mat-grid-tile>
+
+  <!-- Round Trip / One Way Dropdown -->
+  <mat-grid-tile colspan="2">
+    <mat-form-field class="dropdown">
+      <mat-select [(value)]="selectedTripType" (valueChange)="onTripChange()">
+        <mat-option *ngFor="let tripType of tripTypes" [value]="tripType">
+          {{tripType}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <ng-template [ngIf]="selectedTripType === TripType.ROUND_TRIP" [ngIfElse]="oneWay">
+    <!-- Round Trip Datepicker -->
+    <mat-grid-tile colspan="4">
+      <mat-form-field class="dropdown">
+        <mat-label>Depart - Return</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [min]="today">
+          <input matStartDate formControlName="departDate">
+          <input matEndDate formControlName="returnDate">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <!-- Required Date Error -->
+        <mat-error *ngIf="departDate.invalid || returnDate.invalid">
+          You must provide a depart and return date.
+        </mat-error>
+
+      </mat-form-field>
+    </mat-grid-tile>
+  </ng-template>
+
+  <!-- One Way Datepicker -->
+  <ng-template #oneWay>
+    <mat-grid-tile colspan="4">
+      <mat-form-field class="dropdown">
+        <mat-label>Depart Date</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="today" formControlName="departDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+        <!-- Required Date Error -->
+        <mat-error *ngIf="departDate.invalid">
+          You must provide a date.
+        </mat-error>
+
+      </mat-form-field>
+    </mat-grid-tile>
+  </ng-template>
+
+  <!-- Passengers Dropdown -->
+  <mat-grid-tile colspan="2">
+    <mat-form-field class="dropdown">
+      <mat-label>Passengers</mat-label>
+      <mat-select [(value)]="selectedPassengers">
+        <mat-option *ngFor="let passenger of passengers" [value]="passenger">
+          {{passenger}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <!-- Search Button -->
+  <mat-grid-tile colspan="1">
+    <button mat-mini-fab (click)="onFlightSearch()" [routerLink]="'results'" [disabled]="dateForm.invalid" type="button">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+</form>

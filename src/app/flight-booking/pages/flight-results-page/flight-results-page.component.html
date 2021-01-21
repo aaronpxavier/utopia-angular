@@ -1,0 +1,8 @@
+
+
+<div class="flt-results-container">
+  <h1 class="flt-results-title">Departing Flights</h1>
+  <app-flight-result-item *ngFor="let flight of departureFlights" [flight]="flight"></app-flight-result-item>
+  <h1 class="flt-results-title" *ngIf="returnFlights.length > 0">Return Flights</h1>
+  <app-flight-result-item *ngFor="let flight of returnFlights" [flight]="flight"></app-flight-result-item>
+</div>

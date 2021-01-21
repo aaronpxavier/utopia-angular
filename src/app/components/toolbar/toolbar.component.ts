@@ -1,5 +1,5 @@
 import {AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit} from '@angular/core';
-import { ToolbarService } from '../../services/utility/toolbar.service';
+import { ToolbarService } from '../../shared/services/toolbar.service';
 
 @Component({
   selector: 'app-toolbar',

@@ -13,7 +13,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $utopia-angular-primary: mat-palette($mat-teal, 500, 100, 900);
-$utopia-angular-accent: mat-palette($mat-pink, A200, A100, A400);
+$utopia-angular-accent: mat-palette($mat-deep-orange, 700, 300, 900);
 
 // The warn palette is optional (defaults to red).
 $utopia-angular-warn: mat-palette($mat-red);
@@ -23,8 +23,8 @@ $utopia-angular-warn: mat-palette($mat-red);
 $utopia-angular-theme: mat-dark-theme((
   color: (
     primary: $utopia-angular-primary,
-    accent: mat-palette($mat-amber, A200, A100, A400),
-    warn: mat-palette($mat-deep-orange),
+    accent: $utopia-angular-accent,
+    warn: $utopia-angular-warn,
   )
 ));
 
@@ -37,5 +37,6 @@ $utopia-angular-theme: mat-dark-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #11172b; color: white}
+
 
 
