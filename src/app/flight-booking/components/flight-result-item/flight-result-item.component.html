@@ -9,13 +9,14 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between">
       <div class="flt-results-time">
-        {{getTimeString(flight.getLegs()[0]?.departTime)}}
+        {{flight.getLegs()[0]?.departTime | date: 'HH:mm'}}
       </div>
       <div class="flt-results-middle">
         <p>{{flight.getNumLegs() === 1 ? 'Non Stop Flight' : flight.getNumLegs() - 1 + ' stop'}}</p>
       </div>
       <div class="flt-results-time">
-        {{flight.getNumLegs() === 2 ? getTimeString(flight.getLegs()[1]?.arrivalTime) : getTimeString(flight.getLegs()[0]?.arrivalTime)}}
+<!--        getTimeString(flight.getLegs()[0]?.arrivalTime)-->
+        {{(flight.getNumLegs() === 2 ? flight.getLegs()[1]?.arrivalTime : flight.getLegs()[0]?.arrivalTime) | date: 'HH:mm'}}
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between">

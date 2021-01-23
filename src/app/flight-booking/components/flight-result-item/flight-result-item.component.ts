@@ -28,13 +28,4 @@ export class FlightResultItemComponent implements OnInit {
     return hours.toString() + 'h ' +  (min ? min + 'm' : '');
   }
 
-
-
-  getTimeString(date: Date): string {
-    const mins = date.getMinutes();
-    let hours = date.getHours().toString();
-    hours = parseInt(hours, 10) < 10 ? '0' + hours : hours;
-    return hours + ':' + (mins === 0 ? '00' : mins < 10 ? '0' + mins  : mins );
-  }
-
 }
