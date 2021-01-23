@@ -1,5 +1,3 @@
-// Flight Search Page
-
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,8 +8,9 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +29,9 @@ import { LoginComponent } from './components/login/login.component';
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, {
+    provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
