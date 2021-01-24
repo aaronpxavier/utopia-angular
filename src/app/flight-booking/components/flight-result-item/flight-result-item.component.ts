@@ -9,23 +9,13 @@ import {Flight} from '../../models/flight';
 export class FlightResultItemComponent implements OnInit {
 
   @Input() flight: Flight;
+  @Input() isSelected = false;
   constructor() { }
 
   ngOnInit(): void {
   }
 
 
-  calculateTimeBetween(): string {
-    const legs = this.flight.getLegs();
-    const departureTime = legs[0].departTime;
-    const arrivalTime = legs.length === 2 ? legs[1].arrivalTime : legs.length === 1 ? legs[0].arrivalTime : undefined;
-    if (arrivalTime === undefined) {
-      return 'und';
-    }
-    const hoursMins = Math.abs(((departureTime.getTime() - arrivalTime.getTime()) / 3600) % 24);
-    const hours = Math.floor(hoursMins);
-    const min = Math.floor(hoursMins % 1 * 60);
-    return hours.toString() + 'h ' +  (min ? min + 'm' : '');
-  }
+
 
 }
