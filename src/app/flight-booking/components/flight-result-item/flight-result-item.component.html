@@ -1,32 +1,42 @@
 
-<mat-card class="flight-result-card result-item">
-  <mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="space-between">
-      <div class="flt-results-item-toprow">
-        Flt: {{flight.getLegs()[0].flightNumber}}
+    <div class="flt-result-item" [ngClass]="{'flt-results-text-accent': isSelected}" fxLayout="row">
+      <div fxLayout="column" style="border-right-style: solid; border-width: 2px" fxFlex="10" fxFlex.gt-md="5" fxFlex.gt-lg="4"  fxFlex.gt-sm="7" fxFlex.gt-xs="11" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="center center" class="flt-results-middle-row">
+          <mat-icon>flight_takeoff</mat-icon>
+        </div>
       </div>
-      <div class="flt-results-item-toprow">Duration: {{calculateTimeBetween()}}</div>
+      <div class="flt-results-middle-column" fxLayout="column" style="padding-left: 5px; padding-right: 5px" fxFlex="90" fxFlex.gt-md="95" fxFlex.gt-lg="96" fxFlex.gt-sm="93" fxFlex.gt-xs="89">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div >
+            Flt: {{flight.getLegs()[0].flightNumber}}
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="flt-results-middle-row">
+            {{flight.getLegs()[0]?.departTime | date: 'HH:mm'}}
+          </div>
+          <div class="flt-results-middle">
+            <p>{{flight.getNumLegs() === 1 ? 'Non Stop Flight' : flight.getNumLegs() - 1 + ' stop'}}</p>
+          </div>
+          <div class="flt-results-middle-row">
+            {{(flight.getNumLegs() === 2 ? flight.getLegs()[1]?.arrivalTime : flight.getLegs()[0]?.arrivalTime) | date: 'HH:mm'}}
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="flt-results-city-ident">
+            {{flight.getLegs()[0]?.flightDetails.departCityId}}
+          </div>
+          <div>
+            Price: {{flight.getPrice() | currency}}
+          </div>
+          <div class="flt-results-city-ident">
+            {{flight.getNumLegs() > 1 ? flight.getLegs()[flight.getLegs().length-1]?.flightDetails.arriveCityId : flight.getLegs()[0]?.flightDetails.arriveCityId}}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" style="border-left-style: solid; border-width: 2px" fxFlex="10" fxFlex.gt-md="5" fxFlex.gt-lg="4"  fxFlex.gt-sm="7" fxFlex.gt-xs="11" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="center center" class="flt-results-middle-row">
+          <mat-icon>flight_land</mat-icon>
+        </div>
+      </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between">
-      <div class="flt-results-time">
-        {{getTimeString(flight.getLegs()[0]?.departTime)}}
-      </div>
-      <div class="flt-results-middle">
-        <p>{{flight.getNumLegs() === 1 ? 'Non Stop Flight' : flight.getNumLegs() - 1 + ' stop'}}</p>
-      </div>
-      <div class="flt-results-time">
-        {{flight.getNumLegs() === 2 ? getTimeString(flight.getLegs()[1]?.arrivalTime) : getTimeString(flight.getLegs()[0]?.arrivalTime)}}
-      </div>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between">
-      <div class="flt-results-city-ident">
-        {{flight.getLegs()[0]?.flightDetails.departCityId}}
-      </div>
-      <div class="flt-results-city-ident">
-        {{flight.getNumLegs() > 1 ? flight.getLegs()[flight.getLegs().length-1]?.flightDetails.arriveCityId : flight.getLegs()[0]?.flightDetails.arriveCityId}}
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-  </mat-card-content>
-</mat-card>
-
