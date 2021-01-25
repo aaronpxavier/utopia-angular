@@ -1,27 +1,61 @@
+<mat-horizontal-stepper #stepper="matHorizontalStepper">
+  <mat-step>
+    <form>
+      <ng-template matStepLabel>Fill out your name</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step >
+    <form>
+      <ng-template matStepLabel>Fill out your address</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+<div fxLayout="row" fxLayoutAlign="flex-start">
+  <div class="flt-results-container"  fxLayout="column" fxLayoutAlign="space-between">
+    <div fxLayout="row" fxFlex="85" fxLayoutAlign="space-start, flex-start">
+      <div fxLayout="column" fxFlex="100" fxLayoutAlign="flex-start">
+        <div fxLayout="row" fxFlex="100">
+          <h1 class="flt-results-title flt-results-text-accent">Select {{showReturnFlights ? 'Return FLights' : 'Departing Flights'}}</h1>
+        </div>
 
-
-<div class="flt-results-container" fxLayout="column">
-
-  <h1 class="flt-results-title" fxFill="10">Departing Flights</h1>
-
-    <mat-form-field fxLayout="row" fxFill="5" appearance="fill">
-      <mat-label fxFlex="20">Sort by: </mat-label>
-      <mat-select (selectionChange)="sortParamSelected($event)">
-        <mat-option value=1>Duration</mat-option>
-        <mat-option value=2>Price</mat-option>
-        <mat-option value=3>Number of Stops</mat-option>
-      </mat-select>
-    </mat-form-field>
-        <mat-selection-list fxFlex="80" role="list" class="flt-results-list">
-          <mat-list-item fxLayout="column" style="height: 100%;" role="listitem" (click)="selectFlight(flight, resultItemComponent)" *ngFor="let flight of flightsToShow">
+        <mat-spinner fxLayout="row" class="flt-results-spinner" *ngIf="isPending" fxFlex="80"></mat-spinner>
+        <mat-selection-list fxFlex="80" *ngIf="!isPending"  role="list" class="flt-results-list">
+          <mat-list-item style="height: 100%;" role="listitem" (click)="selectFlight(flight, resultItemComponent)" *ngFor="let flight of flightsToShow">
             <app-flight-result-item fxFlex="100" #resultItemComponent style="width: 100%; height: 100%" [flight]="flight"></app-flight-result-item>
           </mat-list-item>
         </mat-selection-list>
-    <mat-paginator class="flt-results-paginator"
-                   [length] = "departureFlights.length"
+      </div>
+    </div>
+    <mat-paginator #paginator fxLayout="row" class="flt-results-paginator"
+                   [length] = "totalResults"
                    [pageSize] = "defaultMaxPageResults"
                    [pageSizeOptions] = "[5, 10]"
                    (page)="paginatorTrigger($event)">
     </mat-paginator>
+  </div>
+  <div fxLayout="column" class="flt-results-info-column">
+    <app-flight-booking-info-box [departingFlight]="selectedDepartureFlight" *ngIf="selectedResultItem !== undefined"></app-flight-booking-info-box>
+  </div>
 </div>
 

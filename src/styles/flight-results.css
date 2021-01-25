@@ -1,12 +1,17 @@
-.flt-results-title {
-  padding-top: 20px;
+h1.flt-results-title {
   width: 100%;
+  height: 100%;
   text-align: center;
-  color: #e51937;
-  padding-top: 35px
+  padding-top: 35px;
+  background-color: #424242;
+  margin: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
+
 .flt-results-container {
   margin: 80px auto;
+  margin-right: 0;
   width: 100%;
   max-width: 1000px;
   border-radius: 10px;
@@ -19,13 +24,15 @@
   width: 100%;
   background-color: #41474d;
   border-radius: 5px;
-  padding-top:5px;
+  padding-top: 0;
   padding-bottom: 5px;
   margin-bottom: 8px;
+  margin-top: 1px;
   box-shadow: 10px 5px 5px black;
 }
 
-.flt-results-item-selected {
+
+.flt-results-text-accent {
   color: #e51937;
 }
 
@@ -61,11 +68,45 @@
 }
 
 .flt-results-list {
+  min-height: 800px;
+  padding-top: 0;
   padding-bottom: 10px;
 }
 
-h2 {
-  padding: 0;
+.flt-results-spinner {
+  height: 500px;
+  width: 100%;
+  margin: 250px auto;
+  display: table;
+  vertical-align: middle;
+}
+
+.flt-results-table-options {
+  padding: 10px;
+  margin: 0;
+  padding-bottom: 0;
+  background-color: #424242;
+  margin-bottom: 10px;
+  border-bottom-style: solid;
+  border-color: black;
+}
+
+.flt-results-info-box {
+  width: 300px;
+  height: 500px;
+  border-radius: 10px;
+  background-color: #41474d;
+}
+
+.flt-results-info-column {
+  margin: 80px auto;
+  margin-left: 30px;
+  background-color: #41474d;
+  height: 500px;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: .5em;
 }
 
 

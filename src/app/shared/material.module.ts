@@ -22,6 +22,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatStepperModule } from '@angular/material/stepper';
+
 @NgModule({
   exports: [
     MatButtonModule,
@@ -47,6 +50,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatTabsModule,
     MatSnackBarModule,
     MatCardModule,
+    MatCheckboxModule,
+    MatStepperModule
   ],
   providers: [
     MatDatepickerModule,

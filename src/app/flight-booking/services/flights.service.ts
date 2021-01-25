@@ -33,13 +33,15 @@ export class FlightsService {
     this.isRoundTrip = isRoundTrip;
   }
 
-  getDepFlights(flightRequest: FlightRequest): void {
-    this.flightRequest = flightRequest;
+  setFlightRequest(request: FlightRequest): void {
+    this.flightRequest = request;
+  }
+
+  getDepFlights(): void {
     const [origin, destination, departDate] = [
-      flightRequest.originAirport.iataIdent,
-      flightRequest.destinationAirport.iataIdent,
-      flightRequest.departDate?.toLocaleDateString('en-CA'),
-      flightRequest.returnDate?.toLocaleDateString('en-CA')
+      this.flightRequest.originAirport.iataIdent,
+      this.flightRequest.destinationAirport.iataIdent,
+      this.flightRequest.departDate?.toLocaleDateString('en-CA')
     ];
 
     this.http.get<FlightModel[]>(`${this.URL}?origin=${origin}&dest=${destination}&date=${departDate}`)
@@ -74,7 +76,6 @@ export class FlightsService {
     const [origin, destination, returnDate] = [
       this.flightRequest.originAirport.iataIdent,
       this.flightRequest.destinationAirport.iataIdent,
-      this.flightRequest.departDate?.toLocaleDateString('en-CA'),
       this.flightRequest.returnDate?.toLocaleDateString('en-CA')
     ];
     if (!this.flightRequest) {
@@ -90,7 +91,7 @@ export class FlightsService {
             flt.addLeg(fltModel);
             return flt;
           });
-          this.departureFlights.next(tempFlightsArray);
+          this.returnFlights.next(tempFlightsArray);
         });
 
     this.http.get<FlightMultihopModel[]>(`${this.URL}/multihop?origin=${destination}&dest=${origin}&date=${returnDate}`)

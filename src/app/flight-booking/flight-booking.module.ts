@@ -11,6 +11,8 @@ import { AirportSearchService } from './services/airport-search.service';
 import { EventService } from './services/event.service';
 import { FlightBookingRoutingModule } from './flight-booking-routing.module';
 import { FlightsService } from './services/flights.service';
+import { FlightBookingInfoBoxComponent } from './components/flight-booking-info-box/flight-booking-info-box.component';
+import { FlightResultsOptionsComponent } from './components/flight-results-options/flight-results-options.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { FlightsService } from './services/flights.service';
     FlightResultItemComponent,
     FlightSearchComponent,
     FlightResultsPageComponent,
-    FlightSearchPageComponent
+    FlightSearchPageComponent,
+    FlightBookingInfoBoxComponent,
+    FlightResultsOptionsComponent
   ],
   imports: [
     CommonModule,
