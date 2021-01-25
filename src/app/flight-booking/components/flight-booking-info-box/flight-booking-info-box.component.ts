@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Flight} from '../../models/flight';
 
 @Component({
   selector: 'app-flight-booking-info-box',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class FlightBookingInfoBoxComponent implements OnInit {
 
   constructor() { }
+
+  @Input() departingFlight: Flight;
 
   ngOnInit(): void {
   }
