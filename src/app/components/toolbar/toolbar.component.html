@@ -6,7 +6,7 @@
     <span>{{toolbarTitle}}</span>
     <span class="spacer"></span>
     <button *ngIf="isAuthenticated()" mat-button routerLink="login" (click)="logoutClick()" >logout</button>
-    <button *ngIf="!isAuthenticated()" mat-button routerLink="login"></button>
+    <button *ngIf="!isAuthenticated()" mat-button routerLink="signup">Signup</button>
 
 
   </mat-toolbar-row>
