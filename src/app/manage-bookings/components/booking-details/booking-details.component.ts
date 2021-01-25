@@ -1,6 +1,6 @@
 import { AirportService } from './../../../services/airport.service';
 import { BookingModel } from './../../models/booking-types';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from 'src/app/shared/models/api-response-types';
 import { AirportModel } from 'src/app/shared/models/types';
@@ -10,7 +10,7 @@ import { AirportModel } from 'src/app/shared/models/types';
   templateUrl: './booking-details.component.html',
   styleUrls: ['./booking-details.component.scss']
 })
-export class BookingDetailsComponent implements OnInit {
+export class BookingDetailsComponent implements OnInit, OnChanges {
 
   @Input() booking: BookingModel;
   currentDate = Date.now();
@@ -22,6 +22,10 @@ export class BookingDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  // TODO: cache loaded flights in session storage to prevent loading duplicate flights
+  ngOnChanges(): void {
     this.airports$ = this.airportService.getAirportList(
       this.booking.flights
         .flatMap(flight => [

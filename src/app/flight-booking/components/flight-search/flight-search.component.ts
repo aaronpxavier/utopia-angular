@@ -1,6 +1,6 @@
 import {FlightRequest, FlightsService} from '../../services/flights.service';
 import {Component, Input, OnInit} from '@angular/core';
-import {MatDialog,} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {ToolbarService} from 'src/app/shared/services/toolbar.service';
 import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
 import {EventService} from '../../services/event.service';

@@ -1,19 +1,19 @@
 <form [formGroup]="dateForm">
 
-<mat-grid-list cols="13" rowHeight="1:2">
+<mat-grid-list cols="7" rowHeight="1:1" class="container">
 
   <!-- Origin Airport Button -->
   <mat-grid-tile colspan="2">
-    <button mat-button class="button" (click)="openOriginModal()">
-      <div class="airport">{{ originAirport.iataIdent }}</div>
+    <button mat-button class="button full" (click)="openOriginModal()">
+      <div class="large-font">{{ originAirport.iataIdent }}</div>
       <div class="airport-description">{{originAirport.city}}</div>
     </button>
   </mat-grid-tile>
 
   <!-- Destination Airport Button -->
   <mat-grid-tile colspan="2">
-    <button mat-button class="button" (click)="openDestinationModal()">
-      <div class="airport">{{ destinationAirport.iataIdent }}</div>
+    <button mat-button class="button full" (click)="openDestinationModal()">
+      <div class="large-font">{{ destinationAirport.iataIdent }}</div>
       <div class="airport-description">{{destinationAirport.city}}</div>
     </button>
   </mat-grid-tile>
@@ -32,10 +32,10 @@
   <ng-template [ngIf]="selectedTripType === TripType.ROUND_TRIP" [ngIfElse]="oneWay">
     <!-- Round Trip Datepicker -->
     <mat-grid-tile colspan="4">
-      <mat-form-field class="dropdown">
-        <mat-label>Depart - Return</mat-label>
+      <mat-form-field class="dropdown picker">
+        <mat-label>Depart Date - Return Date</mat-label>
         <mat-date-range-input [rangePicker]="picker" [min]="today">
-          <input matStartDate formControlName="departDate">
+          <input matStartDate formControlName="departDate" (dateChange)="onDepartChange($event.target.value)">
           <input matEndDate formControlName="returnDate">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -47,13 +47,17 @@
         </mat-error>
 
       </mat-form-field>
+      <button mat-button (click)="picker.open()" class="full large-font">
+        {{ (departDate.value | date:'MMM d') || 'Depart' }} - 
+        {{ (returnDate.value | date:'MMM d') || 'Return Date' }}
+      </button>
     </mat-grid-tile>
   </ng-template>
 
   <!-- One Way Datepicker -->
   <ng-template #oneWay>
     <mat-grid-tile colspan="4">
-      <mat-form-field class="dropdown">
+      <mat-form-field class="dropdown picker">
         <mat-label>Depart Date</mat-label>
         <input matInput [matDatepicker]="picker" [min]="today" formControlName="departDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -65,6 +69,9 @@
         </mat-error>
 
       </mat-form-field>
+      <button mat-button (click)="picker.open()" class="full large-font">
+        {{ (departDate.value | date:'MMM d') || 'Depart Date' }}
+      </button>
     </mat-grid-tile>
   </ng-template>
 

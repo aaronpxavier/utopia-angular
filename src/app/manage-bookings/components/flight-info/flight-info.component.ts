@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { FlightModel } from 'src/app/flight-booking/models/flight';
-import { Response } from 'src/app/shared/models/api-response-types';
 import { AirportModel } from 'src/app/shared/models/types';
 
 @Component({

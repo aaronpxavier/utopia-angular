@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {Routes, RouterModule, Router} from '@angular/router';
+import {Routes, RouterModule} from '@angular/router';
 import {FlightSearchPageComponent} from './pages/flight-search-page/flight-search-page.component';
 import {FlightResultsPageComponent} from './pages/flight-results-page/flight-results-page.component';
 
