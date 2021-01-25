@@ -4,8 +4,11 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span>{{toolbarTitle}}</span>
-    <span class="example-spacer"></span>
-    
+    <span class="spacer"></span>
+    <button *ngIf="isAuthenticated()" mat-button routerLink="login" (click)="logoutClick()" >logout</button>
+    <button *ngIf="!isAuthenticated()" mat-button routerLink="login"></button>
+
+
   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

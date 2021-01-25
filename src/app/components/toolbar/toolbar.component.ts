@@ -13,9 +13,18 @@ export class ToolbarComponent implements AfterContentChecked {
               private ref: ChangeDetectorRef) {
     this.toolbarService.getNavChangeEmitter().subscribe((title: string) => this.toolbarTitle = title);
   }
+  isLogin = false;
+
+  isAuthenticated(): boolean {
+   return localStorage.getItem('token') !== null;
+  }
 
   ngAfterContentChecked(): void {
     this.ref.detectChanges();
   }
+
+  logoutClick(): void {
+    localStorage.removeItem('token');
+ }
 
 }
