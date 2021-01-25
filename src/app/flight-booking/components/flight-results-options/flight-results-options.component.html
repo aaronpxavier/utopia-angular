@@ -1,0 +1,11 @@
+<div class="flt-results-table-options" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-between">
+  <mat-form-field  appearance="fill">
+    <mat-label>Sort by: </mat-label>
+    <mat-select (selectionChange)="sortParamSelected($event)">
+      <mat-option value=1>Duration</mat-option>
+      <mat-option value=2>Price</mat-option>
+      <mat-option value=3>Number of Stops</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-checkbox (change)="nonStopFilterTrigger($event)">Only Non-Stop Flts</mat-checkbox>
+</div>

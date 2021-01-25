@@ -103,10 +103,10 @@ export class FlightSearchComponent implements OnInit {
       returnDate: dates.returnDate
     };
 
-    this.flightService.getDepFlights(flightRequest);
+    this.flightService.setFlightRequest(flightRequest);
+
     if (flightRequest.tripType === TripType.ROUND_TRIP) {
       this.flightService.setIsRoundTrip(true);
-      this.flightService.getReturnFlts();
     }
   }
 }

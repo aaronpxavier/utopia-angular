@@ -21,10 +21,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   exports: [
     MatButtonModule,
+    MatDividerModule,
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
@@ -45,7 +49,9 @@ import {MatCardModule} from '@angular/material/card';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule,
+    MatStepperModule
   ],
   providers: [
     MatDatepickerModule,
