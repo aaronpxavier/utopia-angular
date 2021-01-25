@@ -13,7 +13,6 @@ import { AirportModel } from 'src/app/shared/models/types';
 export class BookingDetailsComponent implements OnInit, OnChanges {
 
   @Input() booking: BookingModel;
-  currentDate = Date.now();
   expandedIndex = 0;
   airports$: Observable<Response<AirportModel[]>>;
 

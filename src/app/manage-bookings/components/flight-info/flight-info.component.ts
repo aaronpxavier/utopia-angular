@@ -17,8 +17,4 @@ export class FlightInfoComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  getAirport(airports: AirportModel[], id: string): AirportModel {
-    return airports.find(airport => airport.iataIdent === id);
-  }
 }

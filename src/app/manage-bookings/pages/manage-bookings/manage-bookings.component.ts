@@ -38,10 +38,10 @@ export class ManageBookingsComponent implements OnInit {
       .pipe(tap(this.selectFirstBooking));
   }
 
-  private selectFirstBooking = ({ data, error }: Response<Bookings>): void => {
-    if (data && data[Tab.ACTIVE].length > 0) {
-      this.selectedBooking = data[Tab.ACTIVE][0];
-    } else if (data) {
+  private selectFirstBooking = ({ data: bookings, error }: Response<Bookings>): void => {
+    if (bookings && bookings[Tab.ACTIVE].length > 0) {
+      this.selectedBooking = bookings[Tab.ACTIVE][0];
+    } else if (bookings) {
       // TODO: Display message to user that they have no bookings
       console.error('You have no bookings');
     } else if (error) {
