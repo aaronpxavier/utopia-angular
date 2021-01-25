@@ -35,7 +35,7 @@
       <mat-form-field class="dropdown picker">
         <mat-label>Depart Date - Return Date</mat-label>
         <mat-date-range-input [rangePicker]="picker" [min]="today">
-          <input matStartDate formControlName="departDate" (dateChange)="onDepartChange($event.target.value)">
+          <input matStartDate formControlName="departDate">
           <input matEndDate formControlName="returnDate">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
