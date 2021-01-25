@@ -9,6 +9,7 @@ import {durationComparator, priceComparator, stopsComparator} from '../../models
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {FLT_RESULTS_REQ_KEY, SHOW_RETURN_FLTS} from '../../constants/session-keys';
 import {ToolbarService} from '../../../shared/services/toolbar.service';
+import {FlightResultsCheckboxEvent, FlightResultsSelectEvent} from '../../models/flight-results-checkbox-event';
 
 @Component({
   templateUrl: './flight-results-page.component.html',
@@ -121,10 +122,10 @@ export class FlightResultsPageComponent implements OnInit {
     console.log(pageEvent);
   }
 
-  nonStopFilterTrigger(event: MatCheckboxChange, paginator: MatPaginator): void {
+  nonStopFilterTrigger(event: FlightResultsCheckboxEvent, paginator: MatPaginator): void {
     console.log(event);
     const tempFlights = this.showReturnFlights ? this.returnFlights : this.departureFlights;
-    if (event.checked) {
+    if (event.matCheckboxEvent.checked) {
       const filteredFlights = tempFlights.filter((flight: Flight) => flight.getNumLegs() === 1);
       console.log(filteredFlights);
       if (this.showReturnFlights) {
@@ -147,6 +148,19 @@ export class FlightResultsPageComponent implements OnInit {
     paginator.pageIndex = 0;
   }
 
-
+  sortParamSelected(event: FlightResultsSelectEvent): void {
+    switch (parseInt(event.matSelectChange.value, 10)) {
+      case 1:
+        this.departureFlights.sort(durationComparator);
+        break;
+      case 2:
+        this.departureFlights.sort(priceComparator);
+        break;
+      case 3:
+        this.departureFlights.sort(stopsComparator);
+    }
+    this.loadFltsToShow(this.currentStartIndex, this.currentEndIndex);
+    console.log(event);
+  }
 
 }

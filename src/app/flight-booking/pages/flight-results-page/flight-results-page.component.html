@@ -1,36 +1,3 @@
-<mat-horizontal-stepper #stepper="matHorizontalStepper">
-  <mat-step>
-    <form>
-      <ng-template matStepLabel>Fill out your name</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step >
-    <form>
-      <ng-template matStepLabel>Fill out your address</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Address" formControlName="secondCtrl" required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    You are now done.
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
 <div fxLayout="row" fxLayoutAlign="flex-start">
   <div class="flt-results-container"  fxLayout="column" fxLayoutAlign="space-between">
     <div fxLayout="row" fxFlex="85" fxLayoutAlign="space-start, flex-start">
@@ -38,7 +5,8 @@
         <div fxLayout="row" fxFlex="100">
           <h1 class="flt-results-title flt-results-text-accent">Select {{showReturnFlights ? 'Return FLights' : 'Departing Flights'}}</h1>
         </div>
-
+        <app-flight-results-options (flightResultsSelectChange)="sortParamSelected($event)" (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)">
+        </app-flight-results-options>
         <mat-spinner fxLayout="row" class="flt-results-spinner" *ngIf="isPending" fxFlex="80"></mat-spinner>
         <mat-selection-list fxFlex="80" *ngIf="!isPending"  role="list" class="flt-results-list">
           <mat-list-item style="height: 100%;" role="listitem" (click)="selectFlight(flight, resultItemComponent)" *ngFor="let flight of flightsToShow">
