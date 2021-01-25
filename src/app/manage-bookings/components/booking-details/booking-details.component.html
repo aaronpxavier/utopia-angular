@@ -1,0 +1,61 @@
+<div class="container" *ngIf="booking">
+
+  <!-- Travelers Info -->
+  <div class="row">
+    <div class="half-width">
+      <mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2>
+      <mat-accordion>
+        <!-- TODO: reset expanded index when selected booking changes -->
+        <mat-expansion-panel
+          *ngFor="let traveler of booking.travelers; let i = index"
+          [expanded]="expandedIndex === i"
+          (opened)="expandedIndex = i"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ traveler.name }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-traveler-info [traveler]="traveler"></app-traveler-info>
+          <mat-action-row>
+            <button mat-icon-button matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="warn" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="half-width">
+      <app-payment-info [booking]="booking"></app-payment-info>
+    </div>
+  </div>
+
+  <!-- Flights Info -->
+  <div *ngIf="airports$ | async as state" class="margin-top">
+
+    <mat-icon>flight</mat-icon>
+    <h2 class="inline">Flights</h2>
+    
+    <!-- Loading Spinner -->
+    <div class="center-content" *ngIf="!state.data && !state.error">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="state.error">
+      <!-- TODO: implement error state -->
+    </div>
+
+    <div *ngIf="state.data">
+      <div *ngFor="let flight of booking.flights">
+        <app-flight-info 
+          [flight]="flight"
+          [departAirport]="getAirport(state.data, flight.flightDetails.departCityId)"
+          [arriveAirport]="getAirport(state.data, flight.flightDetails.arriveCityId)"
+        >
+        </app-flight-info>
+      </div>
+    </div>
+  </div>
+</div>
