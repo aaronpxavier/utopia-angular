@@ -10,6 +10,11 @@ const routes: Routes = [
     component: ToolbarComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'booking/flight',
+        pathMatch: 'full'
+      },
+      {
         path: 'signup',
         component: SignupComponent,
         pathMatch: 'full'
@@ -26,10 +31,15 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'manage-bookings',
+        pathMatch: 'full',
+        loadChildren: () => import ('./manage-bookings/manage-bookings.module').then(m => m.ManageBookingsModule)
       }
 
     ],
-  },
+  }
 ];
 
 @NgModule({

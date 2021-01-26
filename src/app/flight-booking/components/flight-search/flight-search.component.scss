@@ -1,12 +1,8 @@
 .container {
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 13%;
+  margin-right: 13%;
+  margin-top: 5%;
   max-width: 100%;
-  height: calc(100vh - 64px);
-}
-
-.airport {
-  font-size: x-large;
 }
 
 .airport-description {
@@ -25,4 +21,18 @@
 .dropdown {
   width: 93%;
   font-size: large;
+}
+
+.full {
+  height: 100%;
+  width: 100%;
+}
+
+.large-font {
+  font-size: x-large;
+}
+
+.picker {
+  width: 1px;
+  visibility: hidden;
 }
