@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {Flight} from '../../models/flight';
 
 @Component({
@@ -11,6 +11,10 @@ export class FlightBookingInfoBoxComponent implements OnInit {
   constructor() { }
 
   @Input() departingFlight: Flight;
+  @Input() arrivingFlight: Flight;
+  @Output() nextButtonClick: Flight;
+  @Output() backButtonClick: Flight;
+  currentState = 'Select Departure';
 
   ngOnInit(): void {
   }
