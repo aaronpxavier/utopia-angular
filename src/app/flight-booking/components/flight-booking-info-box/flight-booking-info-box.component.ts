@@ -45,4 +45,8 @@ export class FlightBookingInfoBoxComponent implements OnInit {
     return sum;
   }
 
+  bookFltBtnClick(): void {
+    this.bookFlightButtonClick.emit();
+  }
+
 }

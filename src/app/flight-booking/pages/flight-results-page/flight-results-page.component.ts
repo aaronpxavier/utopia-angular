@@ -55,7 +55,7 @@ export class FlightResultsPageComponent implements OnInit {
       });
     }
     // @ts-ignore
-    window.onhashchange(this.resetFlightsArray());
+    window.onhashchange = this.resetFlightsArray();
   }
 
   private resetFlightsArray(): void {
