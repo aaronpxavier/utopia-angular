@@ -14,7 +14,7 @@ export class FlightBookingInfoBoxComponent implements OnInit {
   @Input() departingFlight: Flight;
   @Input() returnFlight: Flight;
   @Input() tripType: TripType;
-  @Output() bookFlightButtonClick = new EventEmitter<null>();
+  @Output() bookFlightButtonClick = new EventEmitter<void>();
   currentState = 'Select Departure';
 
   ngOnInit(): void {

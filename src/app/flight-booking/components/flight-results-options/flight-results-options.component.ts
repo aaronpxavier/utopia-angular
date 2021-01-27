@@ -15,7 +15,7 @@ export class FlightResultsOptionsComponent implements OnInit {
 
   @Output() flightResultsNonStopChange: EventEmitter<FlightResultsCheckboxEvent> = new EventEmitter<FlightResultsCheckboxEvent>();
   @Output() flightResultsSelectChange: EventEmitter<FlightResultsSelectEvent> = new EventEmitter<FlightResultsSelectEvent>();
-  @Output() buttonClickEvent: EventEmitter<null> = new EventEmitter<null>();
+  @Output() buttonClickEvent: EventEmitter<void> = new EventEmitter<void>();
   @Input() showButton = false;
   @Input() isReturn = false;
 
