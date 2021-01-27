@@ -38,7 +38,8 @@ export class FlightBookingInfoBoxComponent implements OnInit {
     if (this.departingFlight) {
       const departLegs = this.departingFlight.getLegs();
       sum += departLegs.length === 2 ? departLegs[1].price + departLegs[0].price : departLegs[0].price;
-    } else if (this.returnFlight) {
+    }
+    if (this.returnFlight) {
       const returnLegs = this.returnFlight.getLegs();
       sum += returnLegs.length === 2 ? returnLegs[1].price + returnLegs[0].price : returnLegs[0].price;
     }
