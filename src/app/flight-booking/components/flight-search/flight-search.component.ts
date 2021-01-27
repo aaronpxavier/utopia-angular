@@ -107,6 +107,8 @@ export class FlightSearchComponent implements OnInit {
 
     if (flightRequest.tripType === TripType.ROUND_TRIP) {
       this.flightService.setIsRoundTrip(true);
+    } else if (flightRequest.tripType === TripType.ONE_WAY) {
+      this.flightService.setIsRoundTrip(false);
     }
   }
 }
