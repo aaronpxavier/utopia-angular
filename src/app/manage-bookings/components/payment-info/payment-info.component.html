@@ -1,0 +1,21 @@
+<mat-icon>credit_card</mat-icon><h2 class="inline"> Payment</h2>
+<mat-card *ngIf="booking">
+  <mat-card-subtitle>Received payment on [placeholder date] for card ending in 9999</mat-card-subtitle>
+  <mat-card-content>
+    <div class="row" *ngFor="let flight of booking.flights">
+      <div>{{ flight.flightDetails.departCityId }} - {{ flight.flightDetails.arriveCityId }}: {{ booking.travelers.length }} traveler(s)</div>
+      <div class="spacer"></div>
+      <div>${{ flight.price * booking.travelers.length }}</div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="spacer"></div>
+      <div>Total: ${{ getBookingCost(booking) }}</div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end" class="top-border">
+    <button mat-icon-button matTooltip="Cancel Booking" color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

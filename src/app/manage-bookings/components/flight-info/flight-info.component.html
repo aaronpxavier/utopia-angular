@@ -1,0 +1,48 @@
+<mat-card class="margin-bottom">
+  <mat-grid-list cols="11" rowHeight="1:1" class="container">
+  
+    <div class="row">
+      <mat-icon>flight</mat-icon>
+      <h3> Utopia Airlines - Flight {{ flight.flightNumber }}</h3>
+      <div class="spacer"></div>
+      <h3>{{ flight.departTime | date:'EEEE, MMMM d' }}</h3>
+    </div>
+    
+    <mat-grid-tile colspan="2">
+      <div class="tile">
+        <div>{{ departAirport.iataIdent }}</div>
+        <div class="airport-description">{{ departAirport.name }}</div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+      <mat-icon>arrow_right_alt</mat-icon>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <div class="tile">
+        <div>{{ arriveAirport.iataIdent }}</div>
+        <div class="airport-description">{{ arriveAirport.name }}</div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <div class="tile">
+        <mat-icon>flight_takeoff</mat-icon>
+        <div>{{ flight.departTime | date:'shortTime' }}</div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <div class="tile">
+        <mat-icon>flight_land</mat-icon>
+        <div>{{ flight.arrivalTime | date:'shortTime' }}</div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <div class="tile">
+        <mat-icon>schedule_outline</mat-icon>
+        <!-- TODO: implement flight duration -->
+        <div>9 hr 99 min</div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-card>
+
+<div class="margin"></div>
