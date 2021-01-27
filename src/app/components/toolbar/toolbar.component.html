@@ -5,8 +5,12 @@
     </button>
     <span>{{toolbarTitle}}</span>
     <span class="spacer"></span>
+    <button *ngIf="isAuthenticated()" mat-button routerLink="login" (click)="logoutClick()" >logout</button>
+    <button *ngIf="!isAuthenticated()" mat-button routerLink="signup">Signup</button>
+
+
     <button mat-button routerLink="manage-bookings">Manage Bookings</button>
-    
+
   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

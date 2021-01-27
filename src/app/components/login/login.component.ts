@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToolbarService } from 'src/app/shared/services/toolbar.service';
+import { Users } from './types';
 
 
 @Component({
@@ -12,12 +13,8 @@ import { ToolbarService } from 'src/app/shared/services/toolbar.service';
 })
 
 export class LoginComponent implements OnInit {
-
-  public selectable = true;
-  public addOnBlur = true;
   public loginForm!: FormGroup;
   public isPending = false;
-  public isError = false;
   public showForm = true;
   public loginMsg = '';
   public showLoginMsg = false;
@@ -26,8 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(private toolbarService: ToolbarService,
               private authService: AuthService,
               private route: ActivatedRoute,
+              public router: Router,
               public fb: FormBuilder) {
-      this.token = this.route.snapshot.paramMap.get('token');
     }
 
   ngOnInit(): void {
@@ -37,7 +34,6 @@ export class LoginComponent implements OnInit {
       this.showForm = false;
     }
   }
-
 
   /* Reactive form */
   reactiveForm(): void {
@@ -49,12 +45,12 @@ export class LoginComponent implements OnInit {
 
   submitForm(): void {
     this.isPending = true;
-    this.authService.loginUser(this.loginForm.value).subscribe((res: any) => {
-      localStorage.setItem('token', res.token);
+    this.authService.loginUser(this.loginForm.value).subscribe((user: Users) => {
+      localStorage.setItem('token', user.token);
       this.isPending = false;
       this.showForm = false;
       this.showLoginMsg = true;
-      this.loginMsg = 'Welcome: ' + res.firstName + ' ' + res.lastName;
+      this.router.navigate(['booking/flight']);
     },
     (err: Error) => {
       this.isPending = false;
