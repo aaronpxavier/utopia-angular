@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ToolbarService} from 'src/app/shared/services/toolbar.service';
 import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
 import {EventService} from '../../services/event.service';
-import {Airport, Location, TripType} from '../../models/types';
+import {Airport, AirportType, TripType} from '../../models/types';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -14,7 +14,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 })
 export class FlightSearchComponent implements OnInit {
 
-  @Input() location = Location.ORIGIN;
+  @Input() location = AirportType.ORIGIN;
 
   tripTypes = [TripType.ROUND_TRIP, TripType.ONE_WAY];
   TripType = TripType; // expose enum in template
@@ -43,9 +43,9 @@ export class FlightSearchComponent implements OnInit {
   ngOnInit(): void {
     this.toolbarService.emitRouteChangeEvent('Flight Search');
     this.eventService.airportSelectedListener().subscribe(data => {
-      if (data.location === 'Origin') {
+      if (data.airportType === AirportType.ORIGIN) {
         this.originAirport = data.airport;
-      } else if (data.location === 'Destination') {
+      } else if (data.airportType === AirportType.DESTINATION) {
         this.destinationAirport = data.airport;
       }
     });
@@ -69,20 +69,20 @@ export class FlightSearchComponent implements OnInit {
   }
 
   openOriginModal(): void {
-    this.openModal(Location.ORIGIN);
+    this.openModal(AirportType.ORIGIN);
   }
 
   openDestinationModal(): void {
-    this.openModal(Location.DESTINATION);
+    this.openModal(AirportType.DESTINATION);
   }
 
-  openModal(location: Location): void {
+  openModal(airportType: AirportType): void {
     this.dialog.open(AirportSearchModalComponent, {
       width: 'calc(100vw * 0.75)',
       height: 'calc(100vh * 0.75)',
       data: {
-        airport: location === Location.ORIGIN ? this.originAirport : this.destinationAirport,
-        location
+        airport: airportType === AirportType.ORIGIN ? this.originAirport : this.destinationAirport,
+        airportType
       }
     });
   }

@@ -1,4 +1,4 @@
-export enum Location {
+export enum AirportType {
   ORIGIN = 'Origin',
   DESTINATION = 'Destination'
 }

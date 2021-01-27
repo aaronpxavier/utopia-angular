@@ -2,7 +2,7 @@ import { EventService } from '../../services/event.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AirportSearchService } from '../../services/airport-search.service';
-import { Airport, Location } from '../../models/types';
+import { Airport, AirportType } from '../../models/types';
 import { retry } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 @Component({
@@ -13,16 +13,16 @@ import { FormControl } from '@angular/forms';
 export class AirportSearchModalComponent implements OnInit {
 
   airports: Airport[] = [];
-  location = Location.ORIGIN;
+  airportType = AirportType.ORIGIN;
 
   loading = false;
 
   searchForm = new FormControl('');
 
   constructor(private dialogRef: MatDialogRef<AirportSearchModalComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: { airport: Airport, location: Location },
+              @Inject(MAT_DIALOG_DATA) private data: { airport: Airport, airportType: AirportType },
               private service: AirportSearchService, private eventService: EventService) {
-      this.location = this.data.location;
+      this.airportType = this.data.airportType;
     }
 
   ngOnInit(): void {

@@ -4,7 +4,7 @@
       <div class="container">
         <div class="padded container">
           <mat-form-field class="input" hintLabel="Enter 3 letter airport code, name, or city" color="accent">
-            <mat-label>{{location}}</mat-label>
+            <mat-label>{{airportType}}</mat-label>
             <input matInput (keyup.enter)="onEnterPress()" [formControl]="searchForm" cdkFocusInitial />
             <mat-error *ngIf="searchForm.invalid">{{ searchForm.getError('message') }}</mat-error>
           </mat-form-field>
@@ -13,8 +13,8 @@
             'table': !loading
           }">
             <mat-spinner mode="indeterminate" *ngIf="loading"></mat-spinner>
-            <airport-table *ngIf="airports.length > 0" [airports]="airports" [location]="location" class="grow">
-            </airport-table>
+            <app-airport-table *ngIf="airports.length > 0" [airports]="airports" [airportType]="airportType" class="grow">
+            </app-airport-table>
           </div>
         </div>
       </div>
