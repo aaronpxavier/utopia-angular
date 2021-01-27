@@ -2,9 +2,9 @@ import { Response } from 'src/app/shared/models/api-response-types';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, reduce, startWith } from 'rxjs/operators';
+import { catchError, map, startWith } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { BookingModel } from '../models/booking-types';
+import { BookingModel } from '../manage-bookings/models/booking-types';
 
 export interface Bookings {
   active: BookingModel[];
@@ -16,11 +16,13 @@ export interface Bookings {
 })
 export class BookingService {
 
-  private readonly apiUrl = environment.FLIGHTS_API;
+  private readonly API_URL = environment.FLIGHTS_API;
+  private readonly GET_BOOKINGS_ERROR = 'Sorry! There was an error loading your bookings. Please try again.';
+  private readonly DELETE_BOOKING_ERROR = 'Sorry! There was an error deleting your booking. Please try again.';
 
   constructor(private http: HttpClient) { }
 
-  private handleError(error: HttpErrorResponse): Observable<Response<Bookings>> {
+  private handleError<T>(error: HttpErrorResponse, message: string): Observable<Response<T>> {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
     } else {
@@ -29,7 +31,7 @@ export class BookingService {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
-    return of({ data: null, error: 'Sorry! There was an error loading your bookings. Please try again.' });
+    return of({ data: null, error: message });
   }
 
   bookingIsActive = (booking: BookingModel): boolean => {
@@ -48,13 +50,28 @@ export class BookingService {
   }
 
   getBookingsForUser(): Observable<Response<Bookings>> {
-    return this.http.get<BookingModel[]>(this.apiUrl + '/booking')
+    return this.http.get<BookingModel[]>(this.API_URL + '/booking')
       .pipe(
         map(bookings => ({
           data: bookings.reduce(this.separateActiveAndPastBookings, { active: [], history: [] }),
           error: null
         })),
-        catchError(this.handleError),
+        catchError((error: HttpErrorResponse) => this.handleError<Bookings>(error, this.GET_BOOKINGS_ERROR)),
+        startWith({ data: null, error: null })
+      );
+  }
+
+  deleteBooking(bookingId: number): Observable<Response<boolean>> {
+    return this.http.delete<string>(
+      `${this.API_URL}/booking/${bookingId}`,
+      { observe: 'response' }
+    )
+      .pipe(
+        map(res => ({
+          data: res.status === 200,
+          error: null
+        })),
+        catchError((error) => this.handleError<boolean>(error, this.DELETE_BOOKING_ERROR)),
         startWith({ data: null, error: null })
       );
   }

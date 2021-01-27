@@ -1,3 +1,5 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,10 +21,24 @@ import { BookingDetailsComponent } from './components/booking-details/booking-de
 import { TravelerInfoComponent } from './components/traveler-info/traveler-info.component';
 import { PaymentInfoComponent } from './components/payment-info/payment-info.component';
 import { FlightInfoComponent } from './components/flight-info/flight-info.component';
+import { ConfirmActionModalComponent } from './components/confirm-action-modal/confirm-action-modal.component';
+import { EditTravelerModalComponent } from './components/edit-traveler-modal/edit-traveler-modal.component';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { SortByPipe } from '../pipes/sort.pipe';
 
 
 @NgModule({
-  declarations: [ManageBookingsComponent, BookingDetailsComponent, TravelerInfoComponent, PaymentInfoComponent, FlightInfoComponent],
+  declarations: [
+    ManageBookingsComponent,
+    BookingDetailsComponent,
+    TravelerInfoComponent,
+    PaymentInfoComponent,
+    FlightInfoComponent,
+    ConfirmActionModalComponent,
+    EditTravelerModalComponent,
+    SortByPipe
+  ],
   imports: [
     CommonModule,
     ManageBookingsRoutingModule,
@@ -37,7 +53,12 @@ import { FlightInfoComponent } from './components/flight-info/flight-info.compon
     MatIconModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatGridListModule
-  ]
+    MatGridListModule,
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
+  ],
+  providers: []
 })
 export class ManageBookingsModule { }

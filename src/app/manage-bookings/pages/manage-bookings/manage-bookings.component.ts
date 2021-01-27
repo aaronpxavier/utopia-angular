@@ -2,7 +2,7 @@ import { Response } from 'src/app/shared/models/api-response-types';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ToolbarService } from 'src/app/shared/services/toolbar.service';
-import { Bookings, BookingService } from '../../services/booking.service';
+import { Bookings, BookingService } from '../../../services/booking.service';
 import { tap } from 'rxjs/operators';
 import { BookingModel } from '../../models/booking-types';
 

@@ -3,7 +3,11 @@
   <!-- Travelers Info -->
   <div class="row">
     <div class="half-width">
-      <mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2>
+      <div class="row">
+        <div><mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2></div>
+        <div class="spacer"></div>
+        <button mat-icon-button matTooltip="Add traveler" color="primary" (click)="onAddTraveler()"><mat-icon>group_add</mat-icon></button>
+      </div>
       <mat-accordion>
         <!-- TODO: reset expanded index when selected booking changes -->
         <mat-expansion-panel
@@ -18,8 +22,8 @@
           </mat-expansion-panel-header>
           <app-traveler-info [traveler]="traveler"></app-traveler-info>
           <mat-action-row>
-            <button mat-icon-button matTooltip="Edit"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button color="warn" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+            <button mat-icon-button matTooltip="Edit" (click)="onEditTraveler(traveler)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="warn" matTooltip="Delete" (click)="onDeleteTraveler(traveler.travelerId)"><mat-icon>delete</mat-icon></button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
@@ -27,7 +31,7 @@
 
     <!-- Payment Info -->
     <div class="half-width">
-      <app-payment-info [booking]="booking"></app-payment-info>
+      <app-payment-info [booking]="booking" (deleteBooking)="onDeleteBooking()"></app-payment-info>
     </div>
   </div>
 
@@ -43,12 +47,14 @@
     </div>
 
     <!-- Error state -->
-    <div *ngIf="state.error">
-      <!-- TODO: implement error state -->
+    <div *ngIf="state.error" class="error">
+      <!-- TODO: display better error message -->
+      <button mat-button (click)="fetchAirportList()">Retry</button>
     </div>
 
     <div *ngIf="state.data">
-      <div *ngFor="let flight of booking.flights">
+      <!-- TODO: sort flights by date -->
+      <div *ngFor="let flight of booking.flights | sortBy:'asc':'departTime'">
         <app-flight-info 
           [flight]="flight"
           [departAirport]="getAirport(state.data, flight.flightDetails.departCityId)"
