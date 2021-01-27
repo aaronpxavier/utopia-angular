@@ -18,7 +18,7 @@ export class FlightResultsOptionsComponent implements OnInit {
   @Output() buttonClickEvent: EventEmitter<null> = new EventEmitter<null>();
   @Input() showButton = false;
   @Input() isReturn = false;
-  buttonText = this.setButtonText();
+
 
   ngOnInit(): void {
   }

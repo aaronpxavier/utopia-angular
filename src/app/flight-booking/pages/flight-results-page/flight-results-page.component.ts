@@ -28,7 +28,7 @@ export class FlightResultsPageComponent implements OnInit {
   selectedReturnFlight: Flight | undefined;
   tripType: TripType;
   constructor(
-    private flightService: FlightsService,
+    public flightService: FlightsService,
     private toolbarService: ToolbarService) {
   }
 

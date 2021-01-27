@@ -1,5 +1,5 @@
 
-<h2 style="padding: 0px; margin: 0 auto;">Departing Flight Selected</h2>
+<h2 style="padding: 0; margin: 0 auto;">Departing Flight Selected</h2>
 <div fxLayout="row" fxLayoutAlign="space-between">
   <div class="flt-results-box-text-margin">Flt: {{flight.getLegs()[0].flightNumber}}</div>
   <div *ngIf="flight.getNumLegs() === 2; then depFltNums"></div>

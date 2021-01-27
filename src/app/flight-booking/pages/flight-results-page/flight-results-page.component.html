@@ -9,7 +9,7 @@
           (flightResultsSelectChange)="sortParamSelected($event)"
           (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)"
           (buttonClickEvent)="departReturnToggle()" [isReturn]="showReturnFlights"
-          [showButton]="selectedDepartureFlight !== undefined">
+          [showButton]="this.flightService.isRoundTrip && selectedDepartureFlight !== undefined">
         </app-flight-results-options>
         <mat-spinner *ngIf="isPending" fxLayout="row" class="flt-results-spinner"></mat-spinner>
         <mat-selection-list *ngIf="!isPending" fxFlex="80"  role="list" class="flt-results-list">
@@ -18,7 +18,6 @@
                                     style="width: 100%; height: 100%"
                                     [flight]="flight"
                                     [isSelected]="resultItemIsSelected(resultItemComponent)">
-
             </app-flight-result-item>
           </mat-list-item>
         </mat-selection-list>
@@ -35,6 +34,7 @@
     <app-flight-booking-info-box
       [departingFlight]="selectedDepartureFlight"
       [returnFlight]="selectedReturnFlight"
+      [tripType]="tripType"
       *ngIf="selectedDepartureFlight !== undefined"></app-flight-booking-info-box>
   </div>
 </div>
