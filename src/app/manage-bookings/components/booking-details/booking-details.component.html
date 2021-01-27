@@ -1,0 +1,67 @@
+<div class="container" *ngIf="booking">
+
+  <!-- Travelers Info -->
+  <div class="row">
+    <div class="half-width">
+      <div class="row">
+        <div><mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2></div>
+        <div class="spacer"></div>
+        <button mat-icon-button matTooltip="Add traveler" color="primary" (click)="onAddTraveler()"><mat-icon>group_add</mat-icon></button>
+      </div>
+      <mat-accordion>
+        <!-- TODO: reset expanded index when selected booking changes -->
+        <mat-expansion-panel
+          *ngFor="let traveler of booking.travelers; let i = index"
+          [expanded]="expandedIndex === i"
+          (opened)="expandedIndex = i"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ traveler.name }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-traveler-info [traveler]="traveler"></app-traveler-info>
+          <mat-action-row>
+            <button mat-icon-button matTooltip="Edit" (click)="onEditTraveler(traveler)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="warn" matTooltip="Delete" (click)="onDeleteTraveler(traveler.travelerId)"><mat-icon>delete</mat-icon></button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="half-width">
+      <app-payment-info [booking]="booking" (deleteBooking)="onDeleteBooking()"></app-payment-info>
+    </div>
+  </div>
+
+  <!-- Flights Info -->
+  <div *ngIf="airports$ | async as state" class="margin-top">
+
+    <mat-icon>flight</mat-icon>
+    <h2 class="inline">Flights</h2>
+    
+    <!-- Loading Spinner -->
+    <div class="center-content" *ngIf="!state.data && !state.error">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="state.error" class="error">
+      <!-- TODO: display better error message -->
+      <button mat-button (click)="fetchAirportList()">Retry</button>
+    </div>
+
+    <div *ngIf="state.data">
+      <!-- TODO: sort flights by date -->
+      <div *ngFor="let flight of booking.flights | sortBy:'asc':'departTime'">
+        <app-flight-info 
+          [flight]="flight"
+          [departAirport]="getAirport(state.data, flight.flightDetails.departCityId)"
+          [arriveAirport]="getAirport(state.data, flight.flightDetails.arriveCityId)"
+        >
+        </app-flight-info>
+      </div>
+    </div>
+  </div>
+</div>

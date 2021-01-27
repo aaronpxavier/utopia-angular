@@ -1,0 +1,18 @@
+.inline {
+  display: inline;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.top-border {
+  border-top-color: rgba(255, 255, 255, 0.12);
+  border-top-width: 1px;
+  border-top-style: solid;
+}
