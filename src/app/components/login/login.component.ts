@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       this.isPending = false;
       this.showForm = false;
       this.showLoginMsg = true;
-      this.router.navigate(['../booking/flight']);
+      this.router.navigate(['booking/flight']);
     },
     (err: Error) => {
       this.isPending = false;
