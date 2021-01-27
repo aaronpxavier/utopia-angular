@@ -1,3 +1,17 @@
-<div class="flt-results-info-box">
-  <h1 class="flt-results-title flt-results-text-accent">Flight Booking Info</h1>
-</div>
+
+<mat-card class="flt-results-info-card">
+  <mat-card-title class="flt-results-info-title flt-results-text-accent">Flight Booking Info</mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content fxLayout="column">
+    <app-flight-booking-info-box-details [flight]="departingFlight"></app-flight-booking-info-box-details>
+    <app-flight-booking-info-box-details *ngIf="returnFlight" [flight]="returnFlight"></app-flight-booking-info-box-details>
+    <div>Total Price: {{calculatePrice()}}</div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent">Book Flight</button>
+  </mat-card-actions>
+</mat-card>
+
+
+
+

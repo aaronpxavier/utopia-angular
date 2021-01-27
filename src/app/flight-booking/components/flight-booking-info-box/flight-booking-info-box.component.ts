@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {Flight} from '../../models/flight';
 
 @Component({
@@ -11,8 +11,23 @@ export class FlightBookingInfoBoxComponent implements OnInit {
   constructor() { }
 
   @Input() departingFlight: Flight;
+  @Input() returnFlight: Flight;
+  @Output() bookFlightButtonClick: Flight;
+  currentState = 'Select Departure';
 
   ngOnInit(): void {
+  }
+
+  calculatePrice(): number {
+    let sum = 0;
+    if(this.departingFlight) {
+      const departLegs = this.departingFlight.getLegs();
+      sum += departLegs.length === 2 ? departLegs[1].price + departLegs[0].price : departLegs[0].price;
+    } else if (this.returnFlight) {
+      const returnLegs = this.returnFlight.getLegs();
+      sum += returnLegs.length === 2 ? returnLegs[1].price + returnLegs[0].price : returnLegs[0].price;
+    }
+    return sum;
   }
 
 }
