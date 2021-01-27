@@ -1,20 +1,32 @@
-<form [formGroup]="dateForm">
+<form [formGroup]="form">
 
 <mat-grid-list cols="7" rowHeight="1:1" class="container">
 
   <!-- Origin Airport Button -->
   <mat-grid-tile colspan="2">
     <button mat-button class="button full" (click)="openOriginModal()">
-      <div class="large-font">{{ originAirport.iataIdent }}</div>
-      <div class="airport-description">{{originAirport.city}}</div>
+      <ng-container *ngIf="originAirport.value; else default_origin">
+        <div class="large-font">{{ originAirport.value.iataIdent }}</div>
+        <div class="airport-description">{{originAirport.value.city}}</div>
+      </ng-container>
+      <ng-template #default_origin>
+        <div class="large-font">{{ defaultOriginAirport.iataIdent }}</div>
+        <div class="airport-description">{{defaultOriginAirport.city}}</div>
+      </ng-template>
     </button>
   </mat-grid-tile>
 
   <!-- Destination Airport Button -->
   <mat-grid-tile colspan="2">
     <button mat-button class="button full" (click)="openDestinationModal()">
-      <div class="large-font">{{ destinationAirport.iataIdent }}</div>
-      <div class="airport-description">{{destinationAirport.city}}</div>
+      <ng-container *ngIf="destinationAirport.value; else default_destination">
+        <div class="large-font">{{ destinationAirport.value.iataIdent }}</div>
+        <div class="airport-description">{{destinationAirport.value.city}}</div>
+      </ng-container>
+      <ng-template #default_destination>
+        <div class="large-font">{{ defaultDestinationAirport.iataIdent }}</div>
+        <div class="airport-description">{{defaultDestinationAirport.city}}</div>
+      </ng-template>
     </button>
   </mat-grid-tile>
 
@@ -89,7 +101,7 @@
 
   <!-- Search Button -->
   <mat-grid-tile colspan="1">
-    <button mat-mini-fab (click)="onFlightSearch()" [routerLink]="'results'" [disabled]="dateForm.invalid" type="button">
+    <button mat-mini-fab (click)="onFlightSearch()" [routerLink]="'results'" [disabled]="form.invalid" type="button">
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </mat-grid-tile>
