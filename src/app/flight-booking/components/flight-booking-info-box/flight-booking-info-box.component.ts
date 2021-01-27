@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Flight} from '../../models/flight';
 import {TripType} from '../../models/types';
 
@@ -14,7 +14,7 @@ export class FlightBookingInfoBoxComponent implements OnInit {
   @Input() departingFlight: Flight;
   @Input() returnFlight: Flight;
   @Input() tripType: TripType;
-  @Output() bookFlightButtonClick: Flight;
+  @Output() bookFlightButtonClick = new EventEmitter<null>();
   currentState = 'Select Departure';
 
   ngOnInit(): void {
