@@ -1,4 +1,4 @@
-import { EventService } from '../../services/event.service';
+import { AirportSelectionService } from '../../services/airport-selection.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AirportSearchService } from '../../services/airport-search.service';
@@ -19,14 +19,17 @@ export class AirportSearchModalComponent implements OnInit {
 
   searchForm = new FormControl('');
 
-  constructor(private dialogRef: MatDialogRef<AirportSearchModalComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: { airport: Airport, airportType: AirportType },
-              private service: AirportSearchService, private eventService: EventService) {
+  constructor(
+    private dialogRef: MatDialogRef<AirportSearchModalComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { airport: Airport, airportType: AirportType },
+    private service: AirportSearchService,
+    private airportSelectionService: AirportSelectionService
+  ) {
       this.airportType = this.data.airportType;
     }
 
   ngOnInit(): void {
-    this.eventService.airportSelectedListener().subscribe(event => {
+    this.airportSelectionService.airportSelectedListener().subscribe(event => {
       this.dialogRef.close();
     });
   }

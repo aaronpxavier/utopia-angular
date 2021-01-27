@@ -1,5 +1,5 @@
 import { AirportType } from '../../models/types';
-import { EventService } from '../../services/event.service';
+import { AirportSelectionService } from '../../services/airport-selection.service';
 import { Airport } from '../../models/types';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -15,13 +15,13 @@ export class AirportTableComponent implements OnInit {
   @Input() airportType = AirportType.ORIGIN;
   @Output() airportSelected = new EventEmitter<Airport>();
 
-  constructor(private eventService: EventService) { }
+  constructor(private airportSelectionService: AirportSelectionService) { }
 
   ngOnInit(): void {
   }
 
   onRowClick(airport: Airport): void {
-    this.eventService.emitAirportSelected(airport, this.airportType);
+    this.airportSelectionService.emitAirportSelected(airport, this.airportType);
   }
 
 }

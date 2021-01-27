@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ToolbarService} from 'src/app/shared/services/toolbar.service';
 import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
-import {EventService} from '../../services/event.service';
+import {AirportSelectionService} from '../../services/airport-selection.service';
 import {Airport, AirportType, TripType} from '../../models/types';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
@@ -29,7 +29,7 @@ export class FlightSearchComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private eventService: EventService,
+    private airportSelectionService: AirportSelectionService,
     private toolbarService: ToolbarService,
     private fb: FormBuilder,
     private flightService: FlightsService
@@ -42,7 +42,7 @@ export class FlightSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.toolbarService.emitRouteChangeEvent('Flight Search');
-    this.eventService.airportSelectedListener().subscribe(data => {
+    this.airportSelectionService.airportSelectedListener().subscribe(data => {
       if (data.airportType === AirportType.ORIGIN) {
         this.originAirport = data.airport;
       } else if (data.airportType === AirportType.DESTINATION) {

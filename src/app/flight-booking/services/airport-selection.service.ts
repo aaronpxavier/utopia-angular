@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class AirportSelectionService {
   airportSelected = new EventEmitter<{ airport: Airport, airportType: AirportType }>();
 
   emitAirportSelected(airport: Airport, airportType: AirportType): void {
