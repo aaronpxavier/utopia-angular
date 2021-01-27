@@ -31,7 +31,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/variables.scss",
+              "src/styles.scss",
+              "src/styles/flight-results.scss"
             ],
             "scripts": []
           },

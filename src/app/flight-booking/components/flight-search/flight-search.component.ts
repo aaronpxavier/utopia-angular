@@ -1,6 +1,6 @@
 import {FlightRequest, FlightsService} from '../../services/flights.service';
 import {Component, Input, OnInit} from '@angular/core';
-import {MatDialog,} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {ToolbarService} from 'src/app/shared/services/toolbar.service';
 import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
 import {EventService} from '../../services/event.service';
@@ -103,10 +103,12 @@ export class FlightSearchComponent implements OnInit {
       returnDate: dates.returnDate
     };
 
-    this.flightService.getDepFlights(flightRequest);
+    this.flightService.setFlightRequest(flightRequest);
+
     if (flightRequest.tripType === TripType.ROUND_TRIP) {
       this.flightService.setIsRoundTrip(true);
-      this.flightService.getReturnFlts();
+    } else if (flightRequest.tripType === TripType.ONE_WAY) {
+      this.flightService.setIsRoundTrip(false);
     }
   }
 }
