@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
               private route: ActivatedRoute,
               public router: Router,
               public fb: FormBuilder) {
-              this.token = this.route.snapshot.paramMap.get('token');
     }
 
   ngOnInit(): void {

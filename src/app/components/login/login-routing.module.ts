@@ -4,7 +4,7 @@ import {FlightSearchPageComponent} from '../../flight-booking/pages/flight-searc
 
 const routes: Routes = [
   {
-  path: '../booking/flight',
+  path: '/booking/flight',
   pathMatch: 'full',
   component: FlightSearchPageComponent
   }
