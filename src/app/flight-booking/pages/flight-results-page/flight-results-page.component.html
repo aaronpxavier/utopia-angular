@@ -5,12 +5,21 @@
         <div fxLayout="row" fxFlex="100">
           <h1 class="flt-results-title flt-results-text-accent">Select {{showReturnFlights ? 'Return FLights' : 'Departing Flights'}}</h1>
         </div>
-        <app-flight-results-options (flightResultsSelectChange)="sortParamSelected($event)" (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)">
+        <app-flight-results-options
+          (flightResultsSelectChange)="sortParamSelected($event)"
+          (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)"
+          (buttonClickEvent)="departReturnToggle()" [isReturn]="showReturnFlights"
+          [showButton]="selectedDepartureFlight !== undefined">
         </app-flight-results-options>
         <mat-spinner *ngIf="isPending" fxLayout="row" class="flt-results-spinner"></mat-spinner>
         <mat-selection-list *ngIf="!isPending" fxFlex="80"  role="list" class="flt-results-list">
           <mat-list-item style="height: 100%;" role="listitem" (click)="selectFlight(flight, resultItemComponent)" *ngFor="let flight of flightsToShow">
-            <app-flight-result-item fxFlex="100" #resultItemComponent style="width: 100%; height: 100%" [flight]="flight"></app-flight-result-item>
+            <app-flight-result-item fxFlex="100" #resultItemComponent
+                                    style="width: 100%; height: 100%"
+                                    [flight]="flight"
+                                    [isSelected]="resultItemIsSelected(resultItemComponent)">
+
+            </app-flight-result-item>
           </mat-list-item>
         </mat-selection-list>
       </div>
@@ -23,7 +32,10 @@
     </mat-paginator>
   </div>
   <div fxLayout="column" class="flt-results-info-column">
-    <app-flight-booking-info-box [departingFlight]="selectedDepartureFlight" *ngIf="selectedResultItem !== undefined"></app-flight-booking-info-box>
+    <app-flight-booking-info-box
+      [departingFlight]="selectedDepartureFlight"
+      [returnFlight]="selectedReturnFlight"
+      *ngIf="selectedDepartureFlight !== undefined"></app-flight-booking-info-box>
   </div>
 </div>
 
