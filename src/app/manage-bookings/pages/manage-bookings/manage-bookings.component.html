@@ -23,21 +23,30 @@
   
         <!-- Active Bookings Tab Content -->
         <mat-action-list class="list-container" *ngIf="state.data">
-          <button mat-list-item *ngFor="let booking of state.data.active" (click)="onBookingClick(booking)" [ngClass]="{
-            'selected-booking': booking === selectedBooking
-          }" matTooltip="View Details" matTooltipPosition="after">
-            <div matLine *ngFor="let flight of booking.flights" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10%">
-              <span>UA-{{ flight.flightDetails.flightNumber }}</span>
-              <span>
-                {{ flight.flightDetails.departCityId }} to 
-                {{ flight.flightDetails.arriveCityId }}
-              </span>
-              <span>
-                {{ flight.departTime | date:'MMM d, hh:mm a' }}
-              </span>
-            </div>
-            <mat-divider></mat-divider>
-          </button>
+          <div fxLayout="row" *ngFor="let booking of state.data.active">
+            <button mat-list-item (click)="onBookingClick(booking)" [ngClass]="{
+              'selected-booking': booking === selectedBooking
+            }" matTooltip="View Details" matTooltipPosition="after">
+              <div matLine *ngFor="let flight of booking.flights" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10%">
+                <span>UA-{{ flight.flightDetails.flightNumber }}</span>
+                <span>
+                  {{ flight.flightDetails.departCityId }} to 
+                  {{ flight.flightDetails.arriveCityId }}
+                </span>
+                <span>
+                  {{ flight.departTime | date:'MMM d, hh:mm a' }}
+                </span>
+              </div>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              matTooltip="Delete Booking"
+              (click)="onDeleteBooking(booking)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-action-list>
       </mat-tab>
   
@@ -57,7 +66,6 @@
                 {{ flight.departTime | date:'MMM d, hh:mm a' }}
               </span>
             </div>
-            <mat-divider></mat-divider>
           </button>
         </mat-action-list>
       </mat-tab>

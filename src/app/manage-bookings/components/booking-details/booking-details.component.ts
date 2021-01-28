@@ -53,20 +53,6 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
     return airports.find(airport => airport.iataIdent === id);
   }
 
-  onDeleteBooking(): void {
-    this.bookingService.deleteBooking(this.booking.bookingId).subscribe((bookingDeleted: Response<boolean>) => {
-      if (bookingDeleted.data) {
-        this.snackBar.open('Booking deleted successfully.', 'Close', {
-          duration: 3000
-        });
-      } else if (bookingDeleted.error) {
-        this.snackBar.open(bookingDeleted.error, 'Close', {
-          duration: 3000
-        });
-      }
-    });
-  }
-
   onEditTraveler(traveler: TravelerModel): void {
     this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
