@@ -1,0 +1,34 @@
+.container {
+  height: calc(100% - 64px);
+  padding: 30px;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+}
+
+.inline {
+  display: inline;
+}
+
+.row {
+  display: flex;
+}
+
+.half-width {
+  width: 45%;
+  margin-right: 5%;
+}
+
+.margin-top {
+  margin-top: 30px;
+}
+
+.error {
+  color: red;
+}
+
+.spacer {
+  flex-grow: 1;
+}

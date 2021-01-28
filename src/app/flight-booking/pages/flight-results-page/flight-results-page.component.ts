@@ -4,9 +4,7 @@ import {Flight} from '../../models/flight';
 import {TripType} from '../../models/types';
 import {FlightResultItemComponent} from '../../components/flight-result-item/flight-result-item.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSelectChange} from '@angular/material/select';
 import {durationComparator, priceComparator, stopsComparator} from '../../models/flt-results-sort-comparators';
-import {MatCheckboxChange} from '@angular/material/checkbox';
 import {FLT_RESULTS_REQ_KEY, SHOW_RETURN_FLTS} from '../../constants/session-keys';
 import {ToolbarService} from '../../../shared/services/toolbar.service';
 import {FlightResultsCheckboxEvent, FlightResultsSelectEvent} from '../../models/flight-results-checkbox-event';
@@ -15,6 +13,7 @@ import {FlightResultsCheckboxEvent, FlightResultsSelectEvent} from '../../models
   templateUrl: './flight-results-page.component.html',
   styleUrls: ['./flight-results-page.component.scss']
 })
+
 export class FlightResultsPageComponent implements OnInit {
   departureFlights: Flight[];
   returnFlights: Flight[];
@@ -25,12 +24,11 @@ export class FlightResultsPageComponent implements OnInit {
   currentStartIndex = 0;
   isPending = true;
   currentEndIndex = this.defaultMaxPageResults;
-  selectedResultItem: FlightResultItemComponent | undefined;
   selectedDepartureFlight: Flight | undefined;
   selectedReturnFlight: Flight | undefined;
   tripType: TripType;
   constructor(
-    private flightService: FlightsService,
+    public flightService: FlightsService,
     private toolbarService: ToolbarService) {
   }
 
@@ -57,7 +55,7 @@ export class FlightResultsPageComponent implements OnInit {
       });
     }
     // @ts-ignore
-    window.onhashchange(this.resetFlightsArray());
+    window.onhashchange = this.resetFlightsArray();
   }
 
   private resetFlightsArray(): void {
@@ -94,12 +92,8 @@ export class FlightResultsPageComponent implements OnInit {
     }
   }
 
-  selectFlight(flight: Flight, flightResult: FlightResultItemComponent): void {
-    if (this.selectedResultItem) {
-      this.selectedResultItem.isSelected = false;
-    }
-    flightResult.isSelected = true;
-    this.selectedResultItem = flightResult;
+  selectFlight(flight: Flight, flightResultItemComponent: FlightResultItemComponent): void {
+    flightResultItemComponent.isSelected = true;
     if (this.showReturnFlights) {
       this.selectedReturnFlight = flight;
     } else {
@@ -149,18 +143,37 @@ export class FlightResultsPageComponent implements OnInit {
   }
 
   sortParamSelected(event: FlightResultsSelectEvent): void {
+    const flights = this.showReturnFlights ? this.returnFlights : this.departureFlights;
     switch (parseInt(event.matSelectChange.value, 10)) {
       case 1:
-        this.departureFlights.sort(durationComparator);
+        flights.sort(durationComparator);
         break;
       case 2:
-        this.departureFlights.sort(priceComparator);
+        flights.sort(priceComparator);
         break;
       case 3:
-        this.departureFlights.sort(stopsComparator);
+        flights.sort(stopsComparator);
     }
     this.loadFltsToShow(this.currentStartIndex, this.currentEndIndex);
     console.log(event);
+  }
+
+  departReturnToggle(): void {
+    this.showReturnFlights = !this.showReturnFlights;
+    if (this.returnFlights.length === 0) {
+      this.isPending = true;
+      this.flightService.getReturnFlts();
+    }
+    this.loadFltsToShow(0, this.defaultMaxPageResults);
+    sessionStorage.setItem(SHOW_RETURN_FLTS, this.showReturnFlights ? '1' : '0');
+  }
+
+  resultItemIsSelected(resultComponent: FlightResultItemComponent): boolean {
+    const selected = this.showReturnFlights ? this.selectedReturnFlight : this.selectedDepartureFlight;
+    if (selected) {
+      return selected === resultComponent.flight ? true : false;
+    }
+    return false;
   }
 
 }
