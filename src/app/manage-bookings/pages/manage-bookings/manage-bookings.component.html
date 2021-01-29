@@ -2,7 +2,7 @@
 
   <!-- Side Content -->
   <mat-sidenav mode="side" opened>
-    <mat-tab-group *ngIf="bookings$ | async as state" mat-align-tabs="center" class="nav-content" (selectedIndexChange)="onTabChange($event)">
+    <mat-tab-group *ngIf="bookings$ | async as state" mat-align-tabs="center" class="nav-content" (selectedIndexChange)="onTabChange(state)">
       <mat-tab label="Active Bookings">
   
         <!-- Loading booking data -->
@@ -75,6 +75,6 @@
 
   <!-- Booking Details Main View -->
   <mat-sidenav-content>
-    <app-booking-details [booking]="selectedBooking" *ngIf="selectedBooking"></app-booking-details>
+    <app-booking-details [isHistory]="onHistoryTab()" [booking]="selectedBooking" *ngIf="selectedBooking"></app-booking-details>
   </mat-sidenav-content>
 </mat-sidenav-container>

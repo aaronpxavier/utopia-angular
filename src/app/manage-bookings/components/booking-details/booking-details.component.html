@@ -6,7 +6,7 @@
       <div class="row">
         <div><mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2></div>
         <div class="spacer"></div>
-        <button mat-icon-button matTooltip="Add traveler" color="primary" (click)="onAddTraveler()"><mat-icon>group_add</mat-icon></button>
+        <button *ngIf="!isHistory" mat-icon-button matTooltip="Add traveler" color="primary" (click)="onAddTraveler()"><mat-icon>group_add</mat-icon></button>
       </div>
       <mat-accordion>
         <!-- TODO: reset expanded index when selected booking changes -->
@@ -21,7 +21,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-traveler-info [traveler]="traveler"></app-traveler-info>
-          <mat-action-row>
+          <mat-action-row *ngIf="!isHistory">
             <button mat-icon-button matTooltip="Edit" (click)="onEditTraveler(traveler)"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button color="warn" matTooltip="Delete" (click)="onDeleteTraveler(traveler.travelerId)"><mat-icon>delete</mat-icon></button>
           </mat-action-row>

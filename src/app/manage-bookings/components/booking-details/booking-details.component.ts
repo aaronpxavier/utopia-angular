@@ -6,8 +6,6 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from 'src/app/shared/models/api-response-types';
 import { AirportModel } from 'src/app/shared/models/types';
-import { BookingService } from 'src/app/services/booking.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTravelerModalComponent } from '../edit-traveler-modal/edit-traveler-modal.component';
 import { ActionModalData, ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
@@ -20,14 +18,13 @@ import { ActionModalData, ConfirmActionModalComponent } from '../confirm-action-
 export class BookingDetailsComponent implements OnInit, OnChanges {
 
   @Input() booking: BookingModel;
+  @Input() isHistory: boolean;
   expandedIndex = 0;
   airports$: Observable<Response<AirportModel[]>>;
 
   constructor(
     private airportService: AirportService,
-    private bookingService: BookingService,
     private travelerService: TravelerService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) { }
 
@@ -52,7 +49,6 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
   getAirport(airports: AirportModel[], id: string): AirportModel {
     return airports.find(airport => airport.iataIdent === id);
   }
-
 
   onEditTraveler(traveler: TravelerModel): void {
     const editTravelerDialog = this.dialog.open(EditTravelerModalComponent, {

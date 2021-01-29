@@ -36,11 +36,10 @@ export class ConfirmActionModalComponent implements OnInit {
   }
 
   performAction(): void {
-    this.loading = true;
     this.modalData.action$.subscribe((response: Response<any>) => {
+      this.loading = !response.data && !response.error;
       if (response.data) {
         this.dialogRef.close(response.data);
-        this.loading = false;
         this.snackBar.open(this.modalData.successMessage, 'Close', { duration: 3000 });
       } else if (response.error) {
         this.snackBar.open(this.modalData.failureMessage, 'Close', { duration: 3000 });

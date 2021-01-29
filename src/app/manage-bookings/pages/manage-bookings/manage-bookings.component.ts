@@ -38,17 +38,22 @@ export class ManageBookingsComponent implements OnInit {
     this.fetchBookingsAndSelectFirst();
   }
 
+  onHistoryTab(): boolean {
+    return this.selectedTab === Tab.HISTORY;
+  }
+
   fetchBookingsAndSelectFirst(): void {
     this.bookings$ = this.bookingService.getBookingsForUser()
       .pipe(tap(this.selectFirstBooking));
   }
 
   private selectFirstBooking = ({ data: bookings, error }: Response<Bookings>): void => {
-    if (bookings && bookings[Tab.ACTIVE].length > 0) {
-      this.selectedBooking = bookings[Tab.ACTIVE][0];
+    if (bookings && bookings[this.selectedTab].length > 0) {
+      this.selectedBooking = bookings[this.selectedTab][0];
     } else if (bookings) {
       // TODO: Display message to user that they have no bookings
       console.error('You have no bookings');
+      this.selectedBooking = null;
     } else if (error) {
       console.error(error);
     }
@@ -58,8 +63,9 @@ export class ManageBookingsComponent implements OnInit {
     this.selectedBooking = booking;
   }
 
-  onTabChange(index: number): void {
+  onTabChange(bookings: Response<Bookings>): void {
     this.selectedTab = this.selectedTab === Tab.ACTIVE ? Tab.HISTORY : Tab.ACTIVE;
+    this.selectFirstBooking(bookings);
   }
 
   onDeleteBooking(booking: BookingModel): void {
@@ -78,7 +84,7 @@ export class ManageBookingsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(bookingDeleted => {
       if (bookingDeleted) {
-        this.bookings$ = this.bookingService.getBookingsForUser();
+        this.fetchBookingsAndSelectFirst();
       }
     });
   }
