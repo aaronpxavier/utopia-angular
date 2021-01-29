@@ -6,11 +6,11 @@
         </div>
       </div>
       <div class="flt-results-middle-column" fxLayout="column" style="padding-left: 5px; padding-right: 5px" fxFlex="90" fxFlex.gt-md="95" fxFlex.gt-lg="96" fxFlex.gt-sm="93" fxFlex.gt-xs="89">
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <div >
+        <div class="flt-results-item-row" fxLayout="row" fxLayoutAlign="space-between">
+          <div class="flt-results-item-top" >
             Flt: {{flight.getLegs()[0].flightNumber}}
           </div>
-            <button mat-icon-button (click)="openDialog()">
+            <button color="warn" class="flt-results-item-dialog-btn" mat-icon-button (click)="openDialog()">
               <mat-icon>more_horiz</mat-icon>
           </button>
         </div>
@@ -19,20 +19,20 @@
             {{flight.getLegs()[0]?.departTime | date: 'HH:mm'}}
           </div>
           <div class="flt-results-middle">
-            <p>{{flight.getNumLegs() === 1 ? 'Non Stop Flight' : flight.getNumLegs() - 1 + ' stop'}}</p>
+            {{flight.getNumLegs() === 1 ? 'Non Stop Flight' : flight.getNumLegs() - 1 + ' stop'}}
           </div>
           <div class="flt-results-middle-row">
             {{(flight.getNumLegs() === 2 ? flight.getLegs()[1]?.arrivalTime : flight.getLegs()[0]?.arrivalTime) | date: 'HH:mm'}}
           </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <div class="flt-results-city-ident">
+        <div class="flt-results-item-row" fxLayout="row" fxLayoutAlign="space-between">
+          <div class="flt-results-city-ident flt-results-item-bottom">
             {{flight.getLegs()[0]?.flightDetails.departCityId}}
           </div>
-          <div>
+          <div class="flt-results-item-bottom">
             Price: {{flight.getPrice() | currency}}
           </div>
-          <div class="flt-results-city-ident">
+          <div class="flt-results-city-ident flt-results-item-bottom">
             {{flight.getNumLegs() > 1 ? flight.getLegs()[flight.getLegs().length-1]?.flightDetails.arriveCityId : flight.getLegs()[0]?.flightDetails.arriveCityId}}
           </div>
         </div>

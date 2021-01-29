@@ -56,6 +56,8 @@ h1.flt-results-title {
 .flt-results-middle {
   padding: 0;
   margin: 0;
+  margin-top: auto;
+  margin-bottom: auto;
   font-size: 1em;
 }
 
@@ -112,5 +114,25 @@ h1.flt-results-title {
   text-align: center;
 }
 
+.flt-results-item-top {
+  margin-top: auto;
+  margin-bottom: 0;
+  //margin: 0;
+  //height: 20px !important;
+}
+
+.flt-results-item-bottom{
+  margin-bottom: auto;
+  margin-top: 0;
+}
+
+.flt-results-item-dialog-btn {
+  margin-bottom: 0;
+  //height: 30px !important;
+}
+
+.flt-results-item-row {
+  height: 35px;
+}
 
 

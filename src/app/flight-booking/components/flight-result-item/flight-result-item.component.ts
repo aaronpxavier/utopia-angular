@@ -20,7 +20,10 @@ export class FlightResultItemComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(FlightDetailsComponent, {
-      data: this.flight
+      data: {
+        leg1: this.flight.getLegs()[0],
+        leg2: this.flight.getNumLegs() === 2 && this.flight.getLegs()[1]
+      }
 
     });
   }
