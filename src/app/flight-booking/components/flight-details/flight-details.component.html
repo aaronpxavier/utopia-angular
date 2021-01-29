@@ -9,8 +9,9 @@
       <p>Arrival: {{data[i].flightDetails.arriveCityId}}
           {{data[i].arrivalTime | date:'EEEE, MMMM d HH:MM' }}</p>
       <p>Seats Available: {{data[i].seatsAvailable}}</p>
-      <p>Price: ${{data[i].price}}</p>
+      <p>Price: {{data[i].price | currency}}</p>
     </div>
     </ng-container>
+    <div>Total Price: {{calculatePrice() | currency}}</div>
   </mat-card-content>
 </mat-card>
