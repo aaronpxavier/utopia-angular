@@ -10,6 +10,9 @@
           <div >
             Flt: {{flight.getLegs()[0].flightNumber}}
           </div>
+            <button mat-icon-button (click)="openDialog()">
+              <mat-icon>more_horiz</mat-icon>
+          </button>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between">
           <div class="flt-results-middle-row">

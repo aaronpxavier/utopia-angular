@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {Flight} from '../../models/flight';
+import { FlightDetailsComponent } from '../flight-details/flight-details.component';
+
 
 @Component({
   selector: 'app-flight-result-item',
@@ -10,12 +13,17 @@ export class FlightResultItemComponent implements OnInit {
 
   @Input() flight: Flight;
   @Input() isSelected = false;
-  constructor() { }
+  constructor(public dialog: MatDialog ) { }
 
   ngOnInit(): void {
   }
 
+  openDialog(): void {
+    this.dialog.open(FlightDetailsComponent, {
+      data: this.flight
 
+    });
+  }
 
 
 }
