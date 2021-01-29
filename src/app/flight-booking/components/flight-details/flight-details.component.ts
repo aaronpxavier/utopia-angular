@@ -1,8 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AirportModel } from 'src/app/shared/models/types';
-import { Flight, FlightModel } from '../../models/flight';
-import {TripType} from '../../models/types';
+import { FlightModel } from '../../models/flight';
 
 @Component({
   selector: 'app-flight-details',
@@ -11,9 +9,6 @@ import {TripType} from '../../models/types';
 })
 export class FlightDetailsComponent implements OnInit {
 
-  @Input() departingFlight: Flight;
-  @Input() returnFlight: Flight;
-  @Input() tripType: TripType;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: FlightModel[]) {
    }

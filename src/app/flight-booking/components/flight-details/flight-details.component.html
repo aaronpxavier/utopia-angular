@@ -6,7 +6,7 @@
       <p class="tile">Flight Number: {{data[i].flightDetails.flightNumber}}
         <p>Departure: {{data[i].flightDetails.departCityId}}
           {{data[i].departTime | date:'EEEE, MMMM d HH:MM' }}</p>
-      <p>Arrival: {{data[i].flightDetails.arriveCityId}}
+        <p>Arrival: {{data[i].flightDetails.arriveCityId}}
           {{data[i].arrivalTime | date:'EEEE, MMMM d HH:MM' }}</p>
       <p>Seats Available: {{data[i].seatsAvailable}}</p>
       <p>Price: {{data[i].price | currency}}</p>
