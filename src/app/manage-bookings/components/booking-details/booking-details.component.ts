@@ -10,7 +10,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTravelerModalComponent } from '../edit-traveler-modal/edit-traveler-modal.component';
 import { ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
-import { SortByPipe } from 'src/app/pipes/sort.pipe';
 
 @Component({
   selector: 'app-booking-details',
@@ -53,44 +52,68 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
     return airports.find(airport => airport.iataIdent === id);
   }
 
-  onDeleteBooking(): void {
-    this.bookingService.deleteBooking(this.booking.bookingId).subscribe((bookingDeleted: Response<boolean>) => {
-      if (bookingDeleted.data) {
-        this.snackBar.open('Booking deleted successfully.', 'Close', {
-          duration: 3000
-        });
-      } else if (bookingDeleted.error) {
-        this.snackBar.open(bookingDeleted.error, 'Close', {
-          duration: 3000
-        });
+  private showSnackbarOnHttpResponse = (successMessage: string, observable$: Observable<any>) => {
+    const snackbarAction = 'Close';
+    observable$.subscribe((response: Response<any>) => {
+      if (response.data) {
+        this.snackBar.open(successMessage, snackbarAction, { duration: 3000 });
+      } else if (response.error) {
+        this.snackBar.open(response.error, snackbarAction, { duration: 3000 });
       }
     });
   }
 
+  onDeleteBooking(): void {
+    const delete$ = this.bookingService.deleteBooking(this.booking.bookingId);
+    this.showSnackbarOnHttpResponse('Booking deleted successfully', delete$);
+    //   .subscribe((bookingDeleted: Response<boolean>) => {
+    //   if (bookingDeleted.data) {
+    //     this.snackBar.open('Booking deleted successfully.', 'Close', {
+    //       duration: 3000
+    //     });
+    //   } else if (bookingDeleted.error) {
+    //     this.snackBar.open(bookingDeleted.error, 'Close', {
+    //       duration: 3000
+    //     });
+    //   }
+    // });
+  }
+
   onEditTraveler(traveler: TravelerModel): void {
-    this.dialog.open(EditTravelerModalComponent, {
+    const editTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
       data: {
-        traveler,
+        traveler: {...traveler},
         mode: 'edit',
         bookingId: this.booking.bookingId
+      }
+    });
+
+    editTravelerDialog.afterClosed().subscribe((updatedTraveler: TravelerModel) => {
+      if (updatedTraveler) {
+        this.booking.travelers = this.booking.travelers.map(oldTraveler => {
+          if (oldTraveler.travelerId === updatedTraveler.travelerId) {
+            return updatedTraveler;
+          }
+          return oldTraveler;
+        });
       }
     });
   }
 
   onAddTraveler(): void {
-    this.dialog.open(EditTravelerModalComponent, {
+    const addTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
       data: {
-        traveler: {
-          name: '',
-          address: '',
-          phone: '',
-          email: '',
-          dob: ''
-        },
+        traveler: { name: '', address: '', phone: '', email: '', dob: '' },
         mode: 'add',
         bookingId: this.booking.bookingId
+      }
+    });
+
+    addTravelerDialog.afterClosed().subscribe(traveler => {
+      if (traveler) {
+        this.booking.travelers.push(traveler);
       }
     });
   }

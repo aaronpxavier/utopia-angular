@@ -4,8 +4,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 @Component({
   selector: 'app-traveler-info',
   templateUrl: './traveler-info.component.html',
-  styleUrls: ['./traveler-info.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./traveler-info.component.scss']
 })
 export class TravelerInfoComponent implements OnInit {
 
