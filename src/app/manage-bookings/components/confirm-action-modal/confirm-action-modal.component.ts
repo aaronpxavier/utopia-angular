@@ -1,9 +1,15 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Response } from 'src/app/shared/models/api-response-types';
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
-interface ModalData {
+export interface ActionModalData {
   title: string;
-  message: string;
+  content: string;
+  action$: Observable<Response<any>>;
+  successMessage: string;
+  failureMessage: string;
 }
 
 @Component({
@@ -14,9 +20,12 @@ interface ModalData {
 })
 export class ConfirmActionModalComponent implements OnInit {
 
+  loading = false;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
-    private dialogRef: MatDialogRef<ConfirmActionModalComponent>
+    @Inject(MAT_DIALOG_DATA) public modalData: ActionModalData,
+    private dialogRef: MatDialogRef<ConfirmActionModalComponent>,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +33,19 @@ export class ConfirmActionModalComponent implements OnInit {
 
   onCancelClick(): void {
     this.dialogRef.close();
+  }
+
+  performAction(): void {
+    this.loading = true;
+    this.modalData.action$.subscribe((response: Response<any>) => {
+      if (response.data) {
+        this.dialogRef.close(response.data);
+        this.loading = false;
+        this.snackBar.open(this.modalData.successMessage, 'Close', { duration: 3000 });
+      } else if (response.error) {
+        this.snackBar.open(this.modalData.failureMessage, 'Close', { duration: 3000 });
+      }
+    });
   }
 
 }

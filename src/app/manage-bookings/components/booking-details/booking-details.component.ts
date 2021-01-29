@@ -1,3 +1,4 @@
+import { EditTravelerModalData } from './../edit-traveler-modal/edit-traveler-modal.component';
 import { TravelerService } from './../../../services/traveler.service';
 import { AirportService } from './../../../services/airport.service';
 import { BookingModel, TravelerModel } from './../../models/booking-types';
@@ -9,7 +10,7 @@ import { BookingService } from 'src/app/services/booking.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTravelerModalComponent } from '../edit-traveler-modal/edit-traveler-modal.component';
-import { ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
+import { ActionModalData, ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
 
 @Component({
   selector: 'app-booking-details',
@@ -52,38 +53,12 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
     return airports.find(airport => airport.iataIdent === id);
   }
 
-  private showSnackbarOnHttpResponse = (successMessage: string, observable$: Observable<any>) => {
-    const snackbarAction = 'Close';
-    observable$.subscribe((response: Response<any>) => {
-      if (response.data) {
-        this.snackBar.open(successMessage, snackbarAction, { duration: 3000 });
-      } else if (response.error) {
-        this.snackBar.open(response.error, snackbarAction, { duration: 3000 });
-      }
-    });
-  }
-
-  onDeleteBooking(): void {
-    const delete$ = this.bookingService.deleteBooking(this.booking.bookingId);
-    this.showSnackbarOnHttpResponse('Booking deleted successfully', delete$);
-    //   .subscribe((bookingDeleted: Response<boolean>) => {
-    //   if (bookingDeleted.data) {
-    //     this.snackBar.open('Booking deleted successfully.', 'Close', {
-    //       duration: 3000
-    //     });
-    //   } else if (bookingDeleted.error) {
-    //     this.snackBar.open(bookingDeleted.error, 'Close', {
-    //       duration: 3000
-    //     });
-    //   }
-    // });
-  }
 
   onEditTraveler(traveler: TravelerModel): void {
     const editTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
       data: {
-        traveler: {...traveler},
+        traveler: { ...traveler },
         mode: 'edit',
         bookingId: this.booking.bookingId
       }
@@ -102,13 +77,15 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
   }
 
   onAddTraveler(): void {
+    const modalData: EditTravelerModalData = {
+      traveler: { name: '', address: '', phone: '', email: '', dob: null },
+      mode: 'add',
+      bookingId: this.booking.bookingId
+    };
+
     const addTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
-      data: {
-        traveler: { name: '', address: '', phone: '', email: '', dob: '' },
-        mode: 'add',
-        bookingId: this.booking.bookingId
-      }
+      data: modalData
     });
 
     addTravelerDialog.afterClosed().subscribe(traveler => {
@@ -118,38 +95,29 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
     });
   }
 
-  deleteTraveler(travelerId: number): void {
-    this.travelerService.deleteTraveler(travelerId).subscribe((travelerDeleted: Response<boolean>) => {
-      if (travelerDeleted.data) {
-        this.snackBar.open('Traveler deleted successfully.', 'Close', {
-          duration: 3000
-        });
-      } else if (travelerDeleted.error) {
-        this.snackBar.open(travelerDeleted.error, 'Close', {
-          duration: 3000
-        });
-      }
-    });
-  }
-
   onDeleteTraveler(travelerId: number): void {
     const travelerCost = this.booking.flights
       .map(flight => flight.price)
       .reduce((total, price) => total + price);
 
+    const modalData: ActionModalData = {
+      title: 'Confirm Traveler Deletion',
+      content: `Are you sure you want to permanently delete this traveler?
+        Your card ending in 9999 will be refunded $${travelerCost}.`,
+      action$: this.travelerService.deleteTraveler(travelerId),
+      successMessage: 'Traveler deleted successfully.',
+      failureMessage: 'Failed to delete traveler. Please try again.'
+    };
     const dialogRef = this.dialog.open(ConfirmActionModalComponent, {
       width: '400px',
-      data: {
-        title: 'Confirm Traveler Deletion',
-        message: `Are you sure you want to permanently delete this traveler?
-        Your card ending in 9999 will be refunded $${travelerCost}.`
-      }
+      data: modalData
     });
 
     // TODO: prevent deletion of the last traveler (a booking cannot have 0 travelers)
-    dialogRef.afterClosed().subscribe(shouldDeleteTraveler => {
-      if (shouldDeleteTraveler) {
-        this.deleteTraveler(travelerId);
+    dialogRef.afterClosed().subscribe(updatedTraveler => {
+      if (updatedTraveler) {
+        this.booking.travelers = this.booking.travelers
+          .filter(traveler => traveler.travelerId !== travelerId);
       }
     });
   }

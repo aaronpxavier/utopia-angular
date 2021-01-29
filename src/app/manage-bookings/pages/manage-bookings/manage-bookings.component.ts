@@ -1,4 +1,4 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActionModalData } from './../../components/confirm-action-modal/confirm-action-modal.component';
 import { getBookingCost } from 'src/app/utility/bookingCost';
 import { Response } from 'src/app/shared/models/api-response-types';
 import { Component, OnInit } from '@angular/core';
@@ -30,8 +30,7 @@ export class ManageBookingsComponent implements OnInit {
   constructor(
     private toolbarService: ToolbarService,
     private bookingService: BookingService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -63,33 +62,23 @@ export class ManageBookingsComponent implements OnInit {
     this.selectedTab = this.selectedTab === Tab.ACTIVE ? Tab.HISTORY : Tab.ACTIVE;
   }
 
-  private deleteBooking(booking: BookingModel): void {
-    this.bookingService.deleteBooking(booking.bookingId).subscribe((bookingDeleted: Response<boolean>) => {
-      if (bookingDeleted.data) {
-        this.snackBar.open('Booking deleted successfully.', 'Close', {
-          duration: 3000
-        });
-      } else if (bookingDeleted.error) {
-        this.snackBar.open(bookingDeleted.error, 'Close', {
-          duration: 3000
-        });
-      }
-    });
-  }
-
   onDeleteBooking(booking: BookingModel): void {
+    const modalData: ActionModalData = {
+      title: 'Confirm Booking Cancellation',
+      content: `Are you sure you want to permanently delete this booking?
+        Your card ending in 9999 will be refunded $${getBookingCost(booking)}.`,
+      action$: this.bookingService.deleteBooking(booking.bookingId),
+      successMessage: 'Booking deleted successfully.',
+      failureMessage: 'Failed to delete booking. Please try again.'
+    };
     const dialogRef = this.dialog.open(ConfirmActionModalComponent, {
       width: '400px',
-      data: {
-        title: 'Confirm Booking Cancellation',
-        message: `Are you sure you want to permanently delete this booking?
-        Your card ending in 9999 will be refunded $${getBookingCost(booking)}.`
-      }
+      data: modalData
     });
 
-    dialogRef.afterClosed().subscribe(shouldDeleteBooking => {
-      if (shouldDeleteBooking) {
-        this.deleteBooking(booking);
+    dialogRef.afterClosed().subscribe(bookingDeleted => {
+      if (bookingDeleted) {
+        this.bookings$ = this.bookingService.getBookingsForUser();
       }
     });
   }

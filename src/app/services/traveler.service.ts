@@ -1,4 +1,4 @@
-import { TravelerModel } from './../manage-bookings/models/booking-types';
+import { TravelerModel, TravelerRequest } from './../manage-bookings/models/booking-types';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -28,7 +28,7 @@ export class TravelerService {
     return of({ data: null, error: 'Sorry! There was an error updating traveler. Please try again.' });
   }
 
-  updateTraveler(newTraveler: TravelerModel): Observable<Response<TravelerModel>> {
+  updateTraveler(newTraveler: TravelerRequest): Observable<Response<TravelerModel>> {
     return this.http.put<TravelerModel>(this.apiUrl + '/traveler', newTraveler)
       .pipe(
         map(traveler => ({ data: traveler, error: null })),
@@ -37,7 +37,7 @@ export class TravelerService {
       );
   }
 
-  addTraveler(newTraveler: TravelerModel, bookingId: number): Observable<Response<TravelerModel>> {
+  addTraveler(newTraveler: TravelerRequest, bookingId: number): Observable<Response<TravelerModel>> {
     return this.http.post<TravelerModel>(this.apiUrl + '/traveler/booking/' + bookingId, newTraveler)
       .pipe(
         map(traveler => ({ data: traveler, error: null })),
