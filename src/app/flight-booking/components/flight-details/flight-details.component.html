@@ -1,12 +1,26 @@
 <mat-card>
-  <mat-card-title><h1>Flight Detail</h1> </mat-card-title>
 
-   <mat-card-content>Flight Number: {{data.leg1.flightNumber}}
-     <p>Depart City Airport: {{data.leg1.departCityId}}</p>
-
-   </mat-card-content>
-
-
-
-
+  <mat-card-title><h1>Flight Details</h1> </mat-card-title>
+   <mat-card-content>
+    <div>
+      <p class="tile">Flight Number: {{data[0].flightDetails.flightNumber}}</p>
+      <p>Departure Airport: {{data[0].flightDetails.departCityId}}</p>
+      <p>Departure Time: {{data[0].departTime | date:'EEEE, MMMM d HH:MM' }}</p>
+      <p>Arrival Airport : {{data[0].flightDetails.arriveCityId}}</p>
+      <p>Arrival Time: {{data[0].arrivalTime | date:'EEEE, MMMM d HH:MM' }}</p>
+      <p>Seats Available: {{data[0].seatsAvailable}}</p>
+      <p>Price: {{data[0].price}}</p>
+    </div>
+    <div>
+      <p *ngIf="data.length === 2">
+        <h3>Connecting Flight</h3>
+        <p>Flight Number: {{data[1].flightDetails.flightNumber}}</p>
+     <p>Departure Airport: {{data[1].flightDetails.departCityId}}</p>
+      <p>Departure Time: {{data[1].departTime | date:'EEEE, MMMM d HH:MM' }}</p>
+      <p>Arrival Airport : {{data[1].flightDetails.arriveCityId}}</p>
+      <p>Arrival Time: {{data[1].arrivalTime | date:'EEEE, MMMM d HH:MM' }}</p>
+      <p>Seats Available: {{data[1].seatsAvailable}}</p>
+      <p>Price: {{data[1].price}}</p>
+    </div>
+    </mat-card-content>
 </mat-card>

@@ -19,12 +19,12 @@ export class FlightResultItemComponent implements OnInit {
   }
 
   openDialog(): void {
+    const dataArray = [this.flight.getLegs()[0]];
+    if (this.flight.getNumLegs() === 2 ) {
+      dataArray.push(this.flight.getLegs()[1]);
+    }
     this.dialog.open(FlightDetailsComponent, {
-      data: {
-        leg1: this.flight.getLegs()[0],
-        leg2: this.flight.getNumLegs() === 2 && this.flight.getLegs()[1]
-      }
-
+      data: dataArray
     });
   }
 
