@@ -23,7 +23,40 @@
   
         <!-- Active Bookings Tab Content -->
         <mat-action-list class="list-container" *ngIf="state.data">
-          <div fxLayout="row" *ngFor="let booking of state.data.active">
+          <div *ngFor="let booking of state.data.active">
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <button mat-list-item (click)="onBookingClick(booking)" [ngClass]="{
+                'selected-booking': booking === selectedBooking
+              }" matTooltip="View Details" matTooltipPosition="after">
+                <div matLine *ngFor="let flight of booking.flights" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10%">
+                  <span>UA-{{ flight.flightDetails.flightNumber }}</span>
+                  <span>
+                    {{ flight.flightDetails.departCityId }} to 
+                    {{ flight.flightDetails.arriveCityId }}
+                  </span>
+                  <span>
+                    {{ flight.departTime | date:'MMM d, hh:mm a' }}
+                  </span>
+                </div>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                matTooltip="Delete Booking"
+                (click)="onDeleteBooking(booking)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-action-list>
+      </mat-tab>
+  
+      <!-- Booking History Tab Content -->
+      <mat-tab label="Booking History">
+        <mat-action-list class="list-container" *ngIf="state.data">
+          <div *ngFor="let booking of state.data.history">
             <button mat-list-item (click)="onBookingClick(booking)" [ngClass]="{
               'selected-booking': booking === selectedBooking
             }" matTooltip="View Details" matTooltipPosition="after">
@@ -38,35 +71,8 @@
                 </span>
               </div>
             </button>
-            <button
-              mat-icon-button
-              color="warn"
-              matTooltip="Delete Booking"
-              (click)="onDeleteBooking(booking)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
+            <mat-divider></mat-divider>
           </div>
-        </mat-action-list>
-      </mat-tab>
-  
-      <!-- Booking History Tab Content -->
-      <mat-tab label="Booking History">
-        <mat-action-list class="list-container" *ngIf="state.data">
-          <button mat-list-item *ngFor="let booking of state.data.history" (click)="onBookingClick(booking)" [ngClass]="{
-            'selected-booking': booking === selectedBooking
-          }" matTooltip="View Details" matTooltipPosition="after">
-            <div matLine *ngFor="let flight of booking.flights" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10%">
-              <span>UA-{{ flight.flightDetails.flightNumber }}</span>
-              <span>
-                {{ flight.flightDetails.departCityId }} to 
-                {{ flight.flightDetails.arriveCityId }}
-              </span>
-              <span>
-                {{ flight.departTime | date:'MMM d, hh:mm a' }}
-              </span>
-            </div>
-          </button>
         </mat-action-list>
       </mat-tab>
   
