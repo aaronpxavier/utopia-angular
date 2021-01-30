@@ -5,9 +5,10 @@ import {TripType} from '../../models/types';
 import {FlightResultItemComponent} from '../../components/flight-result-item/flight-result-item.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {durationComparator, priceComparator, stopsComparator} from '../../models/flt-results-sort-comparators';
-import {FLT_RESULTS_REQ_KEY, SHOW_RETURN_FLTS} from '../../constants/session-keys';
+import {FLT_RESULTS_REQ_KEY, SHOW_RETURN_FLTS, SELECTED_DEP_FLT, SELECTED_RETURN_FLT} from '../../constants/session-keys';
 import {ToolbarService} from '../../../shared/services/toolbar.service';
 import {FlightResultsCheckboxEvent, FlightResultsSelectEvent} from '../../models/flight-results-checkbox-event';
+import {setClassMetadata} from '@angular/core/src/r3_symbols';
 
 @Component({
   templateUrl: './flight-results-page.component.html',
@@ -36,11 +37,12 @@ export class FlightResultsPageComponent implements OnInit {
     this.toolbarService.emitRouteChangeEvent('Select Flights');
     if (!this.flightService.flightRequest) {
       this.loadFlightsData();
+      this.loadCartData();
     } else {
       this.tripType = this.flightService.flightRequest.tripType;
       this.flightService.getDepFlights();
       this.resetFlightsArray();
-      this.persistFltsData();
+      this.persistTableData();
     }
     this.flightService.departureFlights.subscribe(flights => {
       if (flights) {
@@ -71,7 +73,7 @@ export class FlightResultsPageComponent implements OnInit {
     this.isPending = false;
   }
 
-  private persistFltsData(): void {
+  private persistTableData(): void {
     sessionStorage.setItem(FLT_RESULTS_REQ_KEY, JSON.stringify(this.flightService.flightRequest));
     sessionStorage.setItem(SHOW_RETURN_FLTS, this.showReturnFlights ? '1' : '0');
   }
@@ -92,12 +94,21 @@ export class FlightResultsPageComponent implements OnInit {
     }
   }
 
+  private loadCartData(): void {
+    this.selectedDepartureFlight = new Flight();
+    this.selectedReturnFlight = new Flight();
+    this.selectedDepartureFlight.deserialize(sessionStorage.getItem(SELECTED_DEP_FLT));
+    this.selectedReturnFlight.deserialize(sessionStorage.getItem(SELECTED_RETURN_FLT));
+  }
+
   selectFlight(flight: Flight, flightResultItemComponent: FlightResultItemComponent): void {
     flightResultItemComponent.isSelected = true;
     if (this.showReturnFlights) {
       this.selectedReturnFlight = flight;
+      sessionStorage.setItem(SELECTED_RETURN_FLT, JSON.stringify(flight));
     } else {
       this.selectedDepartureFlight = flight;
+      sessionStorage.setItem(SELECTED_DEP_FLT, JSON.stringify(flight));
     }
   }
 
