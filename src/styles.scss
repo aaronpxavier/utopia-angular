@@ -16,6 +16,11 @@
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
+
+$utopia-angular-primary: mat-palette($mat-teal, 700);
+$utopia-angular-accent: mat-palette($mat-deep-orange);
+$utopia-angular-warn: mat-palette($mat-red, A400);
+
 $utopia-angular-theme: mat-dark-theme(
   (
     color:
