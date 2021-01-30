@@ -1,5 +1,5 @@
 import { Response } from 'src/app/shared/models/api-response-types';
-import { TravelerService } from './../../../services/traveler.service';
+import { TravelerService } from '../../../services/traveler/traveler.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TravelerModel, TravelerRequest } from './../../models/booking-types';
 import { Component, Inject, OnInit } from '@angular/core';

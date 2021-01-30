@@ -2,13 +2,14 @@ import { Airport } from '../models/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AirportSearchService {
 
-  apiUrl = 'http://localhost:8085/airport?query=';
+  private readonly apiUrl = environment.FLIGHTS_API + '/airport?query=';
 
   constructor(private http: HttpClient) { }
 

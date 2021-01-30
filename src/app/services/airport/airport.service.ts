@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Response } from '../shared/models/api-response-types';
-import { AirportModel } from '../shared/models/types';
+import { Response } from '../../shared/models/api-response-types';
+import { AirportModel } from '../../shared/models/types';
 
 @Injectable({
   providedIn: 'root'

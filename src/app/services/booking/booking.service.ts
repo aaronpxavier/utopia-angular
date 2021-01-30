@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { BookingModel } from '../manage-bookings/models/booking-types';
+import { BookingModel } from '../../manage-bookings/models/booking-types';
 
 export interface Bookings {
   active: BookingModel[];

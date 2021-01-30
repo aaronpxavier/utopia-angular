@@ -23,5 +23,7 @@
       <div>
         <button mat-raised-button  [disabled]="!loginForm.valid"  color="accent">Submit</button>
       </div>
+
+      <h2 *ngIf="this.showLoginMsg">{{this.loginMsg}}</h2>
       </form>
-<h2 *ngIf="this.showLoginMsg">{{this.loginMsg}}</h2>
+

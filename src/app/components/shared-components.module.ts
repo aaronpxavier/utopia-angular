@@ -3,6 +3,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CenteredLoadingSpinnerComponent } from './centered-loading-spinner/centered-loading-spinner.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 

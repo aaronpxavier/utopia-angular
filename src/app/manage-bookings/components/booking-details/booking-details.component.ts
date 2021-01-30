@@ -1,6 +1,6 @@
 import { EditTravelerModalData } from './../edit-traveler-modal/edit-traveler-modal.component';
-import { TravelerService } from './../../../services/traveler.service';
-import { AirportService } from './../../../services/airport.service';
+import { TravelerService } from '../../../services/traveler/traveler.service';
+import { AirportService } from '../../../services/airport/airport.service';
 import { BookingModel, TravelerModel } from './../../models/booking-types';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';

@@ -4,7 +4,7 @@ import { Response } from 'src/app/shared/models/api-response-types';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ToolbarService } from 'src/app/shared/services/toolbar.service';
-import { Bookings, BookingService } from '../../../services/booking.service';
+import { Bookings, BookingService } from '../../../services/booking/booking.service';
 import { tap } from 'rxjs/operators';
 import { BookingModel } from '../../models/booking-types';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,13 +28,13 @@ export class ManageBookingsComponent implements OnInit {
   selectedTab = Tab.ACTIVE;
 
   constructor(
-    private toolbarService: ToolbarService,
+    // private toolbarService: ToolbarService,
     private bookingService: BookingService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.toolbarService.emitRouteChangeEvent('Manage Bookings');
+    // this.toolbarService.emitRouteChangeEvent('Manage Bookings');
     this.fetchBookingsAndSelectFirst();
   }
 
