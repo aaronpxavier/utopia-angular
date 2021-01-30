@@ -1,6 +1,6 @@
 
 <mat-card class="flt-results-info-card">
-  <mat-card-title class="flt-results-info-title flt-results-text-accent">Flight Booking Info</mat-card-title>
+  <mat-card-title class="flt-results-text-accent flt-results-info-title"><h1>Flight Booking Cart</h1></mat-card-title>
   <mat-divider></mat-divider>
   <mat-card-content fxLayout="column">
     <app-flight-booking-info-box-details [flight]="departingFlight"></app-flight-booking-info-box-details>
@@ -9,6 +9,7 @@
   </mat-card-content>
   <mat-card-actions>
     <button (click)="bookFltBtnClick" [disabled]="disableButton()" mat-raised-button color="accent">Book Flight</button>
+    <button *ngIf="showFltToggleBtn" style="margin-bottom: 0; height: 40px" color="primary" mat-raised-button (click)="depReturnToggleClicked()">{{setButtonText()}}</button>
   </mat-card-actions>
 </mat-card>
 

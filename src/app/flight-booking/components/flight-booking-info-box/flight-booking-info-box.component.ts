@@ -14,7 +14,11 @@ export class FlightBookingInfoBoxComponent implements OnInit {
   @Input() departingFlight: Flight;
   @Input() returnFlight: Flight;
   @Input() tripType: TripType;
+  @Input() isReturn = false;
+  @Input() showFltToggleBtn = false;
+  @Output() fltToggleBtnClickEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() bookFlightButtonClick = new EventEmitter<void>();
+
   currentState = 'Select Departure';
 
   ngOnInit(): void {
@@ -48,6 +52,14 @@ export class FlightBookingInfoBoxComponent implements OnInit {
 
   bookFltBtnClick(): void {
     this.bookFlightButtonClick.emit();
+  }
+
+  setButtonText(): string {
+    return this.isReturn ? 'Select Departure Flight' : 'Select Return Flight';
+  }
+
+  depReturnToggleClicked(): void {
+    this.fltToggleBtnClickEvent.emit();
   }
 
 }

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {FlightResultsCheckboxEvent, FlightResultsSelectEvent} from '../../models/flight-results-checkbox-event';
-import {Flight} from '../../models/flight';
 import {MatSelectChange} from '@angular/material/select';
 
 @Component({
@@ -15,9 +14,6 @@ export class FlightResultsOptionsComponent implements OnInit {
 
   @Output() flightResultsNonStopChange: EventEmitter<FlightResultsCheckboxEvent> = new EventEmitter<FlightResultsCheckboxEvent>();
   @Output() flightResultsSelectChange: EventEmitter<FlightResultsSelectEvent> = new EventEmitter<FlightResultsSelectEvent>();
-  @Output() buttonClickEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Input() showButton = false;
-  @Input() isReturn = false;
 
 
   ngOnInit(): void {
@@ -29,14 +25,6 @@ export class FlightResultsOptionsComponent implements OnInit {
 
   sortParamSelected(event: MatSelectChange): void {
     this.flightResultsSelectChange.emit({matSelectChange: event});
-  }
-
-  depReturnToggleClicked(): void {
-    this.buttonClickEvent.emit();
-  }
-
-  setButtonText(): string {
-      return this.isReturn ? 'Select Departure Flight' : 'Select Return Flight';
   }
 
 }
