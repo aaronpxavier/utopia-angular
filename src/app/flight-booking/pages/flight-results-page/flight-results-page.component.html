@@ -1,4 +1,4 @@
-<div fxLayout.gt-md="row"  fxLayoutGap.gt-md="10px" class="flt-results-container" fxLayout="column" fxLayoutAlign="center">
+<div fxLayout.gt-md="row"  fxLayoutGap.gt-md="10px" class="flt-results-container" fxLayout="column-reverse" fxLayoutAlign="center">
   <div fxLayout="column"  class="flt-results-table-container" fxFlex.lt-md="100" fxLayoutAlign="center" fxLayoutAlign.gt-md="space-between">
     <div fxLayout="row"  fxFlex="85" fxLayoutAlign="space-start, flex-start">
       <div fxLayout="column" fxFlex="100" fxLayoutAlign="center" >
@@ -28,8 +28,8 @@
                    (page)="paginatorTrigger($event)">
     </mat-paginator>
   </div>
-  <div fxLayout="column" class="flt-results-info-column">
-    <app-flight-booking-info-box
+  <div fxLayout="column" [@startStop]="startAnimation ? 'start' : 'stop'" class="flt-results-info-column" fxFlex.md="100" [ngClass]="{'start-stop-container' : startAnimation}" >
+    <app-flight-booking-info-box class="flt-results-booking-info-box start-stop-container"
       (fltToggleBtnClickEvent)="departReturnToggle()"
       [isReturn]="showReturnFlights"
       [departingFlight]="selectedDepartureFlight"
@@ -40,4 +40,6 @@
     </app-flight-booking-info-box>
   </div>
 </div>
+
+<button *ngIf="showShoppingFab" id="minifab-shopping-btn" mat-mini-fab (click)="animationToggle()"><mat-icon>shopping_cart</mat-icon></button>
 

@@ -103,9 +103,10 @@ h1.flt-results-title {
 .flt-results-info-column {
   margin: 80px 10px;
   max-width: 500px;
-
   max-height: 500px;
+  position: relative;
 }
+
 
 
 .mat-form-field-wrapper {
@@ -119,5 +120,39 @@ h1.flt-results-title {
 .flt-results-info-card {
   min-width: 300px;
 }
+
+.flt-results-booking-info-box {
+  width: 100%;
+}
+
+
+@media only screen and (max-width: 1024px) {
+  .flt-results-info-column {
+    margin: 0;
+    max-width: 500px;
+  }
+  .flt-results-container {
+    margin-top: 0px;
+  }
+  .results-info-card {
+    width: 0;
+    margin: 10px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .flt-results-info-column {
+    max-width: 100%;
+    margin: 10px auto;
+    padding: 0;
+  }
+  .flt-results-booking-info-box {
+    width: 90%;
+
+  }
+}
+
+
+
 
 

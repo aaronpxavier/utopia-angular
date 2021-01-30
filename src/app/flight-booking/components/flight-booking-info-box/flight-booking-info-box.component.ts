@@ -55,7 +55,8 @@ export class FlightBookingInfoBoxComponent implements OnInit {
   }
 
   setButtonText(): string {
-    return this.isReturn ? 'Select Departure Flight' : 'Select Return Flight';
+    const prefixReturnText = this.returnFlight ? 'Change' : 'Add';
+    return this.isReturn ? 'Change Departure Flight' : prefixReturnText + ' Return Flight';
   }
 
   depReturnToggleClicked(): void {

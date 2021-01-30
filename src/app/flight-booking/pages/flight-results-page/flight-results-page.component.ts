@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {FlightRequest, FlightsService} from 'src/app/flight-booking/services/flights.service';
 import {Flight} from '../../models/flight';
 import {TripType} from '../../models/types';
@@ -8,19 +8,61 @@ import {durationComparator, priceComparator, stopsComparator} from '../../models
 import {FLT_RESULTS_REQ_KEY, SHOW_RETURN_FLTS, SELECTED_DEP_FLT, SELECTED_RETURN_FLT} from '../../constants/session-keys';
 import {ToolbarService} from '../../../shared/services/toolbar.service';
 import {FlightResultsCheckboxEvent, FlightResultsSelectEvent} from '../../models/flight-results-checkbox-event';
-import {setClassMetadata} from '@angular/core/src/r3_symbols';
+import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   templateUrl: './flight-results-page.component.html',
+  animations: [
+    trigger('startStop', [
+      state('start', style({
+        position: 'relative',
+      })),
+      state('stop', style({
+        position: 'fixed',
+        top: '10px',
+        left: '10px',
+      })),
+      transition('start => stop', [
+        animate('.5s', keyframes([
+          style({
+            position: 'fixed',
+            top: '10px',
+            left: '-400px'
+          }),
+          style({
+            position: 'fixed',
+            top: '10px',
+            left: '10px'
+          })
+        ]))
+      ]),
+      transition('stop => start', [
+        animate('.5s', keyframes([
+          style({
+            position: 'fixed',
+            top: '10px',
+            left: '10px'
+          }),
+          style({
+            position: 'fixed',
+            top: '10px',
+            left: '-400px'
+          }),
+        ]))
+      ]),
+    ])
+    ],
   styleUrls: ['./flight-results-page.component.scss']
 })
 
-export class FlightResultsPageComponent implements OnInit {
+export class FlightResultsPageComponent implements OnInit, OnDestroy {
   departureFlights: Flight[];
   returnFlights: Flight[];
   flightsToShow = new Array<Flight>();
   showReturnFlights = false;
+  startAnimation = true;
   totalResults = 0;
+  public showShoppingFab = false;
   defaultMaxPageResults = 10;
   currentStartIndex = 0;
   isPending = true;
@@ -58,6 +100,34 @@ export class FlightResultsPageComponent implements OnInit {
     }
     // @ts-ignore
     window.onhashchange = this.resetFlightsArray();
+    window.addEventListener('scroll', this.scrollEvent, true);
+    window.addEventListener('resize', this.scrollEvent, true);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.scrollEvent, true);
+    window.removeEventListener('resize', this.scrollEvent, true);
+  }
+
+  @HostListener('window:scroll')
+  public scrollEvent(): void {
+    this.showShoppingFab = true;
+    console.log(window.scrollY);
+    if (window.scrollY > 380 && window.innerWidth < 1025) {
+      this.showShoppingFab = true;
+    } else if (!this.startAnimation && window.innerWidth < 1025 && window.scrollY > 100) {
+      this.showShoppingFab = true;
+    } else {
+      this.showShoppingFab = false;
+    }
+  }
+
+  @HostListener('window:resize')
+  private resizeEvent(): void {
+    console.log(window.innerWidth);
+    if (this.showShoppingFab && window.innerWidth > 1025) {
+      this.showShoppingFab = false;
+    }
   }
 
   private resetFlightsArray(): void {
@@ -181,10 +251,14 @@ export class FlightResultsPageComponent implements OnInit {
 
   resultItemIsSelected(resultComponent: FlightResultItemComponent): boolean {
     const selected = this.showReturnFlights ? this.selectedReturnFlight : this.selectedDepartureFlight;
-    if (selected) {
-      return selected === resultComponent.flight ? true : false;
-    }
+
+    return selected && selected === resultComponent.flight;
+
     return false;
+  }
+
+  animationToggle(): void {
+    this.startAnimation = !this.startAnimation;
   }
 
 }
