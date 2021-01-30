@@ -42,5 +42,10 @@ export class Flight {
     return this.getNumLegs() > 1 ? this.getLegs()[0].price + this.getLegs()[1].price : this.getLegs()[0].price;
   }
 
+  public deserialize(data: string): void {
+    const jsonData = JSON.parse(data);
+    this.legs = jsonData.legs;
+  }
+
 }
 
