@@ -9,7 +9,7 @@
   </mat-sidenav>
 
 <!-- Booking Details Main View -->
-  <mat-sidenav-content class="padded">
+  <mat-sidenav-content class="sidenav-content">
     <h1 fxHide.gt-md fxLayout="row" fxLayoutAlign="center" class="title">{{isHistory ? 'Archived Booking' : 'Active Booking'}}</h1>
     <app-booking-details [isHistory]="isHistory" [booking]="selectedBooking" *ngIf="selectedBooking"></app-booking-details>
   </mat-sidenav-content>

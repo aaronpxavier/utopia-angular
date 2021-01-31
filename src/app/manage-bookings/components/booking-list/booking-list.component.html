@@ -2,7 +2,7 @@
 
   <!-- Side Content -->
   
-    <mat-tab-group *ngIf="bookings$ | async as state" mat-align-tabs="center" class="nav-content" (selectedIndexChange)="onTabChange(state)">
+    <mat-tab-group *ngIf="bookings$ | async as state" mat-align-tabs="center" (selectedIndexChange)="onTabChange(state)">
       <mat-tab label="Active Bookings">
   
         <!-- Loading booking data -->
