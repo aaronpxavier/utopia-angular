@@ -79,6 +79,7 @@ export class FlightSearchComponent implements OnInit {
   openModal(location: Location): void {
     this.dialog.open(AirportSearchModalComponent, {
       width: 'calc(100vw * 0.75)',
+      maxWidth: '100vw',
       height: 'calc(100vh * 0.75)',
       data: {
         airport: location === Location.ORIGIN ? this.originAirport : this.destinationAirport,
