@@ -12,13 +12,7 @@
   width: 100%;
 }
 
-.airport-description {
-  word-wrap: break-word;
-  white-space: initial;
-  line-height: normal;
-}
-
-.tile .mat-icon {
+.mat-icon {
   font-size: 40px;
   width: 40px;
   height: 40px;
@@ -37,5 +31,10 @@
 }
 
 .margin {
+  height: 20px;
+}
+
+.vertical-spacer {
+  min-height: 20px;
   height: 20px;
 }

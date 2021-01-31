@@ -1,3 +1,4 @@
+import { BookingListComponent } from './components/booking-list/booking-list.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -27,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { SortByPipe } from '../pipes/sort.pipe';
 import { SharedComponentsModule } from '../components/shared-components.module';
+import { BookingListModalComponent } from './components/booking-list-modal/booking-list-modal.component';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { SharedComponentsModule } from '../components/shared-components.module';
     FlightInfoComponent,
     ConfirmActionModalComponent,
     EditTravelerModalComponent,
-    SortByPipe
+    SortByPipe,
+    BookingListComponent,
+    BookingListModalComponent
   ],
   imports: [
     CommonModule,

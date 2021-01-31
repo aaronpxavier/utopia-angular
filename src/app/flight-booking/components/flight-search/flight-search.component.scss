@@ -2,6 +2,7 @@
   margin-left: 13%;
   margin-right: 13%;
   margin-top: 5%;
+  margin-bottom: 30px;
   max-width: 100%;
 }
 
@@ -19,7 +20,6 @@
 }
 
 .dropdown {
-  width: 93%;
   font-size: large;
 }
 
@@ -29,10 +29,18 @@
 }
 
 .large-font {
-  font-size: x-large;
+  font-size: large;
 }
 
 .picker {
   width: 1px;
+  height: 1px;
+  position: relative;
+  top: -51px;
   visibility: hidden;
+}
+
+.search-button {
+  padding-left: 50px;
+  padding-right: 50px;
 }

@@ -1,86 +1,16 @@
+<button fxHide.gt-md class="sticky" mat-fab (click)="onViewBookingList()" matTooltip="Booking List">
+  <mat-icon>format_list_bulleted</mat-icon>
+</button>
+
 <mat-sidenav-container class="sidenav">
 
-  <!-- Side Content -->
-  <mat-sidenav mode="side" opened>
-    <mat-tab-group *ngIf="bookings$ | async as state" mat-align-tabs="center" class="nav-content" (selectedIndexChange)="onTabChange(state)">
-      <mat-tab label="Active Bookings">
-  
-        <!-- Loading booking data -->
-        <div *ngIf="!state.data && !state.error" class="center">
-          <mat-spinner></mat-spinner>
-        </div>
-  
-        <!-- Error loading bookings -->
-        <div *ngIf="state.error && shouldShowError" class="center">
-          <mat-card class="error">
-            <div mat-card-content>{{ state.error }}</div>
-            <div mat-card-actions>
-              <button mat-button (click)="shouldShowError = false">Cancel</button>
-              <button mat-raised-button mat-button color="primary" (click)="fetchBookingsAndSelectFirst()">Retry</button>
-            </div>
-          </mat-card>
-        </div>
-  
-        <!-- Active Bookings Tab Content -->
-        <mat-action-list class="list-container" *ngIf="state.data">
-          <div *ngFor="let booking of state.data.active">
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <button mat-list-item (click)="onBookingClick(booking)" [ngClass]="{
-                'selected-booking': booking === selectedBooking
-              }" matTooltip="View Details" matTooltipPosition="after">
-                <div matLine *ngFor="let flight of booking.flights" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10%">
-                  <span>UA-{{ flight.flightDetails.flightNumber }}</span>
-                  <span>
-                    {{ flight.flightDetails.departCityId }} to 
-                    {{ flight.flightDetails.arriveCityId }}
-                  </span>
-                  <span>
-                    {{ flight.departTime | date:'MMM d, hh:mm a' }}
-                  </span>
-                </div>
-              </button>
-              <button
-                mat-icon-button
-                color="warn"
-                matTooltip="Delete Booking"
-                (click)="onDeleteBooking(booking)"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-            <mat-divider></mat-divider>
-          </div>
-        </mat-action-list>
-      </mat-tab>
-  
-      <!-- Booking History Tab Content -->
-      <mat-tab label="Booking History">
-        <mat-action-list class="list-container" *ngIf="state.data">
-          <div *ngFor="let booking of state.data.history">
-            <button mat-list-item (click)="onBookingClick(booking)" [ngClass]="{
-              'selected-booking': booking === selectedBooking
-            }" matTooltip="View Details" matTooltipPosition="after">
-              <div matLine *ngFor="let flight of booking.flights" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10%">
-                <span>UA-{{ flight.flightDetails.flightNumber }}</span>
-                <span>
-                  {{ flight.flightDetails.departCityId }} to 
-                  {{ flight.flightDetails.arriveCityId }}
-                </span>
-                <span>
-                  {{ flight.departTime | date:'MMM d, hh:mm a' }}
-                </span>
-              </div>
-            </button>
-            <mat-divider></mat-divider>
-          </div>
-        </mat-action-list>
-      </mat-tab>
-  
-    </mat-tab-group>
+  <mat-sidenav mode="side" opened fxHide.lt-lg>
+    <app-booking-list (selectedBookingChange)="onBookingChange($event)" (isHistory)="onTabChange($event)"></app-booking-list>
   </mat-sidenav>
 
-  <!-- Booking Details Main View -->
-  <mat-sidenav-content>
-    <app-booking-details [isHistory]="onHistoryTab()" [booking]="selectedBooking" *ngIf="selectedBooking"></app-booking-details>
+<!-- Booking Details Main View -->
+  <mat-sidenav-content class="padded">
+    <h1 fxHide.gt-md fxLayout="row" fxLayoutAlign="center" class="title">{{isHistory ? 'Archived Booking' : 'Active Booking'}}</h1>
+    <app-booking-details [isHistory]="isHistory" [booking]="selectedBooking" *ngIf="selectedBooking"></app-booking-details>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -40,9 +40,7 @@
 }
 
 .input {
-  margin-left: 3rem;
-  margin-right: 3rem;
-  margin-bottom: 3rem;
+  margin: 10%;
 }
 
 .tab-content {
@@ -51,8 +49,4 @@
 
 ::ng-deep .mat-tab-body-wrapper {
   height: 100%;
-}
-
-.padded {
-  margin: 3rem;
 }

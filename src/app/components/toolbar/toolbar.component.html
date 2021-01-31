@@ -1,8 +1,17 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
+    <button *ngIf="isAuthenticated()" mat-icon-button fxHide.gt-xs [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="menu">
+      <button mat-menu-item routerLink="booking/flight">Flight Search</button>
+      <button mat-menu-item routerLink="manage-bookings">Manage Bookings</button>
+    </mat-menu>
     <app-logo-home-button></app-logo-home-button>
-    <button *ngIf="isAuthenticated()" mat-button routerLink="booking/flight">Flight Search</button>
-    <button *ngIf="isAuthenticated()" mat-button routerLink="manage-bookings">Manage Bookings</button>
+    <div fxHide.lt-sm>
+      <button *ngIf="isAuthenticated()" mat-button routerLink="booking/flight">Flight Search</button>
+      <button *ngIf="isAuthenticated()" mat-button routerLink="manage-bookings">Manage Bookings</button>
+    </div>
     <div class="spacer"></div>
     <button *ngIf="isAuthenticated()" mat-button routerLink="login" (click)="logoutClick()" >logout</button>
     <button *ngIf="!isAuthenticated()" mat-button routerLink="signup">Signup</button>
