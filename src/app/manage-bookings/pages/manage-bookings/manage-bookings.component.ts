@@ -1,3 +1,5 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { getBookingCost } from 'src/app/utility/bookingCost';
 import { Response } from 'src/app/shared/models/api-response-types';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -5,6 +7,8 @@ import { ToolbarService } from 'src/app/shared/services/toolbar.service';
 import { Bookings, BookingService } from '../../../services/booking.service';
 import { tap } from 'rxjs/operators';
 import { BookingModel } from '../../models/booking-types';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmActionModalComponent } from '../../components/confirm-action-modal/confirm-action-modal.component';
 
 enum Tab {
   ACTIVE = 'active',
@@ -25,7 +29,9 @@ export class ManageBookingsComponent implements OnInit {
 
   constructor(
     private toolbarService: ToolbarService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -55,5 +61,36 @@ export class ManageBookingsComponent implements OnInit {
 
   onTabChange(index: number): void {
     this.selectedTab = this.selectedTab === Tab.ACTIVE ? Tab.HISTORY : Tab.ACTIVE;
+  }
+
+  private deleteBooking(booking: BookingModel): void {
+    this.bookingService.deleteBooking(booking.bookingId).subscribe((bookingDeleted: Response<boolean>) => {
+      if (bookingDeleted.data) {
+        this.snackBar.open('Booking deleted successfully.', 'Close', {
+          duration: 3000
+        });
+      } else if (bookingDeleted.error) {
+        this.snackBar.open(bookingDeleted.error, 'Close', {
+          duration: 3000
+        });
+      }
+    });
+  }
+
+  onDeleteBooking(booking: BookingModel): void {
+    const dialogRef = this.dialog.open(ConfirmActionModalComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm Booking Cancellation',
+        message: `Are you sure you want to permanently delete this booking?
+        Your card ending in 9999 will be refunded $${getBookingCost(booking)}.`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(shouldDeleteBooking => {
+      if (shouldDeleteBooking) {
+        this.deleteBooking(booking);
+      }
+    });
   }
 }
