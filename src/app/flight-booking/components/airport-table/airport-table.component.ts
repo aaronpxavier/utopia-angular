@@ -4,7 +4,7 @@ import { Airport } from '../../models/types';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'airport-table',
+  selector: 'app-airport-table',
   templateUrl: './airport-table.component.html',
   styleUrls: ['./airport-table.component.scss']
 })
@@ -20,7 +20,7 @@ export class AirportTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onRowClick(airport: Airport) {
+  onRowClick(airport: Airport): void {
     this.eventService.emitAirportSelected(airport, this.location);
   }
 
