@@ -1,4 +1,4 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActionModalData } from './../../components/confirm-action-modal/confirm-action-modal.component';
 import { getBookingCost } from 'src/app/utility/bookingCost';
 import { Response } from 'src/app/shared/models/api-response-types';
 import { Component, OnInit } from '@angular/core';
@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { ToolbarService } from 'src/app/shared/services/toolbar.service';
 import { Bookings, BookingService } from '../../../services/booking.service';
 import { tap } from 'rxjs/operators';
-import { BookingModel } from '../../models/booking-types';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionModalComponent } from '../../components/confirm-action-modal/confirm-action-modal.component';
+import { BookingModel } from 'src/app/shared/models/types';
 
 enum Tab {
   ACTIVE = 'active',
@@ -30,13 +30,16 @@ export class ManageBookingsComponent implements OnInit {
   constructor(
     private toolbarService: ToolbarService,
     private bookingService: BookingService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.toolbarService.emitRouteChangeEvent('Manage Bookings');
     this.fetchBookingsAndSelectFirst();
+  }
+
+  onHistoryTab(): boolean {
+    return this.selectedTab === Tab.HISTORY;
   }
 
   fetchBookingsAndSelectFirst(): void {
@@ -45,11 +48,12 @@ export class ManageBookingsComponent implements OnInit {
   }
 
   private selectFirstBooking = ({ data: bookings, error }: Response<Bookings>): void => {
-    if (bookings && bookings[Tab.ACTIVE].length > 0) {
-      this.selectedBooking = bookings[Tab.ACTIVE][0];
+    if (bookings && bookings[this.selectedTab].length > 0) {
+      this.selectedBooking = bookings[this.selectedTab][0];
     } else if (bookings) {
       // TODO: Display message to user that they have no bookings
       console.error('You have no bookings');
+      this.selectedBooking = null;
     } else if (error) {
       console.error(error);
     }
@@ -59,37 +63,28 @@ export class ManageBookingsComponent implements OnInit {
     this.selectedBooking = booking;
   }
 
-  onTabChange(index: number): void {
+  onTabChange(bookings: Response<Bookings>): void {
     this.selectedTab = this.selectedTab === Tab.ACTIVE ? Tab.HISTORY : Tab.ACTIVE;
-  }
-
-  private deleteBooking(booking: BookingModel): void {
-    this.bookingService.deleteBooking(booking.bookingId).subscribe((bookingDeleted: Response<boolean>) => {
-      if (bookingDeleted.data) {
-        this.snackBar.open('Booking deleted successfully.', 'Close', {
-          duration: 3000
-        });
-      } else if (bookingDeleted.error) {
-        this.snackBar.open(bookingDeleted.error, 'Close', {
-          duration: 3000
-        });
-      }
-    });
+    this.selectFirstBooking(bookings);
   }
 
   onDeleteBooking(booking: BookingModel): void {
+    const modalData: ActionModalData = {
+      title: 'Confirm Booking Cancellation',
+      content: `Are you sure you want to permanently delete this booking?
+        Your card ending in 9999 will be refunded $${getBookingCost(booking)}.`,
+      action$: this.bookingService.deleteBooking(booking.bookingId),
+      successMessage: 'Booking deleted successfully.',
+      failureMessage: 'Failed to delete booking. Please try again.'
+    };
     const dialogRef = this.dialog.open(ConfirmActionModalComponent, {
       width: '400px',
-      data: {
-        title: 'Confirm Booking Cancellation',
-        message: `Are you sure you want to permanently delete this booking?
-        Your card ending in 9999 will be refunded $${getBookingCost(booking)}.`
-      }
+      data: modalData
     });
 
-    dialogRef.afterClosed().subscribe(shouldDeleteBooking => {
-      if (shouldDeleteBooking) {
-        this.deleteBooking(booking);
+    dialogRef.afterClosed().subscribe(bookingDeleted => {
+      if (bookingDeleted) {
+        this.fetchBookingsAndSelectFirst();
       }
     });
   }

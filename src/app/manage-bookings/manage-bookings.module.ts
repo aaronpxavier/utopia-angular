@@ -23,9 +23,10 @@ import { PaymentInfoComponent } from './components/payment-info/payment-info.com
 import { FlightInfoComponent } from './components/flight-info/flight-info.component';
 import { ConfirmActionModalComponent } from './components/confirm-action-modal/confirm-action-modal.component';
 import { EditTravelerModalComponent } from './components/edit-traveler-modal/edit-traveler-modal.component';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { SortByPipe } from '../pipes/sort.pipe';
+import { SharedComponentsModule } from '../components/shared-components.module';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { SortByPipe } from '../pipes/sort.pipe';
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    SharedComponentsModule
   ],
   providers: []
 })

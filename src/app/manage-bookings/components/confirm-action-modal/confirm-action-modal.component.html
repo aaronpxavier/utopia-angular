@@ -1,9 +1,17 @@
-<h1 mat-dialog-title>{{ modalData.title }}</h1>
-<div mat-dialog-content>
-  <p>{{ modalData.message }}</p>
-  <p>You CANNOT undo this action!</p>
-</div>
-<div mat-dialog-actions>
-  <button mat-button color="warn" [mat-dialog-close]="true">Yes</button>
-  <button mat-button (click)="onCancelClick()">Cancel</button>
-</div>
+<ng-container *ngIf="!loading; else loadingSpinner">
+  <h1 mat-dialog-title>{{ modalData.title }}</h1>
+  <div mat-dialog-content>
+    <p>{{ modalData.content }}</p>
+    <p>You CANNOT undo this action!</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button color="warn" (click)="performAction()">Yes</button>
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+  </div>
+</ng-container>
+
+<ng-template #loadingSpinner>
+  <div class="spinner-container">
+    <app-centered-loading-spinner></app-centered-loading-spinner>
+  </div>
+</ng-template>

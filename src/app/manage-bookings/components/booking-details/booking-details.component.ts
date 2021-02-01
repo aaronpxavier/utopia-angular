@@ -1,16 +1,13 @@
-import { TravelerService } from './../../../services/traveler.service';
+import { EditTravelerModalData } from './../edit-traveler-modal/edit-traveler-modal.component';
 import { AirportService } from './../../../services/airport.service';
-import { BookingModel, TravelerModel } from './../../models/booking-types';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from 'src/app/shared/models/api-response-types';
-import { AirportModel } from 'src/app/shared/models/types';
-import { BookingService } from 'src/app/services/booking.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AirportModel, BookingModel, TravelerModel } from 'src/app/shared/models/types';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTravelerModalComponent } from '../edit-traveler-modal/edit-traveler-modal.component';
-import { ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
-import { SortByPipe } from 'src/app/pipes/sort.pipe';
+import { ActionModalData, ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
+import { TravelerService } from '../../services/traveler/traveler.service';
 
 @Component({
   selector: 'app-booking-details',
@@ -20,14 +17,13 @@ import { SortByPipe } from 'src/app/pipes/sort.pipe';
 export class BookingDetailsComponent implements OnInit, OnChanges {
 
   @Input() booking: BookingModel;
+  @Input() isHistory: boolean;
   expandedIndex = 0;
   airports$: Observable<Response<AirportModel[]>>;
 
   constructor(
     private airportService: AirportService,
-    private bookingService: BookingService,
     private travelerService: TravelerService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) { }
 
@@ -54,43 +50,42 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
   }
 
   onEditTraveler(traveler: TravelerModel): void {
-    this.dialog.open(EditTravelerModalComponent, {
+    const editTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
       data: {
-        traveler,
+        traveler: { ...traveler },
         mode: 'edit',
         bookingId: this.booking.bookingId
+      }
+    });
+
+    editTravelerDialog.afterClosed().subscribe((updatedTraveler: TravelerModel) => {
+      if (updatedTraveler) {
+        this.booking.travelers = this.booking.travelers.map(oldTraveler => {
+          if (oldTraveler.travelerId === updatedTraveler.travelerId) {
+            return updatedTraveler;
+          }
+          return oldTraveler;
+        });
       }
     });
   }
 
   onAddTraveler(): void {
-    this.dialog.open(EditTravelerModalComponent, {
-      width: '400px',
-      data: {
-        traveler: {
-          name: '',
-          address: '',
-          phone: '',
-          email: '',
-          dob: ''
-        },
-        mode: 'add',
-        bookingId: this.booking.bookingId
-      }
-    });
-  }
+    const modalData: EditTravelerModalData = {
+      traveler: { name: '', address: '', phone: '', email: '', dob: null },
+      mode: 'add',
+      bookingId: this.booking.bookingId
+    };
 
-  deleteTraveler(travelerId: number): void {
-    this.travelerService.deleteTraveler(travelerId).subscribe((travelerDeleted: Response<boolean>) => {
-      if (travelerDeleted.data) {
-        this.snackBar.open('Traveler deleted successfully.', 'Close', {
-          duration: 3000
-        });
-      } else if (travelerDeleted.error) {
-        this.snackBar.open(travelerDeleted.error, 'Close', {
-          duration: 3000
-        });
+    const addTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
+      width: '400px',
+      data: modalData
+    });
+
+    addTravelerDialog.afterClosed().subscribe(traveler => {
+      if (traveler) {
+        this.booking.travelers.push(traveler);
       }
     });
   }
@@ -100,19 +95,24 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
       .map(flight => flight.price)
       .reduce((total, price) => total + price);
 
+    const modalData: ActionModalData = {
+      title: 'Confirm Traveler Deletion',
+      content: `Are you sure you want to permanently delete this traveler?
+        Your card ending in 9999 will be refunded $${travelerCost}.`,
+      action$: this.travelerService.deleteTraveler(travelerId),
+      successMessage: 'Traveler deleted successfully.',
+      failureMessage: 'Failed to delete traveler. Please try again.'
+    };
     const dialogRef = this.dialog.open(ConfirmActionModalComponent, {
       width: '400px',
-      data: {
-        title: 'Confirm Traveler Deletion',
-        message: `Are you sure you want to permanently delete this traveler?
-        Your card ending in 9999 will be refunded $${travelerCost}.`
-      }
+      data: modalData
     });
 
     // TODO: prevent deletion of the last traveler (a booking cannot have 0 travelers)
-    dialogRef.afterClosed().subscribe(shouldDeleteTraveler => {
-      if (shouldDeleteTraveler) {
-        this.deleteTraveler(travelerId);
+    dialogRef.afterClosed().subscribe(updatedTraveler => {
+      if (updatedTraveler) {
+        this.booking.travelers = this.booking.travelers
+          .filter(traveler => traveler.travelerId !== travelerId);
       }
     });
   }

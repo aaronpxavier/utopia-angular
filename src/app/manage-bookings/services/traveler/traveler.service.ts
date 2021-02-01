@@ -1,10 +1,10 @@
-import { TravelerModel } from './../manage-bookings/models/booking-types';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
+import { TravelerModel, TravelerRequest } from 'src/app/shared/models/types';
 import { environment } from 'src/environments/environment';
-import { Response } from '../shared/models/api-response-types';
+import { Response } from '../../../shared/models/api-response-types';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class TravelerService {
     return of({ data: null, error: 'Sorry! There was an error updating traveler. Please try again.' });
   }
 
-  updateTraveler(newTraveler: TravelerModel): Observable<Response<TravelerModel>> {
+  updateTraveler(newTraveler: TravelerRequest): Observable<Response<TravelerModel>> {
     return this.http.put<TravelerModel>(this.apiUrl + '/traveler', newTraveler)
       .pipe(
         map(traveler => ({ data: traveler, error: null })),
@@ -37,7 +37,7 @@ export class TravelerService {
       );
   }
 
-  addTraveler(newTraveler: TravelerModel, bookingId: number): Observable<Response<TravelerModel>> {
+  addTraveler(newTraveler: TravelerRequest, bookingId: number): Observable<Response<TravelerModel>> {
     return this.http.post<TravelerModel>(this.apiUrl + '/traveler/booking/' + bookingId, newTraveler)
       .pipe(
         map(traveler => ({ data: traveler, error: null })),
