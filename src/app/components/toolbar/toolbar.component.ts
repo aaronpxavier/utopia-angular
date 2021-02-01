@@ -1,6 +1,7 @@
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AfterContentChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { ToolbarService } from '../../shared/services/toolbar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -13,8 +14,9 @@ export class ToolbarComponent implements AfterContentChecked {
   constructor(
     private toolbarService: ToolbarService,
     private ref: ChangeDetectorRef,
-    private authService: AuthService
-  ) {
+    private authService: AuthService,
+    private router: Router
+    ) {
     this.toolbarService.getNavChangeEmitter().subscribe((title: string) => this.toolbarTitle = title);
   }
   isLogin = false;
@@ -30,5 +32,8 @@ export class ToolbarComponent implements AfterContentChecked {
   logoutClick(): void {
     localStorage.removeItem('token');
  }
+  routerUrl(): string {
+    return this.router.url;
+  }
 
 }
