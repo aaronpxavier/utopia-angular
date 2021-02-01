@@ -108,7 +108,6 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
       data: modalData
     });
 
-    // TODO: prevent deletion of the last traveler (a booking cannot have 0 travelers)
     dialogRef.afterClosed().subscribe(updatedTraveler => {
       if (updatedTraveler) {
         this.booking.travelers = this.booking.travelers
