@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { BookingModel } from '../models/booking-types';
+import { BookingModel } from 'src/app/shared/models/types';
 
 @Injectable({
   providedIn: 'root'

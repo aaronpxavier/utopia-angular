@@ -1,6 +1,6 @@
 import { BookingListModalService } from './../../services/booking-list-modal.service';
 import { Component, OnInit } from '@angular/core';
-import { BookingModel } from '../../models/booking-types';
+import { BookingModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-booking-list-modal',
