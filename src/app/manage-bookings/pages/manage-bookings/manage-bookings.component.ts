@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { ToolbarService } from 'src/app/shared/services/toolbar.service';
 import { Bookings, BookingService } from '../../../services/booking/booking.service';
 import { tap } from 'rxjs/operators';
-import { BookingModel } from '../../models/booking-types';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionModalComponent } from '../../components/confirm-action-modal/confirm-action-modal.component';
+import { BookingModel } from 'src/app/shared/models/types';
 
 enum Tab {
   ACTIVE = 'active',

@@ -1,5 +1,5 @@
-import { TravelerModel } from './../../models/booking-types';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { TravelerModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-traveler-info',

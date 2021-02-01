@@ -13,8 +13,8 @@
             'table': !loading
           }">
             <mat-spinner mode="indeterminate" *ngIf="loading"></mat-spinner>
-            <airport-table *ngIf="airports.length > 0" [airports]="airports" [location]="location" class="grow">
-            </airport-table>
+            <app-airport-table *ngIf="airports.length > 0" [airports]="airports" [location]="location" class="grow">
+            </app-airport-table>
           </div>
         </div>
       </div>

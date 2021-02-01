@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FlightModel } from 'src/app/flight-booking/models/flight';
-import { AirportModel } from 'src/app/shared/models/types';
+import { AirportModel, FlightModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-flight-info',

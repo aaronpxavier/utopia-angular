@@ -1,10 +1,18 @@
+<<<<<<< HEAD:src/app/services/traveler/traveler.service.ts
+import { TravelerModel, TravelerRequest } from '../../manage-bookings/models/booking-types';
+=======
+>>>>>>> development:src/app/manage-bookings/services/traveler/traveler.service.ts
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { TravelerModel, TravelerRequest } from 'src/app/shared/models/types';
 import { environment } from 'src/environments/environment';
+<<<<<<< HEAD:src/app/services/traveler/traveler.service.ts
 import { Response } from '../../shared/models/api-response-types';
+=======
+import { Response } from '../../../shared/models/api-response-types';
+>>>>>>> development:src/app/manage-bookings/services/traveler/traveler.service.ts
 
 @Injectable({
   providedIn: 'root'
