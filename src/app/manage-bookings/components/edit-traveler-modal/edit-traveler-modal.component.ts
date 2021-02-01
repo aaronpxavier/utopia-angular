@@ -1,13 +1,9 @@
 import { Response } from 'src/app/shared/models/api-response-types';
-<<<<<<< HEAD
 import { TravelerService } from '../../../services/traveler/traveler.service';
-=======
->>>>>>> development
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TravelerRequest, TravelerModel } from 'src/app/shared/models/types';
-import { TravelerService } from '../../services/traveler/traveler.service';
 
 export interface EditTravelerModalData {
   traveler: TravelerRequest;

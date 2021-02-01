@@ -1,12 +1,19 @@
-<div class="container" *ngIf="booking">
+<div class="container" *ngIf="booking" fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center">
 
   <!-- Travelers Info -->
-  <div class="row">
-    <div class="half-width">
+    <div fxFlex="47" fxFlex.lt-md="60" fxFlex.lt-sm="90">
       <div class="row">
         <div><mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2></div>
         <div class="spacer"></div>
-        <button *ngIf="!isHistory" mat-icon-button matTooltip="Add traveler" color="primary" (click)="onAddTraveler()"><mat-icon>group_add</mat-icon></button>
+        <button
+          *ngIf="!isHistory"
+          mat-icon-button
+          matTooltip="Add traveler"
+          color="primary"
+          (click)="onAddTraveler()"
+        >
+          <mat-icon>group_add</mat-icon>
+        </button>
       </div>
       <mat-accordion>
         <!-- TODO: reset expanded index when selected booking changes -->
@@ -22,28 +29,36 @@
           </mat-expansion-panel-header>
           <app-traveler-info [traveler]="traveler"></app-traveler-info>
           <mat-action-row *ngIf="!isHistory">
-            <button mat-icon-button matTooltip="Edit" (click)="onEditTraveler(traveler)"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button color="warn" matTooltip="Delete" (click)="onDeleteTraveler(traveler.travelerId)"><mat-icon>delete</mat-icon></button>
+            <button mat-icon-button matTooltip="Edit" (click)="onEditTraveler(traveler)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              matTooltip="Delete"
+              (click)="onDeleteTraveler(traveler.travelerId)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
 
     <!-- Payment Info -->
-    <div class="half-width">
+    <div fxFlex="47" fxFlex.lt-md="60" fxFlex.lt-sm="90">
       <app-payment-info [booking]="booking"></app-payment-info>
     </div>
-  </div>
 
   <!-- Flights Info -->
-  <div *ngIf="airports$ | async as state" class="margin-top">
+  <div *ngIf="airports$ | async as state" class="margin-top" fxFlex="100">
 
     <mat-icon>flight</mat-icon>
     <h2 class="inline">Flights</h2>
     
     <!-- Loading Spinner -->
-    <div class="center-content" *ngIf="!state.data && !state.error">
-      <mat-spinner></mat-spinner>
+    <div *ngIf="!state.data && !state.error">
+      <app-centered-loading-spinner></app-centered-loading-spinner>
     </div>
 
     <!-- Error state -->

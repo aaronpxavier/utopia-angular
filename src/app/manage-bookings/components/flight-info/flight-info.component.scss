@@ -1,24 +1,4 @@
-.center {
-  display: flex;
-  justify-content: center;
-}
-
-.tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
-
-.airport-description {
-  word-wrap: break-word;
-  white-space: initial;
-  line-height: normal;
-}
-
-.tile .mat-icon {
+.mat-icon {
   font-size: 40px;
   width: 40px;
   height: 40px;
@@ -34,8 +14,4 @@
 
 .spacer {
   flex-grow: 1;
-}
-
-.margin {
-  height: 20px;
 }

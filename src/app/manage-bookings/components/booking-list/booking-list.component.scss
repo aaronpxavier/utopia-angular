@@ -1,0 +1,21 @@
+@import 'src/styles.scss';
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  width: 40%;
+  padding: 40px;
+}
+
+.list-container {
+  padding-top: 0;
+  padding-left: 3px;
+}
+
+.selected-booking {
+  border-left: 6px solid $primary;
+}

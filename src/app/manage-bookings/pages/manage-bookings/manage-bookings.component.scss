@@ -1,27 +1,3 @@
-@import 'src/styles.scss';
-
-.container {
-  padding-top: 50px;
-  padding-left: 20%;
-  padding-right: 20%;
-}
-
-.nav-content {
-  width: 35vw;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 75vh;
-}
-
-.error {
-  width: 40%;
-  padding: 40px;
-}
-
 .sidenav {
   position: absolute;
   top: 64px;
@@ -30,11 +6,18 @@
   right: 0;
 }
 
-.list-container {
-  padding-top: 0;
-  padding-left: 3px;
+.sticky {
+  position: sticky;
+  top: calc(100vh - 74px);
+  left: 10px;
+  z-index: 1000;
 }
 
-.selected-booking {
-  border-left: 6px solid $primary;
+.title {
+  margin-top: 30px;
+}
+
+.sidenav-content {
+  padding-left: 30px;
+  overflow-x: hidden;
 }

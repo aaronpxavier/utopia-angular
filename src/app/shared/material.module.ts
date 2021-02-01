@@ -1,3 +1,4 @@
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -24,6 +25,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   exports: [
@@ -51,7 +53,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatSnackBarModule,
     MatCardModule,
     MatCheckboxModule,
-    MatStepperModule
+    MatStepperModule,
+    MatMenuModule,
+    MatExpansionModule
   ],
   providers: [
     MatDatepickerModule,

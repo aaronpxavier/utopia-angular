@@ -1,25 +1,37 @@
-<form [formGroup]="dateForm">
+<form [formGroup]="form">
 
-<mat-grid-list cols="7" rowHeight="1:1" class="container">
+<div class="container" fxLayout="row wrap" fxLayoutGap="20px" fxLayout.lt-sm="column">
 
   <!-- Origin Airport Button -->
-  <mat-grid-tile colspan="2">
+  <div fxFlex="30" fxFlex.lt-md="45">
     <button mat-button class="button full" (click)="openOriginModal()">
-      <div class="large-font">{{ originAirport.iataIdent }}</div>
-      <div class="airport-description">{{originAirport.city}}</div>
+      <ng-container *ngIf="originAirport.value; else default_origin">
+        <div class="large-font">{{ originAirport.value.iataIdent }}</div>
+        <div class="airport-description">{{originAirport.value.city}}</div>
+      </ng-container>
+      <ng-template #default_origin>
+        <div class="large-font">{{ defaultOriginAirport.iataIdent }}</div>
+        <div class="airport-description">{{defaultOriginAirport.city}}</div>
+      </ng-template>
     </button>
-  </mat-grid-tile>
+  </div>
 
   <!-- Destination Airport Button -->
-  <mat-grid-tile colspan="2">
+  <div fxFlex="30" fxFlex.lt-md="45">
     <button mat-button class="button full" (click)="openDestinationModal()">
-      <div class="large-font">{{ destinationAirport.iataIdent }}</div>
-      <div class="airport-description">{{destinationAirport.city}}</div>
+      <ng-container *ngIf="destinationAirport.value; else default_destination">
+        <div class="large-font">{{ destinationAirport.value.iataIdent }}</div>
+        <div class="airport-description">{{destinationAirport.value.city}}</div>
+      </ng-container>
+      <ng-template #default_destination>
+        <div class="large-font">{{ defaultDestinationAirport.iataIdent }}</div>
+        <div class="airport-description">{{defaultDestinationAirport.city}}</div>
+      </ng-template>
     </button>
-  </mat-grid-tile>
+  </div>
 
   <!-- Round Trip / One Way Dropdown -->
-  <mat-grid-tile colspan="2">
+  <div fxFlex="30" fxFlex.lt-md="45" fxLayout="row" fxLayoutAlign="center center">
     <mat-form-field class="dropdown">
       <mat-select [(value)]="selectedTripType" (valueChange)="onTripChange()">
         <mat-option *ngFor="let tripType of tripTypes" [value]="tripType">
@@ -27,11 +39,15 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </mat-grid-tile>
+  </div>
 
   <ng-template [ngIf]="selectedTripType === TripType.ROUND_TRIP" [ngIfElse]="oneWay">
     <!-- Round Trip Datepicker -->
-    <mat-grid-tile colspan="4">
+    <div fxFlex="30" fxFlex.lt-md="45">
+      <button mat-button (click)="picker.open()" class="full large-font">
+        {{ (departDate.value | date:'MMM d') || 'Depart' }} - 
+        {{ (returnDate.value | date:'MMM d') || 'Return Date' }}
+      </button>
       <mat-form-field class="dropdown picker">
         <mat-label>Depart Date - Return Date</mat-label>
         <mat-date-range-input [rangePicker]="picker" [min]="today">
@@ -47,16 +63,15 @@
         </mat-error>
 
       </mat-form-field>
-      <button mat-button (click)="picker.open()" class="full large-font">
-        {{ (departDate.value | date:'MMM d') || 'Depart' }} - 
-        {{ (returnDate.value | date:'MMM d') || 'Return Date' }}
-      </button>
-    </mat-grid-tile>
+    </div>
   </ng-template>
 
   <!-- One Way Datepicker -->
   <ng-template #oneWay>
-    <mat-grid-tile colspan="4">
+    <div fxFlex="30" fxFlex.lt-md="45">
+      <button mat-button (click)="picker.open()" class="full large-font">
+        {{ (departDate.value | date:'MMM d') || 'Depart Date' }}
+      </button>
       <mat-form-field class="dropdown picker">
         <mat-label>Depart Date</mat-label>
         <input matInput [matDatepicker]="picker" [min]="today" formControlName="departDate">
@@ -69,14 +84,11 @@
         </mat-error>
 
       </mat-form-field>
-      <button mat-button (click)="picker.open()" class="full large-font">
-        {{ (departDate.value | date:'MMM d') || 'Depart Date' }}
-      </button>
-    </mat-grid-tile>
+    </div>
   </ng-template>
 
   <!-- Passengers Dropdown -->
-  <mat-grid-tile colspan="2">
+  <div fxFlex="30" fxFlex.lt-md="45" fxLayout="row" fxLayoutAlign="center center">
     <mat-form-field class="dropdown">
       <mat-label>Passengers</mat-label>
       <mat-select [(value)]="selectedPassengers">
@@ -85,15 +97,16 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </mat-grid-tile>
+  </div>
 
   <!-- Search Button -->
-  <mat-grid-tile colspan="1">
-    <button mat-mini-fab (click)="onFlightSearch()" [routerLink]="'results'" [disabled]="dateForm.invalid" type="button">
-      <mat-icon>arrow_forward</mat-icon>
+  <div fxFlex="30" fxFlex.lt-md="45" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button color="accent" (click)="onFlightSearch()" [routerLink]="'results'" [disabled]="form.invalid" type="button" class="search-button">
+      Search
+      <mat-icon>search_rounded</mat-icon>
     </button>
-  </mat-grid-tile>
+  </div>
 
-</mat-grid-list>
+</div>
 
 </form>
