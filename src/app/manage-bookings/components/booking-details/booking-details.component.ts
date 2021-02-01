@@ -1,5 +1,6 @@
 import { EditTravelerModalData } from './../edit-traveler-modal/edit-traveler-modal.component';
 import { AirportService } from '../../../services/airport/airport.service';
+import { TravelerService } from '../../../services/traveler/traveler.service';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from 'src/app/shared/models/api-response-types';
@@ -7,7 +8,6 @@ import { AirportModel, BookingModel, TravelerModel } from 'src/app/shared/models
 import { MatDialog } from '@angular/material/dialog';
 import { EditTravelerModalComponent } from '../edit-traveler-modal/edit-traveler-modal.component';
 import { ActionModalData, ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
-import { TravelerService } from '../../services/traveler/traveler.service';
 
 @Component({
   selector: 'app-booking-details',
