@@ -1,3 +1,4 @@
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -53,7 +54,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCardModule,
     MatCheckboxModule,
     MatStepperModule,
-    MatMenuModule
+    MatMenuModule,
+    MatExpansionModule
   ],
   providers: [
     MatDatepickerModule,
