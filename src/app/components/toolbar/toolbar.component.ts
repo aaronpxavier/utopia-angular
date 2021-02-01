@@ -19,7 +19,6 @@ export class ToolbarComponent implements AfterContentChecked {
     ) {
     this.toolbarService.getNavChangeEmitter().subscribe((title: string) => this.toolbarTitle = title);
   }
-  isLogin = false;
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
@@ -29,11 +28,11 @@ export class ToolbarComponent implements AfterContentChecked {
     this.ref.detectChanges();
   }
 
-  logoutClick(): void {
-    localStorage.removeItem('token');
- }
   routerUrl(): string {
     return this.router.url;
   }
 
+  logoutClick(): void {
+    localStorage.removeItem('token');
+ }
 }
