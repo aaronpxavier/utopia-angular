@@ -33,6 +33,7 @@
               <mat-icon>edit</mat-icon>
             </button>
             <button
+              [disabled]="booking.travelers.length <= 1"
               mat-icon-button
               color="warn"
               matTooltip="Delete"
