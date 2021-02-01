@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { TravelerModel, TravelerRequest } from 'src/app/shared/models/types';
 import { environment } from 'src/environments/environment';
-import { Response } from '../../shared/models/api-response-types';
+import { Response } from '../../../shared/models/api-response-types';
 
 @Injectable({
   providedIn: 'root'

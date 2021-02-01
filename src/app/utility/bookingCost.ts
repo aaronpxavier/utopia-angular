@@ -1,4 +1,4 @@
-import { BookingModel } from 'src/app/manage-bookings/models/booking-types';
+import { BookingModel } from '../shared/models/types';
 
 export function getBookingCost(booking: BookingModel): number {
   return booking.flights

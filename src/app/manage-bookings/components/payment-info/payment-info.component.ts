@@ -1,8 +1,6 @@
-import { ConfirmActionModalComponent } from './../confirm-action-modal/confirm-action-modal.component';
-import { BookingModel } from './../../models/booking-types';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnInit  } from '@angular/core';
 import { getBookingCost } from 'src/app/utility/bookingCost';
+import { BookingModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-payment-info',
@@ -14,7 +12,6 @@ export class PaymentInfoComponent implements OnInit {
   @Input() booking: BookingModel;
 
   constructor(
-    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {

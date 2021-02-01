@@ -1,8 +1,8 @@
 import { BookingListModalService } from './../../services/booking-list-modal.service';
-import { MatDialog } from '@angular/material/dialog';
-import { BookingModel } from './../../models/booking-types';
 import { Component, OnInit } from '@angular/core';
 import { BookingListModalComponent } from '../../components/booking-list-modal/booking-list-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { BookingModel } from 'src/app/shared/models/types';
 
 @Component({
   templateUrl: './manage-bookings.component.html',

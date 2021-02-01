@@ -1,23 +1,4 @@
-export interface FlightDetailsModel {
-  flightNumber: string;
-  departCityId: string;
-  arriveCityId: string;
-}
-
-export interface FlightModel {
-  flightId: number;
-  departTime: Date;
-  arrivalTime: Date;
-  seatsAvailable: number;
-  price: number;
-  flightNumber: string;
-  flightDetails: FlightDetailsModel;
-}
-
-export interface FlightMultihopModel {
-  leg1: FlightModel;
-  leg2: FlightModel;
-}
+import { FlightModel } from 'src/app/shared/models/types';
 
 export class Flight {
   legs: FlightModel[];
@@ -40,6 +21,11 @@ export class Flight {
 
   public getPrice(): number {
     return this.getNumLegs() > 1 ? this.getLegs()[0].price + this.getLegs()[1].price : this.getLegs()[0].price;
+  }
+
+  public deserialize(data: string): void {
+    const jsonData = JSON.parse(data);
+    this.legs = jsonData.legs;
   }
 
 }

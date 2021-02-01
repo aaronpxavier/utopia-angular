@@ -1,4 +1,4 @@
-<div fxLayout.gt-md="row"  fxLayoutGap.gt-md="10px" class="flt-results-container" fxLayout="column" fxLayoutAlign="center">
+<div fxLayout.gt-md="row"  fxLayoutGap.gt-md="10px" class="flt-results-container" fxLayout="column-reverse" fxLayoutAlign="center">
   <div fxLayout="column"  class="flt-results-table-container" fxFlex.lt-md="100" fxLayoutAlign="center" fxLayoutAlign.gt-md="space-between">
     <div fxLayout="row"  fxFlex="85" fxLayoutAlign="space-start, flex-start">
       <div fxLayout="column" fxFlex="100" fxLayoutAlign="center" >
@@ -7,9 +7,7 @@
         </div>
         <app-flight-results-options
           (flightResultsSelectChange)="sortParamSelected($event)"
-          (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)"
-          (buttonClickEvent)="departReturnToggle()" [isReturn]="showReturnFlights"
-          [showButton]="this.flightService.isRoundTrip && selectedDepartureFlight !== undefined">
+          (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)">
         </app-flight-results-options>
         <mat-spinner *ngIf="isPending" fxLayout="row" class="flt-results-spinner"></mat-spinner>
         <mat-selection-list *ngIf="!isPending" fxFlex="80"  role="list" class="flt-results-list">
@@ -30,12 +28,18 @@
                    (page)="paginatorTrigger($event)">
     </mat-paginator>
   </div>
-  <div fxLayout="column" class="flt-results-info-column">
-    <app-flight-booking-info-box
+  <div fxLayout="column" [@startStop]="startAnimation ? 'start' : 'stop'" class="flt-results-info-column" fxFlex.md="100" [ngClass]="{'start-stop-container' : startAnimation}" >
+    <app-flight-booking-info-box class="flt-results-booking-info-box start-stop-container"
+      (fltToggleBtnClickEvent)="departReturnToggle()"
+      [isReturn]="showReturnFlights"
       [departingFlight]="selectedDepartureFlight"
       [returnFlight]="selectedReturnFlight"
       [tripType]="tripType"
-      *ngIf="selectedDepartureFlight !== undefined"></app-flight-booking-info-box>
+      *ngIf="selectedDepartureFlight !== undefined"
+      [showFltToggleBtn]="this.flightService.isRoundTrip && selectedDepartureFlight !== undefined">
+    </app-flight-booking-info-box>
   </div>
 </div>
+
+<button *ngIf="showShoppingFab" id="minifab-shopping-btn" mat-mini-fab (click)="animationToggle()"><mat-icon>shopping_cart</mat-icon></button>
 
