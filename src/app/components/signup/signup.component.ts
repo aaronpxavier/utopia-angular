@@ -5,7 +5,7 @@ import {FormGroup, FormBuilder, Validators, FormControl, AbstractControl, Valida
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AppComponent } from '../../app.component';
 import { passwordMismatch } from '../../utility/validators/passwordMismatch';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../services/auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
 
 export interface Subject {

@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ToolbarComponent,
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: '',

@@ -1,4 +1,5 @@
-import {AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit} from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AfterContentChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { ToolbarService } from '../../shared/services/toolbar.service';
 
 @Component({
@@ -9,14 +10,17 @@ import { ToolbarService } from '../../shared/services/toolbar.service';
 export class ToolbarComponent implements AfterContentChecked {
 
   toolbarTitle: string | undefined;
-  constructor(private toolbarService: ToolbarService,
-              private ref: ChangeDetectorRef) {
+  constructor(
+    private toolbarService: ToolbarService,
+    private ref: ChangeDetectorRef,
+    private authService: AuthService
+  ) {
     this.toolbarService.getNavChangeEmitter().subscribe((title: string) => this.toolbarTitle = title);
   }
   isLogin = false;
 
   isAuthenticated(): boolean {
-   return localStorage.getItem('token') !== null;
+    return this.authService.isAuthenticated();
   }
 
   ngAfterContentChecked(): void {

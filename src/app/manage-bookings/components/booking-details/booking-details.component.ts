@@ -1,5 +1,11 @@
 import { EditTravelerModalData } from './../edit-traveler-modal/edit-traveler-modal.component';
+<<<<<<< HEAD
+import { TravelerService } from '../../../services/traveler/traveler.service';
+import { AirportService } from '../../../services/airport/airport.service';
+import { BookingModel, TravelerModel } from './../../models/booking-types';
+=======
 import { AirportService } from './../../../services/airport.service';
+>>>>>>> development
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from 'src/app/shared/models/api-response-types';
