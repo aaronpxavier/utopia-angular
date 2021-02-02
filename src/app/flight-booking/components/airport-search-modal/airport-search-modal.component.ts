@@ -1,12 +1,13 @@
+import { ResultsErrorMatcher } from './results-error-matcher';
 import { Response } from './../../../shared/models/api-response-types';
 import { AirportSelectionService } from '../../services/airport-selection.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AirportSearchService } from '../../services/airport-search.service';
-import { retry } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { AirportModel } from 'src/app/shared/models/types';
-import { Observable } from 'rxjs';
+import { iif, Observable } from 'rxjs';
 import { AirportType } from '../../models/types';
 @Component({
   selector: 'app-airport-search-modal',
@@ -18,6 +19,8 @@ export class AirportSearchModalComponent implements OnInit {
   airports$: Observable<Response<AirportModel[]>>;
   airportType = AirportType.ORIGIN;
   searchForm = new FormControl('');
+  error: string;
+  errorMatcher = new ResultsErrorMatcher();
 
   constructor(
     private dialogRef: MatDialogRef<AirportSearchModalComponent>,
@@ -32,14 +35,25 @@ export class AirportSearchModalComponent implements OnInit {
     this.airportSelectionService.observable().subscribe(event => {
       this.dialogRef.close();
     });
-  }
 
-  setSearchError(message: string): void {
-    this.searchForm.setErrors({ message });
-    this.searchForm.markAsTouched();
-  }
-
-  onEnterPress(): void {
-    this.airports$ = this.airportSearchService.searchAirports(this.searchForm.value).pipe(retry(1));
+    this.airports$ = this.searchForm.valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((query: string) =>
+          iif(() => query.length >= 3,
+            this.airportSearchService.searchAirports(query)
+          )
+        ),
+        tap(airports => {
+          if (airports.data && airports.data.length === 0) {
+            this.searchForm.setErrors({ message: 'No results were found.' });
+          } else if (airports.error) {
+            this.searchForm.setErrors({ message: airports.error });
+          } else {
+            this.searchForm.setErrors(null);
+          }
+        })
+      );
   }
 }
