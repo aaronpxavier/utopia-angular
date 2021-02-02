@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -27,8 +27,9 @@ import { SortByPipe } from './pipes/sort.pipe';
     CenteredLoadingSpinnerComponent,
 
     // Shared Pipes
-    SortByPipe
+    SortByPipe,
+    DatePipe
   ],
-  providers: [ToolbarService]
+  providers: [ToolbarService, DatePipe]
 })
 export class SharedModule { }

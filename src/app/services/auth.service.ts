@@ -24,8 +24,8 @@ export class AuthService {
 
   loginUser(payload: any): Observable<any> {
     const url = this.URL + '/auth/login';
-    console.log({ URL });
-    console.log('Payload: ' + payload.password);
+    // console.log({ URL });
+    // console.log('Payload: ' + payload.password);
     return this.http.post(url, payload);
   }
 
