@@ -1,8 +1,8 @@
-import { Location } from '../../models/types';
-import { EventService } from '../../services/event.service';
-import { Airport } from '../../models/types';
+import { AirportType } from '../../models/types';
+import { AirportSelectionService } from '../../services/airport-selection.service';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { AirportModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-airport-table',
@@ -13,12 +13,12 @@ export class AirportTableComponent implements OnInit {
 
   allColumnHeaders = ['iataIdent', 'city', 'name'];
   columnHeaders = ['iataIdent', 'city', 'name'];
-  @Input() airports: Airport[] = [];
-  @Input() location = Location.ORIGIN;
-  @Output() airportSelected = new EventEmitter<Airport>();
+  @Input() airports: AirportModel[] = [];
+  @Input() airportType = AirportType.ORIGIN;
+  @Output() airportSelected = new EventEmitter<AirportModel>();
 
   constructor(
-    private eventService: EventService,
+    private airportSelectionService: AirportSelectionService,
     private mediaObserver: MediaObserver
   ) { }
 
@@ -32,8 +32,8 @@ export class AirportTableComponent implements OnInit {
     });
   }
 
-  onRowClick(airport: Airport): void {
-    this.eventService.emitAirportSelected(airport, this.location);
+  onRowClick(airport: AirportModel): void {
+    this.airportSelectionService.emitAirportSelected(airport, this.airportType);
   }
 
 }

@@ -3,9 +3,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ToolbarService} from 'src/app/shared/services/toolbar.service';
 import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
-import {EventService} from '../../services/event.service';
-import {Airport, Location, TripType} from '../../models/types';
+import {AirportSelectionService} from '../../services/airport-selection.service';
+import {AirportType, TripType} from '../../models/types';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { AirportModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-flight-search',
@@ -14,15 +15,15 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 })
 export class FlightSearchComponent implements OnInit {
 
-  @Input() location = Location.ORIGIN;
+  @Input() airportType = AirportType.ORIGIN;
 
   tripTypes = [TripType.ROUND_TRIP, TripType.ONE_WAY];
   TripType = TripType; // expose enum in template
   today = new Date();
   passengers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  defaultOriginAirport: Airport = { iataIdent: 'From', city: 'Origin', name: '' };
-  defaultDestinationAirport: Airport = { iataIdent: 'To', city: 'Destination', name: '' };
+  defaultOriginAirport: AirportModel = { iataIdent: 'From', city: 'Origin', name: '' };
+  defaultDestinationAirport: AirportModel = { iataIdent: 'To', city: 'Destination', name: '' };
 
   selectedPassengers = 1;
   selectedTripType = TripType.ROUND_TRIP;
@@ -30,7 +31,7 @@ export class FlightSearchComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private eventService: EventService,
+    private airportSelectionService: AirportSelectionService,
     private toolbarService: ToolbarService,
     private fb: FormBuilder,
     private flightService: FlightsService
@@ -45,10 +46,10 @@ export class FlightSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.toolbarService.emitRouteChangeEvent('Flight Search');
-    this.eventService.airportSelectedListener().subscribe(data => {
-      if (data.location === 'Origin') {
+    this.airportSelectionService.observable().subscribe(data => {
+      if (data.airportType === 'Origin') {
         this.originAirport.setValue(data.airport);
-      } else if (data.location === 'Destination') {
+      } else if (data.airportType === 'Destination') {
         this.destinationAirport.setValue(data.airport);
       }
     });
@@ -80,21 +81,21 @@ export class FlightSearchComponent implements OnInit {
   }
 
   openOriginModal(): void {
-    this.openModal(Location.ORIGIN);
+    this.openModal(AirportType.ORIGIN);
   }
 
   openDestinationModal(): void {
-    this.openModal(Location.DESTINATION);
+    this.openModal(AirportType.DESTINATION);
   }
 
-  openModal(location: Location): void {
+  openModal(airportType: AirportType): void {
     this.dialog.open(AirportSearchModalComponent, {
       width: 'calc(100vw * 0.75)',
       maxWidth: '100vw',
       height: 'calc(100vh * 0.75)',
       data: {
-        airport: location === Location.ORIGIN ? this.originAirport : this.destinationAirport,
-        location
+        airport: airportType === AirportType.ORIGIN ? this.originAirport : this.destinationAirport,
+        airportType
       }
     });
   }

@@ -1,14 +1,14 @@
-import { Airport, TripType } from '../models/types';
+import { TripType } from '../models/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import {Flight} from '../models/flight';
-import { FlightModel, FlightMultihopModel } from 'src/app/shared/models/types';
+import { AirportModel, FlightModel, FlightMultihopModel } from 'src/app/shared/models/types';
 
 export interface FlightRequest {
-  originAirport: Airport;
-  destinationAirport: Airport;
+  originAirport: AirportModel;
+  destinationAirport: AirportModel;
   passengers: number;
   tripType: TripType;
   departDate: Date | null;

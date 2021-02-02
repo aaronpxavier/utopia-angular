@@ -8,6 +8,7 @@ import { AirportModel, BookingModel, TravelerModel } from 'src/app/shared/models
 import { MatDialog } from '@angular/material/dialog';
 import { EditTravelerModalComponent } from '../edit-traveler-modal/edit-traveler-modal.component';
 import { ActionModalData, ConfirmActionModalComponent } from '../confirm-action-modal/confirm-action-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-booking-details',
@@ -24,7 +25,8 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
   constructor(
     private airportService: AirportService,
     private travelerService: TravelerService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class BookingDetailsComponent implements OnInit, OnChanges {
     const editTravelerDialog = this.dialog.open(EditTravelerModalComponent, {
       width: '400px',
       data: {
-        traveler: { ...traveler },
+        traveler: { ...traveler, dob: this.datePipe.transform(traveler.dob, 'yyyy-MM-dd') },
         mode: 'edit',
         bookingId: this.booking.bookingId
       }

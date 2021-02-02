@@ -10,10 +10,14 @@ export class SortByPipe implements PipeTransform {
   transform(value: any[], order = '', column: string = ''): any[] {
     if (!value || order === '' || !order) { return value; } // no array
     if (value.length <= 1) { return value; } // array with only one item
+
+    // array of items
     if (!column || column === '') {
       if (order === 'asc') { return value.sort(); }
       else { return value.sort().reverse(); }
     }
+
+    // array of objects
     return value.sort((a: any, b: any) => {
       if (a[column] < b[column]) {
         return order === 'asc' ? -1 : 1;
