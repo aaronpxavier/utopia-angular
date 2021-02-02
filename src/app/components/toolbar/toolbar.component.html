@@ -14,7 +14,7 @@
     </div>
     <div class="spacer"></div>
     <button *ngIf="isAuthenticated()" mat-button routerLink="login" (click)="logoutClick()" >logout</button>
-    <button *ngIf="!isAuthenticated()" mat-button routerLink="signup">Signup</button>
+    <button *ngIf="routerUrl() !== '/login' && !isAuthenticated()" mat-button routerLink="login">login</button>
   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

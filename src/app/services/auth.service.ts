@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -24,10 +24,13 @@ export class AuthService {
 
   loginUser(payload: any): Observable<any> {
     const url = this.URL + '/auth/login';
+    console.log({ URL });
+    console.log('Payload: ' + payload.password);
     return this.http.post(url, payload);
   }
 
-  isAuthenticated(): boolean {
-    return localStorage.getItem('token') !== null;
-  }
+  logout(): void {
+    localStorage.removeItem('token');
+ }
 }
+
