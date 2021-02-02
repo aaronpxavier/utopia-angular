@@ -17,9 +17,6 @@ export class AirportSearchModalComponent implements OnInit {
 
   airports$: Observable<Response<AirportModel[]>>;
   airportType = AirportType.ORIGIN;
-
-  loading = false;
-
   searchForm = new FormControl('');
 
   constructor(
