@@ -1,7 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
+import { handleError } from 'src/app/utility/service-error-handler';
 import { environment } from 'src/environments/environment';
 import { Response } from '../../shared/models/api-response-types';
 import { AirportModel } from '../../shared/models/types';
@@ -17,22 +18,11 @@ export class AirportService {
     private http: HttpClient
   ) { }
 
-  private handleError(error: HttpErrorResponse): Observable<Response<AirportModel[]>> {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    return of({ data: null, error: 'Sorry! There was an error loading airports. Please try again.' });
-  }
-
   getAirportList(airportIds: string[]): Observable<Response<AirportModel[]>> {
     return this.http.post<AirportModel[]>(this.apiUrl + '/airport/list', airportIds)
       .pipe(
         map(airports => ({ data: airports, error: null })),
-        catchError(this.handleError),
+        catchError((error) => handleError<AirportModel[]>(error, 'Sorry! There was an error retrieving airport info.')),
         startWith({ data: null, error: null })
       );
   }
