@@ -5,7 +5,7 @@
         <div class="padded container">
           <mat-form-field class="input" hintLabel="Enter 3 letter airport code, name, or city" color="accent">
             <mat-label>{{airportType}}</mat-label>
-            <input matInput (keyup.enter)="onEnterPress()" [formControl]="searchForm" cdkFocusInitial />
+            <input matInput [formControl]="searchForm" cdkFocusInitial [errorStateMatcher]="errorMatcher" />
             <mat-error *ngIf="searchForm.invalid">{{ searchForm.getError('message') }}</mat-error>
           </mat-form-field>
           <div
