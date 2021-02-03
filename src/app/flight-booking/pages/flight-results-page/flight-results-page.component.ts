@@ -112,7 +112,6 @@ export class FlightResultsPageComponent implements OnInit, OnDestroy {
   @HostListener('window:scroll')
   public scrollEvent(): void {
     this.showShoppingFab = true;
-    console.log(window.scrollY);
     if (window.scrollY > 380 && window.innerWidth < 1025) {
       this.showShoppingFab = true;
     } else if (!this.startAnimation && window.innerWidth < 1025 && window.scrollY > 100) {
@@ -194,15 +193,14 @@ export class FlightResultsPageComponent implements OnInit, OnDestroy {
     this.currentStartIndex = pageEvent.pageIndex * pageEvent.pageSize;
     this.currentEndIndex = this.currentStartIndex + pageEvent.pageSize;
     this.loadFltsToShow(this.currentStartIndex, this.currentEndIndex);
-    console.log(pageEvent);
   }
 
   nonStopFilterTrigger(event: FlightResultsCheckboxEvent, paginator: MatPaginator): void {
-    console.log(event);
+    // console.log(event);
     const tempFlights = this.showReturnFlights ? this.returnFlights : this.departureFlights;
     if (event.matCheckboxEvent.checked) {
       const filteredFlights = tempFlights.filter((flight: Flight) => flight.getNumLegs() === 1);
-      console.log(filteredFlights);
+      // console.log(filteredFlights);
       if (this.showReturnFlights) {
         this.returnFlights = filteredFlights;
       } else {
@@ -236,7 +234,7 @@ export class FlightResultsPageComponent implements OnInit, OnDestroy {
         flights.sort(stopsComparator);
     }
     this.loadFltsToShow(this.currentStartIndex, this.currentEndIndex);
-    console.log(event);
+    // console.log(event);
   }
 
   departReturnToggle(): void {

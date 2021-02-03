@@ -65,9 +65,7 @@ export class SignupComponent implements OnInit {
   submitForm(): void {
     this.isPending = true;
     console.log(this.signupForm.errors);
-    console.log(this.signupForm && this.signupForm.value);
     this.authService.postUser(this.signupForm.value).subscribe((res: any) => {
-      console.log(res);
       this.isPending = false;
       this.showForm = false;
       this.showConfirmationMsg = true;
@@ -83,12 +81,10 @@ export class SignupComponent implements OnInit {
     this.isPending = true;
     this.showConfirmationMsg = true;
     this.confirmationMsg = 'Confirming your account...';
-    console.log(this.token);
     if (!this.token) {
       throw new Error('Token must be set before confirming user');
     }
     this.authService.confirmUser(this.token).subscribe((res: any) => {
-      console.log(res);
       this.confirmationMsg = 'Your account has been successfully confirmed!';
       this.isPending = false;
     },

@@ -1,10 +1,13 @@
-import { EventService } from '../../services/event.service';
+import { Response } from './../../../shared/models/api-response-types';
+import { AirportSelectionService } from '../../services/airport-selection.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AirportSearchService } from '../../services/airport-search.service';
-import { Airport, Location } from '../../models/types';
 import { retry } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { AirportModel } from 'src/app/shared/models/types';
+import { Observable } from 'rxjs';
+import { AirportType } from '../../models/types';
 @Component({
   selector: 'app-airport-search-modal',
   templateUrl: './airport-search-modal.component.html',
@@ -12,21 +15,21 @@ import { FormControl } from '@angular/forms';
 })
 export class AirportSearchModalComponent implements OnInit {
 
-  airports: Airport[] = [];
-  location = Location.ORIGIN;
-
-  loading = false;
-
+  airports$: Observable<Response<AirportModel[]>>;
+  airportType = AirportType.ORIGIN;
   searchForm = new FormControl('');
 
-  constructor(private dialogRef: MatDialogRef<AirportSearchModalComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: { airport: Airport, location: Location },
-              private service: AirportSearchService, private eventService: EventService) {
-      this.location = this.data.location;
+  constructor(
+    private dialogRef: MatDialogRef<AirportSearchModalComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { airport: AirportModel, airportType: AirportType },
+    private airportSearchService: AirportSearchService,
+    private airportSelectionService: AirportSelectionService
+  ) {
+      this.airportType = this.data.airportType;
     }
 
   ngOnInit(): void {
-    this.eventService.airportSelectedListener().subscribe(event => {
+    this.airportSelectionService.observable().subscribe(event => {
       this.dialogRef.close();
     });
   }
@@ -37,20 +40,6 @@ export class AirportSearchModalComponent implements OnInit {
   }
 
   onEnterPress(): void {
-    this.loading = true;
-    this.airports = [];
-    this.service.searchAirports(this.searchForm.value).pipe(retry(1))
-      .subscribe(airports => {
-          this.airports = airports;
-          if (airports.length === 0) {
-            this.setSearchError('No results found.');
-          } else {
-            this.searchForm.setErrors(null);
-          }
-          this.loading = false;
-      }, error => {
-        this.loading = false;
-        this.setSearchError('Cannot connect to server. Please try again later.');
-      });
+    this.airports$ = this.airportSearchService.searchAirports(this.searchForm.value).pipe(retry(1));
   }
 }
