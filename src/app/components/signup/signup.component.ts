@@ -1,9 +1,6 @@
-import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ToolbarService} from '../../shared/services/toolbar.service';
-import { MatChipInputEvent } from '@angular/material/chips';
-import {FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, ValidationErrors} from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { AppComponent } from '../../app.component';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { passwordMismatch } from '../../utility/validators/passwordMismatch';
 import {AuthService} from '../../services/auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
@@ -71,8 +68,9 @@ export class SignupComponent implements OnInit {
       this.showConfirmationMsg = true;
       this.confirmationMsg = 'Account created click on link in email sent to: ' + this.signupForm.value.email + ' to activate account.';
     },
-    (err: Error) => {
-      this.isPending = false;
+      (err: Error) => {
+        this.signupForm.get('email').setErrors({ taken: 'Email already taken.' });
+        this.isPending = false;
     });
   }
 

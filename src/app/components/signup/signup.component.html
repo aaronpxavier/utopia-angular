@@ -32,6 +32,7 @@
       <input matInput placeholder="Email" formControlName="email">
       <mat-error *ngIf="signupForm.get('email').errors?.required">required field</mat-error>
       <mat-error *ngIf="signupForm.get('email').errors?.email">invalid email format</mat-error>
+      <mat-error *ngIf="signupForm.get('email').errors?.taken">Email already taken</mat-error>
     </mat-form-field>
     </div>
 
