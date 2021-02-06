@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
   submitForm(): void {
     this.isPending = true;
     this.authService.loginUser(this.loginForm.value).subscribe((user: Users) => {
-      localStorage.setItem('token', user.token);
       this.isPending = false;
       this.showForm = false;
       this.showLoginMsg = true;
