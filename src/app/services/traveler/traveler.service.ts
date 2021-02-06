@@ -23,7 +23,7 @@ export class TravelerService {
     return this.http.put<TravelerModel>(this.apiUrl + '/traveler', newTraveler)
       .pipe(
         map(traveler => ({ data: traveler, error: null })),
-        catchError((error) => this.errorHandler.handleError<TravelerModel>(error, '')),
+        catchError((error) => this.errorHandler.handleError<TravelerModel>(error, 'Error updating traveler.')),
         startWith({ data: null, error: null })
       );
   }
@@ -32,7 +32,7 @@ export class TravelerService {
     return this.http.post<TravelerModel>(this.apiUrl + '/traveler/booking/' + bookingId, newTraveler)
       .pipe(
         map(traveler => ({ data: traveler, error: null })),
-        catchError((error) => this.errorHandler.handleError<TravelerModel>(error, '')),
+        catchError((error) => this.errorHandler.handleError<TravelerModel>(error, 'Error adding traveler.')),
         startWith({ data: null, error: null })
       );
   }
@@ -41,7 +41,7 @@ export class TravelerService {
     return this.http.delete<boolean>(this.apiUrl + '/traveler/' + travelerId)
       .pipe(
         map(traveler => ({ data: true, error: null })),
-        catchError((error) => this.errorHandler.handleError<boolean>(error, '')),
+        catchError((error) => this.errorHandler.handleError<boolean>(error, 'Error deleting traveler.')),
         startWith({ data: null, error: null })
       );
   }
