@@ -1,15 +1,14 @@
-import { FlightMultihopModel } from '../models/flight';
-import { Airport, TripType } from '../models/types';
+import { TripType } from '../models/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { FlightModel } from 'src/app/flight-booking/models/flight';
 import { BehaviorSubject } from 'rxjs';
 import {Flight} from '../models/flight';
+import { AirportModel, FlightModel, FlightMultihopModel } from 'src/app/shared/models/types';
 
 export interface FlightRequest {
-  originAirport: Airport;
-  destinationAirport: Airport;
+  originAirport: AirportModel;
+  destinationAirport: AirportModel;
   passengers: number;
   tripType: TripType;
   departDate: Date | null;
@@ -33,13 +32,15 @@ export class FlightsService {
     this.isRoundTrip = isRoundTrip;
   }
 
-  getDepFlights(flightRequest: FlightRequest): void {
-    this.flightRequest = flightRequest;
+  setFlightRequest(request: FlightRequest): void {
+    this.flightRequest = request;
+  }
+
+  getDepFlights(): void {
     const [origin, destination, departDate] = [
-      flightRequest.originAirport.iataIdent,
-      flightRequest.destinationAirport.iataIdent,
-      flightRequest.departDate?.toLocaleDateString('en-CA'),
-      flightRequest.returnDate?.toLocaleDateString('en-CA')
+      this.flightRequest.originAirport.iataIdent,
+      this.flightRequest.destinationAirport.iataIdent,
+      this.flightRequest.departDate?.toLocaleDateString('en-CA')
     ];
 
     this.http.get<FlightModel[]>(`${this.URL}?origin=${origin}&dest=${destination}&date=${departDate}`)
@@ -74,7 +75,6 @@ export class FlightsService {
     const [origin, destination, returnDate] = [
       this.flightRequest.originAirport.iataIdent,
       this.flightRequest.destinationAirport.iataIdent,
-      this.flightRequest.departDate?.toLocaleDateString('en-CA'),
       this.flightRequest.returnDate?.toLocaleDateString('en-CA')
     ];
     if (!this.flightRequest) {
@@ -90,7 +90,7 @@ export class FlightsService {
             flt.addLeg(fltModel);
             return flt;
           });
-          this.departureFlights.next(tempFlightsArray);
+          this.returnFlights.next(tempFlightsArray);
         });
 
     this.http.get<FlightMultihopModel[]>(`${this.URL}/multihop?origin=${destination}&dest=${origin}&date=${returnDate}`)

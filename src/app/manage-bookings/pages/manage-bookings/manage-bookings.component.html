@@ -1,0 +1,16 @@
+<button fxHide.gt-md class="sticky" mat-fab (click)="onViewBookingList()" matTooltip="Booking List">
+  <mat-icon>format_list_bulleted</mat-icon>
+</button>
+
+<mat-sidenav-container class="sidenav">
+
+  <mat-sidenav mode="side" opened fxHide.lt-lg>
+    <app-booking-list (selectedBookingChange)="onBookingChange($event)" (isHistory)="onTabChange($event)"></app-booking-list>
+  </mat-sidenav>
+
+<!-- Booking Details Main View -->
+  <mat-sidenav-content class="sidenav-content">
+    <h1 fxHide.gt-md fxLayout="row" fxLayoutAlign="center" class="title">{{isHistory ? 'Archived Booking' : 'Active Booking'}}</h1>
+    <app-booking-details [isHistory]="isHistory" [booking]="selectedBooking" *ngIf="selectedBooking"></app-booking-details>
+  </mat-sidenav-content>
+</mat-sidenav-container>

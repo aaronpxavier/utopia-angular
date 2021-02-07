@@ -1,12 +1,6 @@
-export enum Location {
+export enum AirportType {
   ORIGIN = 'Origin',
   DESTINATION = 'Destination'
-}
-
-export interface Airport {
-  iataIdent: string;
-  city: string;
-  name: string;
 }
 
 export enum TripType {

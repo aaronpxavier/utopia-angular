@@ -1,0 +1,83 @@
+<div class="container" *ngIf="booking" fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center">
+
+  <!-- Travelers Info -->
+    <div fxFlex="47" fxFlex.lt-md="60" fxFlex.lt-sm="90">
+      <div class="row">
+        <div><mat-icon>group</mat-icon><h2 class="inline"> Travelers</h2></div>
+        <div class="spacer"></div>
+        <button
+          *ngIf="!isHistory"
+          mat-icon-button
+          matTooltip="Add traveler"
+          color="primary"
+          (click)="onAddTraveler()"
+        >
+          <mat-icon>group_add</mat-icon>
+        </button>
+      </div>
+      <mat-accordion>
+        <!-- TODO: reset expanded index when selected booking changes -->
+        <mat-expansion-panel
+          *ngFor="let traveler of booking.travelers; let i = index"
+          [expanded]="expandedIndex === i"
+          (opened)="expandedIndex = i"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ traveler.name }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-traveler-info [traveler]="traveler"></app-traveler-info>
+          <mat-action-row *ngIf="!isHistory">
+            <button mat-icon-button matTooltip="Edit" (click)="onEditTraveler(traveler)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              [disabled]="booking.travelers.length <= 1"
+              mat-icon-button
+              color="warn"
+              matTooltip="Delete"
+              (click)="onDeleteTraveler(traveler.travelerId)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- Payment Info -->
+    <div fxFlex="47" fxFlex.lt-md="60" fxFlex.lt-sm="90">
+      <app-payment-info [booking]="booking"></app-payment-info>
+    </div>
+
+  <!-- Flights Info -->
+  <div *ngIf="airports$ | async as state" class="margin-top" fxFlex="100">
+
+    <mat-icon>flight</mat-icon>
+    <h2 class="inline">Flights</h2>
+    
+    <!-- Loading Spinner -->
+    <div *ngIf="!state.data && !state.error">
+      <app-centered-loading-spinner></app-centered-loading-spinner>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="state.error" class="error">
+      <!-- TODO: display better error message -->
+      <button mat-button (click)="fetchAirportList()">Retry</button>
+    </div>
+
+    <div *ngIf="state.data">
+      <!-- TODO: sort flights by date -->
+      <div *ngFor="let flight of booking.flights | sortBy:'asc':'departTime'">
+        <app-flight-info 
+          [flight]="flight"
+          [departAirport]="getAirport(state.data, flight.flightDetails.departCityId)"
+          [arriveAirport]="getAirport(state.data, flight.flightDetails.arriveCityId)"
+        >
+        </app-flight-info>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.sidenav {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.sticky {
+  position: sticky;
+  top: calc(100vh - 74px);
+  left: 10px;
+  z-index: 1000;
+}
+
+.title {
+  margin-top: 30px;
+}
+
+.sidenav-content {
+  padding-left: 30px;
+  overflow-x: hidden;
+}

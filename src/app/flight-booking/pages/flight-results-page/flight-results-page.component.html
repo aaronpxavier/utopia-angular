@@ -1,8 +1,45 @@
-
-
-<div class="flt-results-container">
-  <h1 class="flt-results-title">Departing Flights</h1>
-  <app-flight-result-item *ngFor="let flight of departureFlights" [flight]="flight"></app-flight-result-item>
-  <h1 class="flt-results-title" *ngIf="returnFlights.length > 0">Return Flights</h1>
-  <app-flight-result-item *ngFor="let flight of returnFlights" [flight]="flight"></app-flight-result-item>
+<div fxLayout.gt-md="row"  fxLayoutGap.gt-md="10px" class="flt-results-container" fxLayout="column-reverse" fxLayoutAlign="center">
+  <div fxLayout="column"  class="flt-results-table-container" fxFlex.lt-md="100" fxLayoutAlign="center" fxLayoutAlign.gt-md="space-between">
+    <div fxLayout="row"  fxFlex="85" fxLayoutAlign="space-start, flex-start">
+      <div fxLayout="column" fxFlex="100" fxLayoutAlign="center" >
+        <div fxLayout="row" fxFlex="100">
+          <h1 class="flt-results-title flt-results-text-accent">Select {{showReturnFlights ? 'Return FLights' : 'Departing Flights'}}</h1>
+        </div>
+        <app-flight-results-options
+          (flightResultsSelectChange)="sortParamSelected($event)"
+          (flightResultsNonStopChange)="nonStopFilterTrigger($event, paginator)">
+        </app-flight-results-options>
+        <mat-spinner *ngIf="isPending" fxLayout="row" class="flt-results-spinner"></mat-spinner>
+        <mat-selection-list *ngIf="!isPending" fxFlex="80"  role="list" class="flt-results-list">
+          <mat-list-item style="height: 100%;" role="listitem" (click)="selectFlight(flight, resultItemComponent)" *ngFor="let flight of flightsToShow">
+            <app-flight-result-item fxFlex="100" #resultItemComponent
+                                    style="width: 100%; height: 100%"
+                                    [flight]="flight"
+                                    [isSelected]="resultItemIsSelected(resultItemComponent)">
+            </app-flight-result-item>
+          </mat-list-item>
+        </mat-selection-list>
+      </div>
+    </div>
+    <mat-paginator #paginator fxLayout="row" class="flt-results-paginator"
+                   [length] = "totalResults"
+                   [pageSize] = "defaultMaxPageResults"
+                   [pageSizeOptions] = "[5, 10]"
+                   (page)="paginatorTrigger($event)">
+    </mat-paginator>
+  </div>
+  <div fxLayout="column" [@startStop]="startAnimation ? 'start' : 'stop'" class="flt-results-info-column" fxFlex.md="100" [ngClass]="{'start-stop-container' : startAnimation}" >
+    <app-flight-booking-info-box class="flt-results-booking-info-box start-stop-container"
+      (fltToggleBtnClickEvent)="departReturnToggle()"
+      [isReturn]="showReturnFlights"
+      [departingFlight]="selectedDepartureFlight"
+      [returnFlight]="selectedReturnFlight"
+      [tripType]="tripType"
+      *ngIf="selectedDepartureFlight !== undefined"
+      [showFltToggleBtn]="this.flightService.isRoundTrip && selectedDepartureFlight !== undefined">
+    </app-flight-booking-info-box>
+  </div>
 </div>
+
+<button *ngIf="showShoppingFab" id="minifab-shopping-btn" mat-mini-fab (click)="animationToggle()"><mat-icon>shopping_cart</mat-icon></button>
+

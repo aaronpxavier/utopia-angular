@@ -1,11 +1,12 @@
 import {FlightRequest, FlightsService} from '../../services/flights.service';
 import {Component, Input, OnInit} from '@angular/core';
-import {MatDialog,} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {ToolbarService} from 'src/app/shared/services/toolbar.service';
 import {AirportSearchModalComponent} from '../airport-search-modal/airport-search-modal.component';
-import {EventService} from '../../services/event.service';
-import {Airport, Location, TripType} from '../../models/types';
+import {AirportSelectionService} from '../../services/airport-selection.service';
+import {AirportType, TripType} from '../../models/types';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { AirportModel } from 'src/app/shared/models/types';
 
 @Component({
   selector: 'app-flight-search',
@@ -14,27 +15,30 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 })
 export class FlightSearchComponent implements OnInit {
 
-  @Input() location = Location.ORIGIN;
+  @Input() airportType = AirportType.ORIGIN;
 
   tripTypes = [TripType.ROUND_TRIP, TripType.ONE_WAY];
   TripType = TripType; // expose enum in template
   today = new Date();
   passengers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  originAirport: Airport = { iataIdent: 'LAX', city: 'Los Angeles, CA', name: 'Los Angeles International' };
-  destinationAirport: Airport = { iataIdent: 'JFK', city: 'New York, NY', name: 'John F. Kennedy International' };
+  defaultOriginAirport: AirportModel = { iataIdent: 'From', city: 'Origin', name: '' };
+  defaultDestinationAirport: AirportModel = { iataIdent: 'To', city: 'Destination', name: '' };
+
   selectedPassengers = 1;
   selectedTripType = TripType.ROUND_TRIP;
-  dateForm: FormGroup;
+  form: FormGroup;
 
   constructor(
     private dialog: MatDialog,
-    private eventService: EventService,
+    private airportSelectionService: AirportSelectionService,
     private toolbarService: ToolbarService,
     private fb: FormBuilder,
     private flightService: FlightsService
   ) {
-    this.dateForm = this.fb.group({
+    this.form = this.fb.group({
+      originAirport: [null, [Validators.required]],
+      destinationAirport: [null, [Validators.required]],
       departDate: [null, [Validators.required]],
       returnDate: [null, [this.requireReturnDateForRoundTripValidator]]
     });
@@ -42,11 +46,11 @@ export class FlightSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.toolbarService.emitRouteChangeEvent('Flight Search');
-    this.eventService.airportSelectedListener().subscribe(data => {
-      if (data.location === 'Origin') {
-        this.originAirport = data.airport;
-      } else if (data.location === 'Destination') {
-        this.destinationAirport = data.airport;
+    this.airportSelectionService.observable().subscribe(data => {
+      if (data.airportType === 'Origin') {
+        this.originAirport.setValue(data.airport);
+      } else if (data.airportType === 'Destination') {
+        this.destinationAirport.setValue(data.airport);
       }
     });
   }
@@ -61,28 +65,37 @@ export class FlightSearchComponent implements OnInit {
   }
 
   get departDate(): AbstractControl {
-    return this.dateForm.get('departDate');
+    return this.form.get('departDate');
   }
 
   get returnDate(): AbstractControl {
-    return this.dateForm.get('returnDate');
+    return this.form.get('returnDate');
+  }
+
+  get originAirport(): AbstractControl {
+    return this.form.get('originAirport');
+  }
+
+  get destinationAirport(): AbstractControl {
+    return this.form.get('destinationAirport');
   }
 
   openOriginModal(): void {
-    this.openModal(Location.ORIGIN);
+    this.openModal(AirportType.ORIGIN);
   }
 
   openDestinationModal(): void {
-    this.openModal(Location.DESTINATION);
+    this.openModal(AirportType.DESTINATION);
   }
 
-  openModal(location: Location): void {
+  openModal(airportType: AirportType): void {
     this.dialog.open(AirportSearchModalComponent, {
       width: 'calc(100vw * 0.75)',
+      maxWidth: '100vw',
       height: 'calc(100vh * 0.75)',
       data: {
-        airport: location === Location.ORIGIN ? this.originAirport : this.destinationAirport,
-        location
+        airport: airportType === AirportType.ORIGIN ? this.originAirport : this.destinationAirport,
+        airportType
       }
     });
   }
@@ -92,21 +105,23 @@ export class FlightSearchComponent implements OnInit {
   }
 
   onFlightSearch(): void {
-    const dates = this.dateForm.getRawValue();
+    const formValues = this.form.getRawValue();
 
     const flightRequest: FlightRequest = {
-      originAirport: this.originAirport,
-      destinationAirport: this.destinationAirport,
+      originAirport: formValues.originAirport,
+      destinationAirport: formValues.destinationAirport,
       passengers: this.selectedPassengers,
       tripType: this.selectedTripType,
-      departDate: dates.departDate,
-      returnDate: dates.returnDate
+      departDate: formValues.departDate,
+      returnDate: formValues.returnDate
     };
 
-    this.flightService.getDepFlights(flightRequest);
+    this.flightService.setFlightRequest(flightRequest);
+
     if (flightRequest.tripType === TripType.ROUND_TRIP) {
       this.flightService.setIsRoundTrip(true);
-      this.flightService.getReturnFlts();
+    } else if (flightRequest.tripType === TripType.ONE_WAY) {
+      this.flightService.setIsRoundTrip(false);
     }
   }
 }

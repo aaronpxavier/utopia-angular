@@ -2,14 +2,20 @@
 
 .login-form {
   margin: 0 auto;
-  width: 80%;
-  padding: 10px;
+  max-width: 600px;
+  margin: 5em auto;
+  text-align: left;
+  padding: 50px;
   padding-top: 50px;
+  margin-bottom: 200px;
 }
-
 
 .login-text-field {
   font-size: large;
   margin-right: 10px;
   padding: 10px;
+}
+
+.signout-button {
+  text-align: 40px;
 }

@@ -3,12 +3,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ToolbarComponent,
+    canActivateChild: [AuthGuard],
     children: [
+      {
+        path: '',
+        redirectTo: 'booking/flight',
+        pathMatch: 'full'
+      },
       {
         path: 'signup',
         component: SignupComponent,
@@ -26,10 +33,15 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'manage-bookings',
+        pathMatch: 'full',
+        loadChildren: () => import ('./manage-bookings/manage-bookings.module').then(m => m.ManageBookingsModule)
       }
 
     ],
-  },
+  }
 ];
 
 @NgModule({

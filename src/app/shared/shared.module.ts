@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarService } from './services/toolbar.service';
+import { CenteredLoadingSpinnerComponent } from './components/centered-loading-spinner/centered-loading-spinner.component';
+import { SortByPipe } from './pipes/sort.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [CenteredLoadingSpinnerComponent, SortByPipe],
   imports: [
     CommonModule,
     AngularMaterialModule,
@@ -15,11 +17,19 @@ import { ToolbarService } from './services/toolbar.service';
     FlexLayoutModule
   ],
   exports: [
+    // Shared Modules
     AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+
+    // Shared Components
+    CenteredLoadingSpinnerComponent,
+
+    // Shared Pipes
+    SortByPipe,
+    DatePipe
   ],
-  providers: [ToolbarService]
+  providers: [ToolbarService, DatePipe]
 })
 export class SharedModule { }

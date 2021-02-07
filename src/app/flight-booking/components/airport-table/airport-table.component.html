@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="airports">
   <mat-text-column name="iataIdent" headerText="Code">Code</mat-text-column>
   <mat-text-column name="city"></mat-text-column>
-  <mat-text-column name="name"></mat-text-column>
+  <mat-text-column name="name" fxHide.lt-md></mat-text-column>
 
   <tr mat-header-row *matHeaderRowDef="columnHeaders"></tr>
   <tr mat-row *matRowDef="let row; columns: columnHeaders" (click)="onRowClick(row)" class="row"></tr>

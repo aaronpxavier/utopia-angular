@@ -1,0 +1,26 @@
+
+<h2 style="padding: 0; margin: 0 auto;">Departing Flight Selected</h2>
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <div class="flt-results-box-text-margin">Flt: {{flight.getLegs()[0].flightNumber}}</div>
+  <div *ngIf="flight.getNumLegs() === 2; then depFltNums"></div>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <div>{{flight.getLegs()[0].flightDetails.departCityId}}</div>
+  <div>-></div>
+  <div *ngIf="flight.getNumLegs() === 2; then departingConnection else nonStopFlightDepartingArrival"></div>
+</div>
+
+<ng-template #depFltNums>
+  <div class="flt-results-box-text-margin">Hub</div>
+  <div class="flt-results-box-text-margin">Flt {{flight.getLegs()[1].flightNumber}}</div>
+</ng-template>
+
+<ng-template #departingConnection>
+  <div>{{flight.getLegs()[1].flightDetails.departCityId}}</div>
+  <div>-></div>
+  <div>{{flight.getLegs()[1].flightDetails.arriveCityId}}</div>
+</ng-template>
+<ng-template #nonStopFlightDepartingArrival>
+  <div>{{flight.getLegs()[0].flightDetails.arriveCityId}}</div>
+</ng-template>
+
