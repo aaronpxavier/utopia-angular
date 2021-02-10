@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
-    <button *ngIf="isAuthenticated()" mat-icon-button fxHide.gt-xs [matMenuTriggerFor]="menu">
+    <button *ngIf="isAuthenticated$ | async" mat-icon-button fxHide.gt-xs [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu" class="menu">
@@ -9,12 +9,12 @@
     </mat-menu>
     <app-logo-home-button></app-logo-home-button>
     <div fxHide.lt-sm>
-      <button *ngIf="isAuthenticated()" mat-button routerLink="booking/flight">Flight Search</button>
-      <button *ngIf="isAuthenticated()" mat-button routerLink="manage-bookings">Manage Bookings</button>
+      <button *ngIf="isAuthenticated$ | async" mat-button routerLink="booking/flight">Flight Search</button>
+      <button *ngIf="isAuthenticated$ | async" mat-button routerLink="manage-bookings">Manage Bookings</button>
     </div>
     <div class="spacer"></div>
-    <button *ngIf="isAuthenticated()" mat-button routerLink="login" (click)="logoutClick()" >logout</button>
-    <button *ngIf="routerUrl() !== '/login' && !isAuthenticated()" mat-button routerLink="login">login</button>
+    <button *ngIf="isAuthenticated$ | async" mat-button (click)="logoutClick()">logout</button>
+    <button *ngIf="routerUrl() !== '/login' && !(isAuthenticated$ | async)" mat-button routerLink="login">login</button>
   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

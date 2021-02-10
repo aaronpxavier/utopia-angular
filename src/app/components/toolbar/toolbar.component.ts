@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class ToolbarComponent implements AfterContentChecked {
 
   toolbarTitle: string | undefined;
+  isAuthenticated$ = this.authService.isAuthenticated$();
+
   constructor(
     private toolbarService: ToolbarService,
     private ref: ChangeDetectorRef,
@@ -18,10 +20,6 @@ export class ToolbarComponent implements AfterContentChecked {
     private router: Router
     ) {
     this.toolbarService.getNavChangeEmitter().subscribe((title: string) => this.toolbarTitle = title);
-  }
-
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
   }
 
   ngAfterContentChecked(): void {
@@ -33,6 +31,8 @@ export class ToolbarComponent implements AfterContentChecked {
   }
 
   logoutClick(): void {
-    localStorage.removeItem('token');
+    this.authService.logout().subscribe(loggedOut => {
+      this.router.navigate(['/login']);
+    });
  }
 }
