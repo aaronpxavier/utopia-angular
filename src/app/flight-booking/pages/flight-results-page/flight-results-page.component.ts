@@ -99,7 +99,7 @@ export class FlightResultsPageComponent implements OnInit, OnDestroy {
       });
     }
     // @ts-ignore
-    window.onhashchange = this.resetFlightsArray();
+    window.onhashchange = this.resetFlightsArray;
     window.addEventListener('scroll', this.scrollEvent, true);
     window.addEventListener('resize', this.scrollEvent, true);
   }
