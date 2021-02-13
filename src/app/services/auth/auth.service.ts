@@ -48,7 +48,4 @@ export class AuthService {
         tap(_ => console.log('calling logout')));
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
- }
 }
